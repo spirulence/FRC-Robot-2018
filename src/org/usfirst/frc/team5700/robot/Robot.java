@@ -1,15 +1,17 @@
 
 package org.usfirst.frc.team5700.robot;
 
+import org.usfirst.frc.team5700.robot.subsystems.DriveTrain;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team5700.robot.commands.ExampleCommand;
-import org.usfirst.frc.team5700.robot.subsystems.ExampleSubsystem;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,23 +21,36 @@ import org.usfirst.frc.team5700.robot.subsystems.ExampleSubsystem;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	private Command autonomousCommand;
+	public static Preferences prefs;
+	
+	SendableChooser<Command> chooser;
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	
 	public static OI oi;
+	public static DriveTrain drivetrain;
 
-	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
 
-	/**
+
+	
+		/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
+		
+		// Initialize all subsystems
 		oi = new OI();
-		chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		drivetrain = new DriveTrain();
+		
+		
+		// instantiate the command used for the autonomous period
+		
+
+		// Show what command your subsystem is running on the SmartDashboard
+		SmartDashboard.putData(drivetrain);
+		
 	}
 
 	/**
