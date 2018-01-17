@@ -14,22 +14,22 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class DriveTrain extends Subsystem {
-	
+
 	private SpeedController leftMotor = new Spark(RobotMap.LEFT_DRIVE_MOTOR);
 	private SpeedController rightMotor = new Spark(RobotMap.RIGHT_DRIVE_MOTOR);		
-	
+
 	private RobotDrive drive = new RobotDrive(leftMotor, rightMotor);
-	
-	
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 
-    public void initDefaultCommand() {
-    	setDefaultCommand(new ArcadeDriveWithJoysticks());
-    }
-    
-    /**
+
+	// Put methods for controlling this subsystem
+	// here. Call these from Commands.
+
+	public void initDefaultCommand() {
+		setDefaultCommand(new ArcadeDriveWithJoysticks());
+	}
+
+	/**
 	 * Arcade Drive
 	 * @param rightStick joystick is for moving forwards and backwards
 	 * @param leftStick joystick is for turning
@@ -39,11 +39,11 @@ public class DriveTrain extends Subsystem {
 		double direction = Robot.oi.directionToggle() ? -1 : 1;
 		drive.arcadeDrive(-rightStick.getY(), -leftStick.getX(), squaredInputs);
 	}
-	
-    public void drive(double outputMagnitude, double curve) {
+
+	public void drive(double outputMagnitude, double curve) {
 		drive.drive(outputMagnitude, curve);
 	}
-	
+
 	public void stop() {
 		drive.drive(0.0, 0.0);
 	}

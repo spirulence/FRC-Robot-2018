@@ -23,34 +23,34 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	private Command autonomousCommand;
 	public static Preferences prefs;
-	
+
 	SendableChooser<Command> chooser;
 
-	
+
 	public static OI oi;
 	public static DriveTrain drivetrain;
 
 
 
-	
-		/**
+
+	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
-		
+
 		// Initialize all subsystems
 		oi = new OI();
 		drivetrain = new DriveTrain();
-		
-		
+
+
 		// instantiate the command used for the autonomous period
-		
+
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivetrain);
-		
+
 	}
 
 	/**

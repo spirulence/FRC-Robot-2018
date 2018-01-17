@@ -10,37 +10,37 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	
+
 	private boolean toggle = false;
 	private boolean hasBeenPressed = false;
-	
+
 	private Joystick rightStick = new Joystick(0);
 	private Joystick leftStick = new Joystick(1);
 
 	// Setting squaredInput to true decreases the sensitivity for tankdrive at lower speeds
 	private boolean squaredInput = true;
-	
+
 	JoystickButton slowDrive;
 	JoystickButton toggleDirection;
-	
+
 	public OI() {
 		slowDrive = new JoystickButton(rightStick, ButtonMap.SLOW_DRIVE);
 		toggleDirection = new JoystickButton(rightStick, ButtonMap.TOGGLE_DIRECTION);
-		
+
 	}
-	
+
 	public Joystick getLeftStick() {
-    	return leftStick;	
+		return leftStick;	
 	}
-    
+
 	public Joystick getRightStick() {
-    	return rightStick;
+		return rightStick;
 	}
-    
+
 	public boolean getSquaredInput() {
-    	return squaredInput;
+		return squaredInput;
 	}
-	
+
 	public boolean driveSlow() {
 		return slowDrive.get();
 	}
@@ -49,12 +49,12 @@ public class OI {
 		if (toggleDirection.get() && !hasBeenPressed) {
 			toggle = !toggle;
 			hasBeenPressed = true;
+		}
+
+		if(!toggleDirection.get()) {
+			hasBeenPressed = false;
+		}
+		return toggle;
 	}
-	
-	if(!toggleDirection.get()) {
-		hasBeenPressed = false;
-	}
-	return toggle;
-	}
-	
+
 }
