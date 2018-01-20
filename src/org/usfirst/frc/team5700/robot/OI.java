@@ -1,6 +1,8 @@
 package org.usfirst.frc.team5700.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team5700.robot.commands.ExampleCommand;
 
@@ -9,6 +11,17 @@ import org.usfirst.frc.team5700.robot.commands.ExampleCommand;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	JoystickButton spinIntake;
+	private Joystick rightStick = new Joystick(0);
+	private Joystick leftStick = new Joystick(1);
+	
+	
+	
+	public OI() {
+	//set buttons
+	spinIntake = new JoystickButton(rightStick, ButtonMap.INTAKE_BOX );
+	
+	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
