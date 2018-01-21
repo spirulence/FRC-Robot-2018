@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class IntakeBox extends Command {
 	
-	double intakeSpeed;
 
     public IntakeBox() {
        requires(Robot.boxIntake);

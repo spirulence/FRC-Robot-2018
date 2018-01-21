@@ -33,7 +33,7 @@ public class DriveTrain extends Subsystem {
 	 * @param leftStick joystick is for turning
 	 */
 	public void arcadeDrive(Joystick leftStick, Joystick rightStick, boolean squaredInputs) {
-		double speed = Robot.oi.driveSlow() ? 0.6 : 1;
+		double speed = Robot.oi.driveSlow() ? 0.6 : 1.0;
 		double direction = Robot.oi.directionToggle() ? -1 : 1;
 		drive.arcadeDrive(-rightStick.getY(), -leftStick.getX(), squaredInputs);
 	}

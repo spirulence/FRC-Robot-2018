@@ -43,9 +43,9 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 
 		// Initialize all subsystems
-		oi = new OI();
 		drivetrain = new DriveTrain();
 		boxIntake = new BoxIntake();
+		oi = new OI();
 
 
 		// instantiate the command used for the autonomous period

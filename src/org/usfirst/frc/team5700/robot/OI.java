@@ -1,5 +1,8 @@
 package org.usfirst.frc.team5700.robot;
 
+import org.usfirst.frc.team5700.robot.commands.IntakeBox;
+
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -28,6 +31,10 @@ public class OI {
 		slowDrive = new JoystickButton(rightStick, ButtonMap.SLOW_DRIVE);
 		toggleDirection = new JoystickButton(rightStick, ButtonMap.TOGGLE_DIRECTION);
 		intakeBox = new JoystickButton(leftStick, ButtonMap.INTAKE_BOX);
+		
+		//set commands
+		//box intake
+		intakeBox.whileHeld(new IntakeBox());
 	}
 
 	public Joystick getLeftStick() {
@@ -46,6 +53,7 @@ public class OI {
 		return slowDrive.get();
 	}
 
+	
 	public boolean directionToggle() {
 		if (toggleDirection.get() && !hasBeenPressed) {
 			toggle = !toggle;

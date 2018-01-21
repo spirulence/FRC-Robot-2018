@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class BoxIntake extends Subsystem {
-	private SpeedController intakeMotor;
+	private SpeedController intakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
 	
 	private double intakeSpeed = 0.8; 
 	
-	public BoxIntake() {
-		intakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
-	}
+//	public BoxIntake() {
+//		intakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
+//	}
 	
 	
 
