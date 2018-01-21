@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class BoxIntake extends Subsystem {
-	private SpeedController intakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
+	private SpeedController leftIntakeMotor = new Spark(RobotMap.LEFT_INTAKE_MOTOR);
+	private SpeedController rightIntakeMotor = new Spark(RobotMap.RIGHT_INTAKE_MOTOR);
 	
 	private double intakeSpeed = 0.8; 
 	
@@ -23,15 +24,20 @@ public class BoxIntake extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	public void setIntakeSpeed(double speed) {
-		intakeMotor.set(speed);
+		leftIntakeMotor.set(speed);
+		rightIntakeMotor.set(speed);
+		
 	}
 	
 	public void intakeBox() {
-		intakeMotor.set(intakeSpeed);
+		leftIntakeMotor.set(intakeSpeed);
+		rightIntakeMotor.set(intakeSpeed);
+		
 	}
 
 	public void stopBoxIntake() {
-		intakeMotor.set(0.0);
+		leftIntakeMotor.set(0.0);
+		rightIntakeMotor.set(0.0);
 	}
 	
     public void initDefaultCommand() {
