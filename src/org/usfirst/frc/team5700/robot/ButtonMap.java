@@ -7,6 +7,9 @@ public class ButtonMap {
 		//public static final int REVERSE_DRIVE = 3; //rightstick
 		public static final int SLOW_DRIVE = 3; //rightstick
 		public static final int TOGGLE_DIRECTION = 2; //rightstick
+		
+		//Intake
 		public static final int INTAKE_BOX = 1; //leftstick
+		public static final int REPOSITION_BOX = 5; //leftstick
 
 }

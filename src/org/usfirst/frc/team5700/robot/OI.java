@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5700.robot;
 
+import org.usfirst.frc.team5700.robot.commands.BoxReposition;
 import org.usfirst.frc.team5700.robot.commands.IntakeBox;
 
 
@@ -26,15 +27,18 @@ public class OI {
 	JoystickButton slowDrive;
 	JoystickButton toggleDirection;
 	JoystickButton intakeBox;
+	JoystickButton repositionBox;
 
 	public OI() {
 		slowDrive = new JoystickButton(rightStick, ButtonMap.SLOW_DRIVE);
 		toggleDirection = new JoystickButton(rightStick, ButtonMap.TOGGLE_DIRECTION);
 		intakeBox = new JoystickButton(leftStick, ButtonMap.INTAKE_BOX);
+		repositionBox = new JoystickButton(leftStick, ButtonMap.REPOSITION_BOX);
 		
 		//set commands
 		//box intake
 		intakeBox.whileHeld(new IntakeBox());
+		repositionBox.whileHeld(new BoxReposition());
 	}
 
 	public Joystick getLeftStick() {
