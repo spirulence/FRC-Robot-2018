@@ -22,11 +22,12 @@ public class OI {
 
 	JoystickButton slowDrive;
 	JoystickButton toggleDirection;
+	JoystickButton intakeBox;
 
 	public OI() {
 		slowDrive = new JoystickButton(rightStick, ButtonMap.SLOW_DRIVE);
 		toggleDirection = new JoystickButton(rightStick, ButtonMap.TOGGLE_DIRECTION);
-
+		intakeBox = new JoystickButton(leftStick, ButtonMap.INTAKE_BOX);
 	}
 
 	public Joystick getLeftStick() {

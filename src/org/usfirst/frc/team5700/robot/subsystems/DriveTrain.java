@@ -25,9 +25,7 @@ public class DriveTrain extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
-	public void initDefaultCommand() {
-		setDefaultCommand(new ArcadeDriveWithJoysticks());
-	}
+	
 
 	/**
 	 * Arcade Drive
@@ -47,5 +45,10 @@ public class DriveTrain extends Subsystem {
 	public void stop() {
 		drive.drive(0.0, 0.0);
 	}
+	
+	public void initDefaultCommand() {
+		setDefaultCommand(new ArcadeDriveWithJoysticks());
+	}
 }
+
 

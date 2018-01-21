@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team5700.robot;
 
+import org.usfirst.frc.team5700.robot.subsystems.BoxIntake;
 import org.usfirst.frc.team5700.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -29,6 +30,7 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static DriveTrain drivetrain;
+	public static BoxIntake boxIntake;
 
 
 
@@ -43,6 +45,7 @@ public class Robot extends IterativeRobot {
 		// Initialize all subsystems
 		oi = new OI();
 		drivetrain = new DriveTrain();
+		boxIntake = new BoxIntake();
 
 
 		// instantiate the command used for the autonomous period
