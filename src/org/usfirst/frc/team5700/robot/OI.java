@@ -26,7 +26,6 @@ public class OI {
 	JoystickButton slowDrive;
 	JoystickButton toggleDirection;
 	JoystickButton intakeBox;
-	JoystickButton repositionBox;
 
 	public OI() {
 		slowDrive = new JoystickButton(rightStick, ButtonMap.SLOW_DRIVE);

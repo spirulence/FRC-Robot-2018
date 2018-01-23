@@ -14,7 +14,6 @@ public class BoxIntake extends Subsystem {
 	private SpeedController rightIntakeMotor = new Spark(RobotMap.RIGHT_INTAKE_MOTOR);
 	
 	private double intakeSpeed = 0.8;
-	private double boxRepositionSpeed = -0.8;
 	
 //	public BoxIntake() {
 //		intakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
@@ -36,17 +35,7 @@ public class BoxIntake extends Subsystem {
 		rightIntakeMotor.set(intakeSpeed);
 		
 	}
-	//This method is for repositioning the box in the intake by making the intake motors spin opposite directions.
-	public void setRepositionSpeed(double posSpeed, double negSpeed){
-		leftIntakeMotor.set(posSpeed);
-		rightIntakeMotor.set(negSpeed);
-		
-	}
-	
-	public void repositionBox() {
-		leftIntakeMotor.set(boxRepositionSpeed);
-		rightIntakeMotor.set(intakeSpeed);
-	}
+
 
 	public void stopBoxIntake() {
 		leftIntakeMotor.set(0.0);
