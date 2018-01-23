@@ -10,5 +10,5 @@ public class ButtonMap {
 		
 		//Intake
 		public static final int INTAKE_BOX = 1; //leftstick
-
+		public static final int ORIENT_BOX = 5; //leftstick
 }

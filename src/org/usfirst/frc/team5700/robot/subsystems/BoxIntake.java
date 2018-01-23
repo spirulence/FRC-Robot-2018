@@ -46,5 +46,13 @@ public class BoxIntake extends Subsystem {
         // Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
     }
+
+	public void setRightMotor(double speed) {
+		rightIntakeMotor.set(speed);
+	}
+
+	public void setLeftMotor(double speed) {
+		leftIntakeMotor.set(speed);
+	}
 }
 

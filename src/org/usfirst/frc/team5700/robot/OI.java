@@ -26,11 +26,13 @@ public class OI {
 	JoystickButton slowDrive;
 	JoystickButton toggleDirection;
 	JoystickButton intakeBox;
+	JoystickButton orientBox;
 
 	public OI() {
 		slowDrive = new JoystickButton(rightStick, ButtonMap.SLOW_DRIVE);
 		toggleDirection = new JoystickButton(rightStick, ButtonMap.TOGGLE_DIRECTION);
 		intakeBox = new JoystickButton(leftStick, ButtonMap.INTAKE_BOX);
+		orientBox = new JoystickButton(leftStick, ButtonMap.ORIENT_BOX);
 		
 		//set commands
 		//box intake
@@ -52,7 +54,10 @@ public class OI {
 	public boolean driveSlow() {
 		return slowDrive.get();
 	}
-
+	
+	public boolean getOrientBoxButton() {
+		return orientBox.get();
+	}
 	
 	public boolean directionToggle() {
 		if (toggleDirection.get() && !hasBeenPressed) {

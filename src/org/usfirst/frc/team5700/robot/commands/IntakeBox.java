@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class IntakeBox extends Command {
 	
+	int direction;
 
     public IntakeBox() {
        requires(Robot.boxIntake);
@@ -20,7 +21,10 @@ public class IntakeBox extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.boxIntake.intakeBox();
+    	direction = (Robot.oi.getOrientBoxButton())? -1 : 1;
+    	
+    	Robot.boxIntake.setRightMotor(1);
+    	Robot.boxIntake.setLeftMotor(direction);
     }
 
     // Make this return true when this Command no longer needs to run execute()
