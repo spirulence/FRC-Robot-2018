@@ -3,11 +3,10 @@
 VIDEOS=videos
 G=[^0-9]*\([0-9]*\)
 T=[^0-9]*
-TS=`date +'%s'` #get unix epoch timestamp for generating unique file names
 
 prepare_each_dir () {
 	rm -f labels.txt
-
+	TS=`date +'%s'` #get unix epoch timestamp for generating unique file names
 	#remove first 18 lines, then remove the last 2 lines by flipping the file, listing lines staring with 3rd, then flipping back
 	< *.xml tail -n +19 | tail -r | tail -n +3 | tail -r |
 	#match number groups preceded by non-number characters, and print only 2nd, 3rd, 8th and 9th groups since those are the 
