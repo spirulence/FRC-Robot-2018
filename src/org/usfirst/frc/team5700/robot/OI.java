@@ -1,8 +1,6 @@
 package org.usfirst.frc.team5700.robot;
 
 import org.usfirst.frc.team5700.robot.commands.IntakeBox;
-
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -70,7 +68,6 @@ public class OI {
 		}
 		return toggle;
 	}
-
 }
 
 
