@@ -14,6 +14,7 @@ public class BoxIntake extends Subsystem {
 	private SpeedController rightIntakeMotor = new Spark(RobotMap.RIGHT_INTAKE_MOTOR);
 	
 	private double intakeSpeed = 0.8;
+	private double reverseIntakeSpeed = -0.8;
 	
 //	public BoxIntake() {
 //		intakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
@@ -30,10 +31,21 @@ public class BoxIntake extends Subsystem {
 		
 	}
 	
+	public void setReverseIntakeSpeed(double speed) {
+		leftIntakeMotor.set(speed);
+		rightIntakeMotor.set(speed);
+	}
+	
+	
 	public void intakeBox() {
 		leftIntakeMotor.set(intakeSpeed);
 		rightIntakeMotor.set(intakeSpeed);
 		
+	}
+	
+	public void reverseIntakeBox() {
+		leftIntakeMotor.set(reverseIntakeSpeed);
+		rightIntakeMotor.set(reverseIntakeSpeed);
 	}
 
 

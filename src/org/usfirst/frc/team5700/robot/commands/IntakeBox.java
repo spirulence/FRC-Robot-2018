@@ -9,36 +9,34 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class IntakeBox extends Command {
 	
-	int direction;
+	//int direction;
 
     public IntakeBox() {
        requires(Robot.boxIntake);
     }
-
-    // Called just before this Command runs the first time
+    
     protected void initialize() {
     }
 
-    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	direction = (Robot.oi.getOrientBoxButton())? -1 : 1;
+    	//direction = (Robot.oi.getOrientBoxButton())? -1 : 1;
     	
-    	Robot.boxIntake.setRightMotor(1);
-    	Robot.boxIntake.setLeftMotor(direction);
+    	//Robot.boxIntake.setRightMotor(1);
+    	//Robot.boxIntake.setLeftMotor(-1);
+    	
+    	Robot.boxIntake.intakeBox();
     }
+    
 
-    // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;
     }
 
-    // Called once after isFinished returns true
     protected void end() {
     	Robot.boxIntake.stopBoxIntake();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+
     protected void interrupted() {
     	end();
     }
