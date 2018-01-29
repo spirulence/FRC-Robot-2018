@@ -5,3 +5,4 @@ scripts/vision/training/videos/
 scripts/vision/training/set/
 scripts/vision/training/*.zip
 scripts/vision/training/model/trained_models/
+*.pdf
