@@ -35,6 +35,10 @@ public class BoxIntake extends Subsystem {
     }
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+		//setDefaultCommand(new MySpecialCommand());
+    }
     //this method says what the intake pistons can do
     public void boxIntakeOutLeft(){
 		leftPiston.set(DoubleSolenoid.Value.kForward);    	
@@ -62,35 +66,47 @@ public class BoxIntake extends Subsystem {
 		rightPiston.set(DoubleSolenoid.Value.kReverse);
     }
     
-	//This method is for intaking a box.
-	public void setIntakeSpeed(double speed) {
-		leftIntakeMotor.set(speed);
-		rightIntakeMotor.set(speed);
+	//These methods are for spitting out a box.
+	public void reverseIntakeBox(){
+		leftIntakeMotor.set(intakeSpeed * -1);
+		rightIntakeMotor.set(intakeSpeed * -1);
 	}
 	
+	public void reverseIntakeBoxLeft(){
+		leftIntakeMotor.set(intakeSpeed * -1);
+	}
+	
+	public void reverseIntakeBoxRight(){
+		rightIntakeMotor.set(intakeSpeed * -1);
+	}
+	
+	//these methods are for pulling in the box (intaking).
 	public void intakeBox() {
 		leftIntakeMotor.set(intakeSpeed);
 		rightIntakeMotor.set(intakeSpeed);
 		
 	}
 	
-	public void intakeBoxRight(){
-		rightIntakeMotor.set(intakeSpeed);
-	}
-	
 	public void intakeBoxLeft(){
 		leftIntakeMotor.set(intakeSpeed);
 	}
 	
+	public void intakeBoxRight(){
+		rightIntakeMotor.set(intakeSpeed);
+	}
+	
+	//this method is for stopping the intake motors.
 	public void stopBoxIntake() {
 		leftIntakeMotor.set(0.0);
 		rightIntakeMotor.set(0.0);
 	}
+	public void stopBoxIntakeLeft(){
+		leftIntakeMotor.set(0.0);
+	}
 	
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-		//setDefaultCommand(new MySpecialCommand());
-    }
+	public void stopBoxIntakeRight(){
+		rightIntakeMotor.set(0.0);
+	}
 
 	public void setRightMotor(double speed) {
 		rightIntakeMotor.set(speed);
