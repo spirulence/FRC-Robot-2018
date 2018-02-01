@@ -3,6 +3,7 @@ package org.usfirst.frc.team5700.robot;
 import org.usfirst.frc.team5700.robot.commands.IntakeBox;
 import org.usfirst.frc.team5700.robot.commands.LeftIntakeBox;
 import org.usfirst.frc.team5700.robot.commands.ReverseIntakeBox;
+import org.usfirst.frc.team5700.robot.commands.RightIntakeBox;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -32,6 +33,8 @@ public class OI {
 	JoystickButton rightIntake;
 	JoystickButton leftIntakeMotor;
 	JoystickButton rightIntakeMotor;
+	JoystickButton leftIntakeMotorReverse;
+	JoystickButton rightIntakeMotorReverse;
 
 	public OI() {
 		slowDrive = new JoystickButton(rightStick, ButtonMap.SLOW_DRIVE);
@@ -42,12 +45,22 @@ public class OI {
 		rightIntake = new JoystickButton(rightStick, ButtonMap.RIGHT_INTAKE);
 		leftIntakeMotor = new JoystickButton (leftStick, ButtonMap.LEFT_INTAKE_MOTOR);
 		rightIntakeMotor = new JoystickButton (rightStick, ButtonMap.RIGHT_INTAKE_MOTOR);
+		leftIntakeMotorReverse = new JoystickButton (leftStick, ButtonMap.LEFT_INTAKE_MOTOR_REVERSE);
+		rightIntakeMotorReverse = new JoystickButton (rightStick, ButtonMap.RIGHT_INTAKE_MOTOR_REVERSE);
 		//set commands
 		//box intake
 		leftIntake.whileHeld(new LeftIntakeBox());
 		rightIntake.whileHeld(new RightIntakeBox());
 		//intakeBox.whileHeld(new IntakeBox());
 		//reverseIntakeBox.whileHeld(new ReverseIntakeBox());
+	}
+	
+	public boolean getLeftIntakeMotorReverse(){
+		return leftIntakeMotorReverse.get();
+	}
+	
+	public boolean getRightIntakeMotorReverse(){
+		return rightIntakeMotorReverse.get();
 	}
 	
 	public boolean getLeftIntakeMotor(){
