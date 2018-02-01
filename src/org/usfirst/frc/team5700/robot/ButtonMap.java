@@ -11,10 +11,8 @@ public class ButtonMap {
 		//Intake
 		//public static final int INTAKE_BOX = 1; //rightstick
 		//public static final int REVERSE_INTAKE_BOX = 1; //leftstick
-		public static int RIGHT_INTAKE = 1;//rightstik
-		public static int LEFT_INTAKE = 1;//leftstick
-		public static int LEFT_INTAKE_MOTOR = 3;//leftstick
-		public static int RIGHT_INTAKE_MOTOR = 3;//rightstick
-		public static int LEFT_INTAKE_MOTOR_REVERSE = 2;//leftstick
-		public static int RIGHT_INTAKE_MOTOR_REVERSE = 2;//rightstick
+		public static final int EXTEND_LEFT = 1; //rightstick
+		public static final int INTAKE_SPIN_IN = 3; //rightstick
+		public static final int INTAKE_SPIT_OUT = 3;//leftstick
+		public static final int EXTEND_RIGHT = 1; //leftstick
 }

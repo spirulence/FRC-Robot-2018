@@ -7,32 +7,18 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LeftIntakeBox extends Command {
-	
-	double direction;
+public class IntakeSpitOut extends Command {
 
-    public LeftIntakeBox() {
-    	requires(Robot.boxIntake);
+    public IntakeSpitOut() {
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    		Robot.boxIntake.spitBothMotors();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.boxIntake.boxIntakeInLeft();
-    	
-    	if (Robot.oi.getLeftIntakeMotor()){
-    		direction = 1;
-    	}
-    	else if (Robot.oi.getLeftIntakeMotorReverse()){
-    		direction = -1;
-    	}
-    	
-    	Robot.boxIntake.setLeftMotor(direction);
-    	Robot.boxIntake.setRightMotor(1);
-    	Robot.boxIntake.intakeBoxLeft();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -42,12 +28,12 @@ public class LeftIntakeBox extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.boxIntake.stopBoxIntakeLeft();
+    		Robot.boxIntake.stopMotors();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
+    		end();
     }
 }
