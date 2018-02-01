@@ -9,7 +9,10 @@ public class ButtonMap {
 		public static final int TOGGLE_DIRECTION = 2; //rightstick
 		
 		//Intake
-		public static final int INTAKE_BOX = 1; //rightstick
-		public static final int REVERSE_INTAKE_BOX = 1; //leftstick
-		public static final int ORIENT_BOX = 5; //leftstick
+		//public static final int INTAKE_BOX = 1; //rightstick
+		//public static final int REVERSE_INTAKE_BOX = 1; //leftstick
+		public static int RIGHT_INTAKE = 1;//rightstik
+		public static int LEFT_INTAKE = 1;//leftstick
+		public static int LEFT_INTAKE_MOTOR = 3;//leftstick
+		public static int RIGHT_INTAKE_MOTOR = 3;//rightstick
 }

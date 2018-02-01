@@ -20,15 +20,15 @@ public class BoxIntake extends Subsystem {
 	Spark rightIntakeMotor;
 
 	
-	private double intakeSpeed = 0.8;
+	private double intakeSpeed = 1;
 	
     public BoxIntake() {
 		super();
 	    	leftPiston = new DoubleSolenoid(0, 1);
-	    	leftPiston.set(DoubleSolenoid.Value.kReverse);
+	    	leftPiston.set(DoubleSolenoid.Value.kForward);
 	    	
 	    	rightPiston = new DoubleSolenoid(2, 3);
-	    	rightPiston.set(DoubleSolenoid.Value.kReverse);
+	    	rightPiston.set(DoubleSolenoid.Value.kForward);
 
 	    	leftIntakeMotor = new Spark(RobotMap.LEFT_INTAKE_MOTOR);
 	    	rightIntakeMotor = new Spark(RobotMap.RIGHT_INTAKE_MOTOR);

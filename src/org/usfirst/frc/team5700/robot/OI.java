@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5700.robot;
 
 import org.usfirst.frc.team5700.robot.commands.IntakeBox;
+import org.usfirst.frc.team5700.robot.commands.LeftIntakeBox;
 import org.usfirst.frc.team5700.robot.commands.ReverseIntakeBox;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -25,23 +26,38 @@ public class OI {
 
 	JoystickButton slowDrive;
 	JoystickButton toggleDirection;
-	JoystickButton intakeBox;
-	JoystickButton reverseIntakeBox;
-	//JoystickButton orientBox;
+	//JoystickButton intakeBox;
+	//JoystickButton reverseIntakeBox;
+	JoystickButton leftIntake;
+	JoystickButton rightIntake;
+	JoystickButton leftIntakeMotor;
+	JoystickButton rightIntakeMotor;
 
 	public OI() {
 		slowDrive = new JoystickButton(rightStick, ButtonMap.SLOW_DRIVE);
 		toggleDirection = new JoystickButton(rightStick, ButtonMap.TOGGLE_DIRECTION);
-		intakeBox = new JoystickButton(leftStick, ButtonMap.INTAKE_BOX);
-		reverseIntakeBox = new JoystickButton(rightStick, ButtonMap.REVERSE_INTAKE_BOX);
-		//orientBox = new JoystickButton(leftStick, ButtonMap.ORIENT_BOX);
-		
+		//intakeBox = new JoystickButton(leftStick, ButtonMap.INTAKE_BOX);
+		//reverseIntakeBox = new JoystickButton(rightStick, ButtonMap.REVERSE_INTAKE_BOX);
+		leftIntake = new JoystickButton(leftStick, ButtonMap.LEFT_INTAKE);
+		rightIntake = new JoystickButton(rightStick, ButtonMap.RIGHT_INTAKE);
+		leftIntakeMotor = new JoystickButton (leftStick, ButtonMap.LEFT_INTAKE_MOTOR);
+		rightIntakeMotor = new JoystickButton (rightStick, ButtonMap.RIGHT_INTAKE_MOTOR);
 		//set commands
 		//box intake
-		intakeBox.whileHeld(new IntakeBox());
-		reverseIntakeBox.whileHeld(new ReverseIntakeBox());
+		leftIntake.whileHeld(new LeftIntakeBox());
+		rightIntake.whileHeld(new RightIntakeBox());
+		//intakeBox.whileHeld(new IntakeBox());
+		//reverseIntakeBox.whileHeld(new ReverseIntakeBox());
 	}
-
+	
+	public boolean getLeftIntakeMotor(){
+		return leftIntakeMotor.get();
+	}
+	
+	public boolean getRightIntakeMotor(){
+		return rightIntakeMotor.get();
+	}
+	
 	public Joystick getLeftStick() {
 		return leftStick;	
 	}
@@ -58,10 +74,7 @@ public class OI {
 		return slowDrive.get();
 	}
 	
-	/*public boolean getOrientBoxButton() {
-		return orientBox.get();
-	}
-	*/
+
 	
 	public boolean directionToggle() {
 		if (toggleDirection.get() && !hasBeenPressed) {

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class IntakeBox extends Command {
 	
-	//int direction;
+	double direction;
 
     public IntakeBox() {
        requires(Robot.boxIntake);
@@ -19,11 +19,10 @@ public class IntakeBox extends Command {
     }
 
     protected void execute() {
-    	//direction = (Robot.oi.getOrientBoxButton())? -1 : 1;
     	
-    	//Robot.boxIntake.setRightMotor(1);
-    	//Robot.boxIntake.setLeftMotor(-1);
     	
+    	Robot.boxIntake.setRightMotor(1);
+    	Robot.boxIntake.setLeftMotor(direction);
     	Robot.boxIntake.intakeBox();
     }
     
