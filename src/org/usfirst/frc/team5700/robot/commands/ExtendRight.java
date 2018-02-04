@@ -28,7 +28,7 @@ public class ExtendRight extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    		Robot.boxIntake.retractRight();
+    	Robot.boxIntake.retractRight();
     }
 
     // Called when another command which requires one or more of the same

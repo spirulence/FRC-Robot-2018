@@ -48,12 +48,22 @@ public class BoxIntake extends Subsystem {
 		rightPiston.set(DoubleSolenoid.Value.kForward);    	
     }
     
+    public void extendBoth(){
+    	leftPiston.set(DoubleSolenoid.Value.kForward);
+    	rightPiston.set(DoubleSolenoid.Value.kForward);
+    }
+    
     public void retractLeft(){
 		leftPiston.set(DoubleSolenoid.Value.kReverse);
     }
     
     public void retractRight(){
 		rightPiston.set(DoubleSolenoid.Value.kReverse);
+    }
+    
+    public void retractBoth(){
+		leftPiston.set(DoubleSolenoid.Value.kReverse);
+		rightPiston.set(DoubleSolenoid.Value.kReverse);	
     }
     
 	//These methods are for spitting out a box.

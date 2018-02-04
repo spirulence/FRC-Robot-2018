@@ -2,6 +2,7 @@ package org.usfirst.frc.team5700.robot;
 
 import org.usfirst.frc.team5700.robot.commands.ExtendLeft;
 import org.usfirst.frc.team5700.robot.commands.ExtendRight;
+import org.usfirst.frc.team5700.robot.commands.IntakeBox;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpinIn;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpitOut;
 
@@ -27,13 +28,11 @@ public class OI {
 
 	JoystickButton slowDrive;
 	JoystickButton toggleDirection;
-	//JoystickButton intakeBox;
-	//JoystickButton reverseIntakeBox;
 	JoystickButton extendRight;
 	JoystickButton extendLeft;
 	JoystickButton intakeSpinIn;
 	JoystickButton intakeSpitOut;
-
+	JoystickButton intakeBox;
 	public OI() {
 		slowDrive = new JoystickButton(rightStick, ButtonMap.SLOW_DRIVE);
 		toggleDirection = new JoystickButton(rightStick, ButtonMap.TOGGLE_DIRECTION);
@@ -41,8 +40,10 @@ public class OI {
 		extendLeft = new JoystickButton(leftStick, ButtonMap.EXTEND_LEFT);
 		intakeSpinIn = new JoystickButton(rightStick, ButtonMap.INTAKE_SPIN_IN);
 		intakeSpitOut = new JoystickButton (leftStick, ButtonMap.INTAKE_SPIT_OUT);
+		intakeBox = new JoystickButton (rightStick, ButtonMap.INTAKE_BOX);
 		//set commands
 		//box intake
+		intakeBox.whileHeld(new IntakeBox());
 		extendLeft.whileHeld(new ExtendLeft());
 		extendRight.whileHeld(new ExtendRight());
 		intakeSpinIn.whileHeld(new IntakeSpinIn());
