@@ -20,15 +20,15 @@ public class BoxIntake extends Subsystem {
 	Spark rightIntakeMotor;
 
 	
-	private double intakeSpeed = 1;
+	private double intakeSpeed = -0.7;
 	
     public BoxIntake() {
 		super();
-	    	leftPiston = new DoubleSolenoid(0, 1);
-	    	leftPiston.set(DoubleSolenoid.Value.kForward);
+	    	leftPiston = new DoubleSolenoid(2, 3);
+	    	leftPiston.set(DoubleSolenoid.Value.kReverse);
 	    	
-	    	rightPiston = new DoubleSolenoid(2, 3);
-	    	rightPiston.set(DoubleSolenoid.Value.kForward);
+	    	rightPiston = new DoubleSolenoid(0, 1);
+	    	rightPiston.set(DoubleSolenoid.Value.kReverse);
 
 	    	leftIntakeMotor = new Spark(RobotMap.LEFT_INTAKE_MOTOR);
 	    	rightIntakeMotor = new Spark(RobotMap.RIGHT_INTAKE_MOTOR);
@@ -40,71 +40,61 @@ public class BoxIntake extends Subsystem {
 		//setDefaultCommand(new MySpecialCommand());
     }
     //this method says what the intake pistons can do
-    public void boxIntakeOutLeft(){
+    public void extendLeft(){
 		leftPiston.set(DoubleSolenoid.Value.kForward);    	
     }
     
-    public void boxIntakeOutRight(){
+    public void extendRight(){
 		rightPiston.set(DoubleSolenoid.Value.kForward);    	
     }
     
-    public void boxIntakeInLeft(){
+    public void retractLeft(){
 		leftPiston.set(DoubleSolenoid.Value.kReverse);
     }
     
-    public void boxIntakeInRight(){
-		rightPiston.set(DoubleSolenoid.Value.kReverse);
-    }
-    
-    public void boxIntakeOut(){
-		leftPiston.set(DoubleSolenoid.Value.kForward);
-		rightPiston.set(DoubleSolenoid.Value.kForward);
-    }
-    
-    public void boxIntakeIn(){
-		leftPiston.set(DoubleSolenoid.Value.kReverse);
+    public void retractRight(){
 		rightPiston.set(DoubleSolenoid.Value.kReverse);
     }
     
 	//These methods are for spitting out a box.
-	public void reverseIntakeBox(){
+	public void spitBothMotors(){
 		leftIntakeMotor.set(intakeSpeed * -1);
 		rightIntakeMotor.set(intakeSpeed * -1);
 	}
 	
-	public void reverseIntakeBoxLeft(){
+	public void spitLeft(){
 		leftIntakeMotor.set(intakeSpeed * -1);
 	}
 	
-	public void reverseIntakeBoxRight(){
+	public void spitRight(){
 		rightIntakeMotor.set(intakeSpeed * -1);
 	}
 	
 	//these methods are for pulling in the box (intaking).
-	public void intakeBox() {
+	public void spinMotorsIn() {
 		leftIntakeMotor.set(intakeSpeed);
 		rightIntakeMotor.set(intakeSpeed);
-		
 	}
 	
-	public void intakeBoxLeft(){
+	public void leftMotorIn(){
 		leftIntakeMotor.set(intakeSpeed);
 	}
 	
-	public void intakeBoxRight(){
+	public void rightMotorIn(){
 		rightIntakeMotor.set(intakeSpeed);
 	}
 	
 	//this method is for stopping the intake motors.
-	public void stopBoxIntake() {
+	public void stopMotors() {
 		leftIntakeMotor.set(0.0);
 		rightIntakeMotor.set(0.0);
 	}
-	public void stopBoxIntakeLeft(){
+	
+	public void stopLeftMotor(){
 		leftIntakeMotor.set(0.0);
 	}
 	
-	public void stopBoxIntakeRight(){
+	public void stopRightMotor(){
 		rightIntakeMotor.set(0.0);
 	}
 
