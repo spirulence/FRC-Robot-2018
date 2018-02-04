@@ -54,22 +54,6 @@ public class OI {
 	}
 
 
-	public boolean getLeftIntakeMotorReverse(){
-		return leftIntakeMotorReverse.get();
-	}
-	
-	public boolean getRightIntakeMotorReverse(){
-		return rightIntakeMotorReverse.get();
-	}
-	
-	public boolean getLeftIntakeMotor(){
-		return leftIntakeMotor.get();
-	}
-	
-	public boolean getRightIntakeMotor(){
-		return rightIntakeMotor.get();
-	}
-	
 
 	public Joystick getLeftStick() {
 		return leftStick;	
