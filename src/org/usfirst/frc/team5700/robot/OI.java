@@ -37,8 +37,6 @@ public class OI {
 	public OI() {
 		slowDrive = new JoystickButton(rightStick, ButtonMap.SLOW_DRIVE);
 		toggleDirection = new JoystickButton(rightStick, ButtonMap.TOGGLE_DIRECTION);
-		//intakeBox = new JoystickButton(leftStick, ButtonMap.INTAKE_BOX);
-		//reverseIntakeBox = new JoystickButton(rightStick, ButtonMap.REVERSE_INTAKE_BOX);
 		extendRight = new JoystickButton(rightStick, ButtonMap.EXTEND_RIGHT);
 		extendLeft = new JoystickButton(leftStick, ButtonMap.EXTEND_LEFT);
 		intakeSpinIn = new JoystickButton(rightStick, ButtonMap.INTAKE_SPIN_IN);
@@ -49,12 +47,8 @@ public class OI {
 		extendRight.whileHeld(new ExtendRight());
 		intakeSpinIn.whileHeld(new IntakeSpinIn());
 		intakeSpitOut.whileHeld(new IntakeSpitOut());
-		//intakeBox.whileHeld(new IntakeBox());
-		//reverseIntakeBox.whileHeld(new ReverseIntakeBox());
 	}
-
-
-
+	
 	public Joystick getLeftStick() {
 		return leftStick;	
 	}
