@@ -4,6 +4,7 @@ import org.usfirst.frc.team5700.robot.commands.ExtendLeft;
 import org.usfirst.frc.team5700.robot.commands.ExtendRight;
 import org.usfirst.frc.team5700.robot.commands.IntakeBox;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpinIn;
+import org.usfirst.frc.team5700.robot.commands.IntakeSpitAndExtend;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpitOut;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -20,9 +21,11 @@ public class OI {
 	private boolean toggle = false;
 	private boolean hasBeenPressed = false;
 
-	private Joystick rightStick = new Joystick(0);
-	private Joystick leftStick = new Joystick(1);
-
+	private Joystick driveRightStick = new Joystick(0);
+	private Joystick driveLeftStick = new Joystick(1);
+	private Joystick auxRightStick = new Joystick(3);
+	private Joystick auxLeftStick = new Joystick(4);
+	
 	// Setting squaredInput to true decreases the sensitivity for tankdrive at lower speeds
 	private boolean squaredInput = true;
 
@@ -33,14 +36,16 @@ public class OI {
 	JoystickButton intakeSpinIn;
 	JoystickButton intakeSpitOut;
 	JoystickButton intakeBox;
+	JoystickButton spitAndExtend;
 	public OI() {
-		slowDrive = new JoystickButton(rightStick, ButtonMap.SLOW_DRIVE);
-		toggleDirection = new JoystickButton(rightStick, ButtonMap.TOGGLE_DIRECTION);
-		extendRight = new JoystickButton(rightStick, ButtonMap.EXTEND_RIGHT);
-		extendLeft = new JoystickButton(leftStick, ButtonMap.EXTEND_LEFT);
-		intakeSpinIn = new JoystickButton(rightStick, ButtonMap.INTAKE_SPIN_IN);
-		intakeSpitOut = new JoystickButton (leftStick, ButtonMap.INTAKE_SPIT_OUT);
-		intakeBox = new JoystickButton (rightStick, ButtonMap.INTAKE_BOX);
+		slowDrive = new JoystickButton(driveRightStick, ButtonMap.SLOW_DRIVE);
+		toggleDirection = new JoystickButton(driveRightStick, ButtonMap.TOGGLE_DIRECTION);
+		extendRight = new JoystickButton(driveRightStick, ButtonMap.EXTEND_RIGHT);
+		extendLeft = new JoystickButton(driveRightStick, ButtonMap.EXTEND_LEFT);
+		intakeSpinIn = new JoystickButton(driveRightStick, ButtonMap.INTAKE_SPIN_IN);
+		intakeSpitOut = new JoystickButton (driveLeftStick, ButtonMap.INTAKE_SPIT_OUT);
+		intakeBox = new JoystickButton (driveRightStick, ButtonMap.INTAKE_BOX);
+		spitAndExtend = new JoystickButton (driveLeftStick, ButtonMap.SPIT_AND_EXTEND);
 		//set commands
 		//box intake
 		intakeBox.whileHeld(new IntakeBox());
@@ -48,14 +53,24 @@ public class OI {
 		extendRight.whileHeld(new ExtendRight());
 		intakeSpinIn.whileHeld(new IntakeSpinIn());
 		intakeSpitOut.whileHeld(new IntakeSpitOut());
+		spitAndExtend.whileHeld(new IntakeSpitAndExtend());
+		
 	}
 	
-	public Joystick getLeftStick() {
-		return leftStick;	
+	public Joystick getDriveLeftStick() {
+		return driveLeftStick;	
 	}
 
-	public Joystick getRightStick() {
-		return rightStick;
+	public Joystick getDriveRightStick() {
+		return driveRightStick;
+	}
+	
+	public Joystick getAuxLeftStick() {
+		return auxLeftStick;	
+	}
+
+	public Joystick getAuxRightStick() {
+		return auxRightStick;
 	}
 
 	public boolean getSquaredInput() {
