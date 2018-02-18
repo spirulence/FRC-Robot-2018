@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
+//TODO add single solonoid dingus
 public class IntakeSpitAndExtend extends Command {
 
     public IntakeSpitAndExtend() {

@@ -2,6 +2,7 @@
 package org.usfirst.frc.team5700.robot;
 
 import org.usfirst.frc.team5700.robot.subsystems.BoxIntake;
+import org.usfirst.frc.team5700.robot.subsystems.Climber;
 import org.usfirst.frc.team5700.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5700.robot.subsystems.Elevator;
 
@@ -33,6 +34,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static BoxIntake boxIntake;
 	public static Elevator elevator;
+	public static Climber climber; 
 
 
 
@@ -48,6 +50,7 @@ public class Robot extends IterativeRobot {
 		drivetrain = new DriveTrain();
 		boxIntake = new BoxIntake();
 		elevator = new Elevator();
+		climber = new Climber();
 		oi = new OI();
 
 
