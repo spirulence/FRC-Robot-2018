@@ -1,10 +1,12 @@
 
 package org.usfirst.frc.team5700.robot;
 
+import org.usfirst.frc.team5700.robot.subsystems.Arm;
 import org.usfirst.frc.team5700.robot.subsystems.BoxIntake;
 import org.usfirst.frc.team5700.robot.subsystems.Climber;
 import org.usfirst.frc.team5700.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5700.robot.subsystems.Elevator;
+import org.usfirst.frc.team5700.robot.subsystems.Grabber;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
@@ -35,7 +37,8 @@ public class Robot extends IterativeRobot {
 	public static BoxIntake boxIntake;
 	public static Elevator elevator;
 	public static Climber climber; 
-
+	public static Arm arm; 
+	public static Grabber grabber;
 
 
 
@@ -51,6 +54,8 @@ public class Robot extends IterativeRobot {
 		boxIntake = new BoxIntake();
 		elevator = new Elevator();
 		climber = new Climber();
+		arm = new Arm();
+		grabber = new Grabber();
 		oi = new OI();
 
 
@@ -59,6 +64,7 @@ public class Robot extends IterativeRobot {
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivetrain);
+		
 
 	}
 
@@ -128,6 +134,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putBoolean("Hall Sensor", climber.getHallSensorValue());
+		SmartDashboard.putNumber("left aux stick throttle", oi.getAuxLeftStick().getThrottle());
+		SmartDashboard.putNumber("right aux stick throttle", oi.getAuxRightStick().getThrottle());
 	}
 
 	/**

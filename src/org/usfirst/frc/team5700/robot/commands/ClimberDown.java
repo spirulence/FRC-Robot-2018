@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ClimbReverse extends Command {
+public class ClimberDown extends Command {
 
-    public ClimbReverse() {
+    public ClimberDown() {
     		requires(Robot.climber);
        
     }
@@ -18,7 +18,7 @@ public class ClimbReverse extends Command {
     }
 
     protected void execute() {
-    	Robot.climber.climberGoReverse();
+    	Robot.climber.setSpeed(-1);
     }
 
     protected boolean isFinished() {
@@ -26,7 +26,7 @@ public class ClimbReverse extends Command {
     }
 
     protected void end() {
-    	Robot.climber.stopClimber();
+    	Robot.climber.stop();
     }
 
     protected void interrupted() {

@@ -1,37 +1,34 @@
 package org.usfirst.frc.team5700.robot.subsystems;
 
 import org.usfirst.frc.team5700.robot.RobotMap;
-
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- *
- */
 public class BoxIntake extends Subsystem {
-	
-	public Compressor compressor = new Compressor();
 	
 	private DoubleSolenoid leftPiston, rightPiston;
 	Spark leftIntakeMotor;
 	Spark rightIntakeMotor;
-
 	
-	private double intakeSpeed = -0.7;
+	private Solenoid dingus;
+	
+	private double intakeSpeed = -0.65; //TODO number
 	
     public BoxIntake() {
 		super();
-	    	leftPiston = new DoubleSolenoid(2, 3);
+	    	leftPiston = new DoubleSolenoid(RobotMap.LEFT_PISTON_EXTEND_CHANNEL, RobotMap.LEFT_PISTON_RETRACT_CHANNEL);
 	    	leftPiston.set(DoubleSolenoid.Value.kReverse);
 	    	
-	    	rightPiston = new DoubleSolenoid(0, 1);
+	    	rightPiston = new DoubleSolenoid(RobotMap.RIGHT_PISTON_EXTEND_CHANNEL, RobotMap.RIGHT_PISTON_RETRACT_CHANNEL);
 	    	rightPiston.set(DoubleSolenoid.Value.kReverse);
 
 	    	leftIntakeMotor = new Spark(RobotMap.LEFT_INTAKE_MOTOR);
 	    	rightIntakeMotor = new Spark(RobotMap.RIGHT_INTAKE_MOTOR);
+	    	
+	    	dingus = new Solenoid(RobotMap.DINGUS_CHANNEL);
+	    	dingus.set(false);
     }
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -49,8 +46,8 @@ public class BoxIntake extends Subsystem {
     }
     
     public void extendBoth(){
-    	leftPiston.set(DoubleSolenoid.Value.kForward);
-    	rightPiston.set(DoubleSolenoid.Value.kForward);
+    	extendRight();
+    	extendLeft();
     }
     
     public void retractLeft(){
@@ -62,18 +59,18 @@ public class BoxIntake extends Subsystem {
     }
     
     public void retractBoth(){
-		leftPiston.set(DoubleSolenoid.Value.kReverse);
-		rightPiston.set(DoubleSolenoid.Value.kReverse);	
+		retractRight();
+		retractLeft();
     }
     
 	//These methods are for spitting out a box.
 	public void spitBothMotors(){
-		leftIntakeMotor.set(intakeSpeed * -1);
-		rightIntakeMotor.set(intakeSpeed * -1);
+		spitLeft();
+		spitRight();
 	}
 	
 	public void spitLeft(){
-		leftIntakeMotor.set(intakeSpeed * -1);
+		leftIntakeMotor.set(intakeSpeed * 1);
 	}
 	
 	public void spitRight(){
@@ -82,12 +79,12 @@ public class BoxIntake extends Subsystem {
 	
 	//these methods are for pulling in the box (intaking).
 	public void spinMotorsIn() {
-		leftIntakeMotor.set(intakeSpeed);
-		rightIntakeMotor.set(intakeSpeed);
+		leftMotorIn();
+		rightMotorIn();
 	}
 	
 	public void leftMotorIn(){
-		leftIntakeMotor.set(intakeSpeed);
+		leftIntakeMotor.set(-intakeSpeed);
 	}
 	
 	public void rightMotorIn(){
@@ -96,8 +93,9 @@ public class BoxIntake extends Subsystem {
 	
 	//this method is for stopping the intake motors.
 	public void stopMotors() {
-		leftIntakeMotor.set(0.0);
-		rightIntakeMotor.set(0.0);
+		stopLeftMotor();
+		stopRightMotor();
+		
 	}
 	
 	public void stopLeftMotor(){
@@ -114,6 +112,14 @@ public class BoxIntake extends Subsystem {
 
 	public void setLeftMotor(double speed) {
 		leftIntakeMotor.set(speed);
+	}
+	
+	public void extendDingus() {
+		dingus.set(true);
+	}
+	
+	public void retractDingus() {
+		dingus.set(false);
 	}
 }
 

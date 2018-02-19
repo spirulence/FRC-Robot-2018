@@ -22,7 +22,7 @@ public class ElevatorMove extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//TODO decide where joystick should live
-    	Robot.elevator.elevatorSpeedUp(Robot.oi.getAuxRightStick().getY());
+    	Robot.elevator.setSpeed(Robot.oi.getAuxRightStick().getY());
     }
 
     // Make this return true when this Command no longer needs to run execute()

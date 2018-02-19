@@ -1,7 +1,12 @@
 package org.usfirst.frc.team5700.robot;
 
+import org.usfirst.frc.team5700.robot.commands.ClimberDown;
+import org.usfirst.frc.team5700.robot.commands.ClimberUp;
+import org.usfirst.frc.team5700.robot.commands.DingusGo;
 import org.usfirst.frc.team5700.robot.commands.ExtendLeft;
 import org.usfirst.frc.team5700.robot.commands.ExtendRight;
+import org.usfirst.frc.team5700.robot.commands.GrabberClose;
+import org.usfirst.frc.team5700.robot.commands.GrabberOpen;
 import org.usfirst.frc.team5700.robot.commands.IntakeBox;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpinIn;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpitAndExtend;
@@ -23,8 +28,8 @@ public class OI {
 
 	private Joystick driveRightStick = new Joystick(0);
 	private Joystick driveLeftStick = new Joystick(1);
-	private Joystick auxRightStick = new Joystick(3);
-	private Joystick auxLeftStick = new Joystick(4);
+	private Joystick auxRightStick = new Joystick(2);
+	private Joystick auxLeftStick = new Joystick(3);
 	
 	// Setting squaredInput to true decreases the sensitivity for tankdrive at lower speeds
 	private boolean squaredInput = true;
@@ -33,27 +38,40 @@ public class OI {
 	JoystickButton toggleDirection;
 	JoystickButton extendRight;
 	JoystickButton extendLeft;
-	JoystickButton intakeSpinIn;
-	JoystickButton intakeSpitOut;
 	JoystickButton intakeBox;
 	JoystickButton spitAndExtend;
+	JoystickButton grabberOpen;
+	JoystickButton grabberClose;
+	JoystickButton climberUp;
+	JoystickButton climberDown;
+	JoystickButton dingusGo; 
+	
 	public OI() {
 		slowDrive = new JoystickButton(driveRightStick, ButtonMap.SLOW_DRIVE);
 		toggleDirection = new JoystickButton(driveRightStick, ButtonMap.TOGGLE_DIRECTION);
 		extendRight = new JoystickButton(driveRightStick, ButtonMap.EXTEND_RIGHT);
 		extendLeft = new JoystickButton(driveRightStick, ButtonMap.EXTEND_LEFT);
-		intakeSpinIn = new JoystickButton(driveRightStick, ButtonMap.INTAKE_SPIN_IN);
-		intakeSpitOut = new JoystickButton (driveLeftStick, ButtonMap.INTAKE_SPIT_OUT);
 		intakeBox = new JoystickButton (driveRightStick, ButtonMap.INTAKE_BOX);
 		spitAndExtend = new JoystickButton (driveLeftStick, ButtonMap.SPIT_AND_EXTEND);
+		grabberOpen = new JoystickButton(auxRightStick, ButtonMap.GRABBER_OPEN);
+		grabberClose = new JoystickButton(auxRightStick, ButtonMap.GRABBER_CLOSE);
+		climberUp = new JoystickButton(auxRightStick, ButtonMap.CLIMBER_UP);
+		climberDown = new JoystickButton(auxLeftStick, ButtonMap.CLIMBER_DOWN);
+		dingusGo = new JoystickButton(driveRightStick, ButtonMap.DINGUS_GO);
+		
 		//set commands
 		//box intake
 		intakeBox.whileHeld(new IntakeBox());
 		extendLeft.whileHeld(new ExtendLeft());
 		extendRight.whileHeld(new ExtendRight());
-		intakeSpinIn.whileHeld(new IntakeSpinIn());
-		intakeSpitOut.whileHeld(new IntakeSpitOut());
 		spitAndExtend.whileHeld(new IntakeSpitAndExtend());
+		dingusGo.whileHeld(new DingusGo());
+		//grabber
+		grabberOpen.whenPressed(new GrabberOpen());
+		grabberClose.whenPressed(new GrabberClose());
+		//climber
+		climberUp.whileHeld(new ClimberUp());
+		climberDown.whileHeld(new ClimberDown());
 		
 	}
 	

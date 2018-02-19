@@ -7,19 +7,18 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-//TODO add single solonoid dingus
-public class IntakeSpitAndExtend extends Command {
+public class DingusGo extends Command {
 
-    public IntakeSpitAndExtend() {
-    	requires(Robot.boxIntake);
+    public DingusGo() {
     }
 
+    // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.boxIntake.extendBoth();
+    	Robot.boxIntake.extendDingus();
     }
 
+    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.boxIntake.spitBothMotors();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -29,14 +28,12 @@ public class IntakeSpitAndExtend extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.boxIntake.retractBoth();
-    	Robot.boxIntake.stopMotors();
+    	Robot.boxIntake.retractDingus();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
+    		end();
     }
 }
-
