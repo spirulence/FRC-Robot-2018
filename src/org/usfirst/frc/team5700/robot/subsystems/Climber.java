@@ -49,7 +49,7 @@ public class Climber extends Subsystem {
 		return hallSensorTop.get();
 	}
 	
-	public boolean getHallSensorBottom() {
+	public boolean getHallSensorBottomValue() {
 		return hallSensorBottom.get();
 	}
 	

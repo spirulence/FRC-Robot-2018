@@ -18,7 +18,7 @@ public class ClimberDown extends Command {
     }
 
     protected void execute() {
-    	Robot.climber.setSpeed(-1);
+    	Robot.climber.down();
     }
 
     protected boolean isFinished() {
