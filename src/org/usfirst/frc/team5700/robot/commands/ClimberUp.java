@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class ClimberUp extends Command {
-
+	
     public ClimberUp() {
     		requires(Robot.climber);
        
@@ -18,7 +18,7 @@ public class ClimberUp extends Command {
     }
 
     protected void execute() {
-    	Robot.climber.up();
+    	Robot.climber.up((Robot.oi.getAuxLeftStick().getThrottle() + 1)/2.0);
     }
 
     protected boolean isFinished() {

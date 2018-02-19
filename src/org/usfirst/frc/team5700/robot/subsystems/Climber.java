@@ -14,28 +14,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Climber extends Subsystem {
 
 	private SpeedController climberMotor = new Spark(RobotMap.CLIMBER_MOTOR);
-	//TODO find good home for climber speed throttle
-	public double speedUp = (Robot.oi.getAuxLeftStick().getThrottle() + 1)/2.0;
-	public double speedDown = (Robot.oi.getAuxRightStick().getThrottle() - 1)/2.0;
-	
 	private DigitalInput hallSensorTop = new DigitalInput(0);
 	private DigitalInput hallSensorBottom = new DigitalInput(0);
 	
-//	public void setSpeed(double speed) {
-//		climberMotor.set(speed);	
-//	}
-	
-	public void up() {
+	public void up(double speed) {
 		if (!hallSensorTop.get())
-			climberMotor.set(speedUp);
+			climberMotor.set(speed);
 		else
 			climberMotor.set(0);
 		
 	}
 
-	public void down() {
+	public void down(double speed) {
 		if (!hallSensorBottom.get())
-			climberMotor.set(speedDown);
+			climberMotor.set(speed);
 		else
 			climberMotor.set(0);
 		
