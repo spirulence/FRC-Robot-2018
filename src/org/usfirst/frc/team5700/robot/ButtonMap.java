@@ -10,13 +10,13 @@ public class ButtonMap {
 		//Intake
 		public static final int EXTEND_LEFT = 2; //driveRightstick
 		public static final int EXTEND_RIGHT = 2; //driveRightstick
-		public static int INTAKE_BOX = 1; //diveRightstick
-		public static int SPIT_AND_EXTEND = 1;//driveLeftStick
-		public static int DINGUS_GO = 5;//driveRightStick
+		public static int INTAKE_BOX = 1; //driveRightstick
+		public static int SPIT_AND_EXTEND = 1;//driveLeftstick
+		public static int DINGUS_GO = 5;//driveRightstick
 		//Grabber 
-		public static final int GRABBER_OPEN = 1;//auxRightStick
-		public static final int GRABBER_CLOSE = 2;//auxRightStick
+		public static final int GRABBER_OPEN = 1;//auxRightstick
+		public static final int GRABBER_CLOSE = 2;//auxRightstick
 		//Climber
-		public static final int CLIMBER_UP = 2;//auxRightStick
-		public static final int CLIMBER_DOWN = 2;//auxLeftStick
+		public static final int CLIMBER_UP = 2;//auxRightstick
+		public static final int CLIMBER_DOWN = 2;//auxLeftstick
 }
