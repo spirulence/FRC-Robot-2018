@@ -14,11 +14,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Climber extends Subsystem {
 
 	private SpeedController climberMotor = new Spark(RobotMap.CLIMBER_MOTOR);
-	private DigitalInput hallSensorTop = new DigitalInput(0);
+	private DigitalInput hallSensorTop = new DigitalInput(1);
 	private DigitalInput hallSensorBottom = new DigitalInput(0);
 	
 	public void up(double speed) {
-		if (!hallSensorTop.get())
+		if (hallSensorTop.get())
 			climberMotor.set(speed);
 		else
 			climberMotor.set(0);
@@ -26,7 +26,7 @@ public class Climber extends Subsystem {
 	}
 
 	public void down(double speed) {
-		if (!hallSensorBottom.get())
+		if (hallSensorBottom.get())
 			climberMotor.set(speed);
 		else
 			climberMotor.set(0);
