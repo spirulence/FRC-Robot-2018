@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 	public static Climber climber; 
 	public static Arm arm; 
 	public static Grabber grabber;
-	public static AssistSystem assistClimb;
+	public static AssistSystem assistSystem;
 
 
 
@@ -58,7 +58,7 @@ public class Robot extends IterativeRobot {
 		climber = new Climber();
 		arm = new Arm();
 		grabber = new Grabber();
-		assistClimb = new AssistSystem();
+		assistSystem = new AssistSystem();
 		oi = new OI();
 
 

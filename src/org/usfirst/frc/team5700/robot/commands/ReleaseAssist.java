@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ReleaseAssist extends Command {
 
     public ReleaseAssist() {
-       requires(Robot.assistClimb);
+       requires(Robot.assistSystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.assistClimb.releaseAssist();
+    	Robot.assistSystem.releaseAssist();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -29,7 +29,7 @@ public class ReleaseAssist extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.assistClimb.holdAssist();
+    	Robot.assistSystem.holdAssist();
     }
 
     // Called when another command which requires one or more of the same
