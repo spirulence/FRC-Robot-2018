@@ -1,8 +1,9 @@
 /bin/
 *.jar
 *.class
-scripts/vision/training/videos/
-scripts/vision/training/set/
-scripts/vision/training/*.zip
-scripts/vision/training/model/trained_models/
+vision/training/videos/
+vision/training/set/
+vision/training/*.zip
+vision/training/model/trained_models/
+vision/jetson/jetson-inference/
 *.pdf
