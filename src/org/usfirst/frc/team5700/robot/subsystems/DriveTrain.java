@@ -54,8 +54,10 @@ public class DriveTrain extends Subsystem {
 		else
 			limitedY = y;
 		
-		if (Math.abs(changeX) > maxChangeX)	
-			limitedX += (changeX > 0) ? maxChangeX : - maxChangeY;
+		if (Math.abs(changeX) > maxChangeX)	{
+			limitedX += (changeX > 0) ? maxChangeX : - maxChangeX;
+			System.out.println("Limiting x to " + limitedX);
+		}
 		else
 			limitedX = x;
 

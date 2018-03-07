@@ -51,6 +51,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 
+		prefs = Preferences.getInstance();
+		
 		// Initialize all subsystems
 		drivetrain = new DriveTrain();
 		boxIntake = new BoxIntake();
@@ -63,7 +65,7 @@ public class Robot extends IterativeRobot {
 
 
 		// instantiate the command used for the autonomous period
-
+		
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivetrain);
