@@ -141,6 +141,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Hall Sensor Bottom", climber.getHallSensorBottomValue());		
 		SmartDashboard.putNumber("left aux stick throttle", oi.getAuxLeftStick().getThrottle());
 		SmartDashboard.putNumber("right aux stick throttle", oi.getAuxRightStick().getThrottle());
+		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
+		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
+		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
 	}
 
 	/**
