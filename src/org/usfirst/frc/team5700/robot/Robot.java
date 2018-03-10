@@ -52,6 +52,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 
+		prefs = Preferences.getInstance();
+		
 		// Initialize all subsystems
 		drivetrain = new DriveTrain();
 		boxIntake = new BoxIntake();
@@ -64,7 +66,7 @@ public class Robot extends IterativeRobot {
 
 
 		// instantiate the command used for the autonomous period
-
+		
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivetrain);
@@ -139,7 +141,13 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());
-		
+		SmartDashboard.putBoolean("Hall Sensor Top", climber.getHallSensorTopValue());
+		SmartDashboard.putBoolean("Hall Sensor Bottom", climber.getHallSensorBottomValue());		
+		SmartDashboard.putNumber("left aux stick throttle", oi.getAuxLeftStick().getThrottle());
+		SmartDashboard.putNumber("right aux stick throttle", oi.getAuxRightStick().getThrottle());
+		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
+		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
+		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
 	}
 
 	/**
