@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team5700.robot;
 
+import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
 import org.usfirst.frc.team5700.robot.subsystems.Arm;
 import org.usfirst.frc.team5700.robot.subsystems.AssistSystem;
 import org.usfirst.frc.team5700.robot.subsystems.BoxIntake;
@@ -137,10 +138,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putBoolean("Hall Sensor Top", climber.getHallSensorTopValue());
-		SmartDashboard.putBoolean("Hall Sensor Bottom", climber.getHallSensorBottomValue());		
-		SmartDashboard.putNumber("left aux stick throttle", oi.getAuxLeftStick().getThrottle());
-		SmartDashboard.putNumber("right aux stick throttle", oi.getAuxRightStick().getThrottle());
+		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());
+		
 	}
 
 	/**

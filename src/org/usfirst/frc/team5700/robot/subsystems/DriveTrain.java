@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveTrain extends Subsystem {
 
 	private SpeedController leftMotor = new Spark(RobotMap.LEFT_DRIVE_MOTOR);
-	private SpeedController rightMotor = new Spark(RobotMap.RIGHT_DRIVE_MOTOR);		
+	private SpeedController rightMotor = new Spark(RobotMap.RIGHT_DRIVE_PWM);		
 
 	private RobotDrive drive = new RobotDrive(leftMotor, rightMotor);
 

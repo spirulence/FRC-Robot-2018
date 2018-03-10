@@ -11,7 +11,9 @@ import org.usfirst.frc.team5700.robot.commands.IntakeBox;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpinIn;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpitAndExtend;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpitOut;
+import org.usfirst.frc.team5700.robot.commands.MoveElevatorDistance;
 import org.usfirst.frc.team5700.robot.commands.ReleaseAssist;
+import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -45,8 +47,9 @@ public class OI {
 //	JoystickButton grabberClose;
 	JoystickButton climberUp;
 	JoystickButton climberDown;
-	JoystickButton dingusGo; 
+	JoystickButton moveElevatorDistance; 
 	JoystickButton releaseAssist;
+	JoystickButton zeroElevatorEncoder;
 	
 	public OI() {
 		slowDrive = new JoystickButton(driveRightStick, ButtonMap.SLOW_DRIVE);
@@ -59,8 +62,9 @@ public class OI {
 //		grabberClose = new JoystickButton(auxRightStick, ButtonMap.GRABBER_CLOSE);
 		climberUp = new JoystickButton(auxRightStick, ButtonMap.CLIMBER_UP);
 		climberDown = new JoystickButton(auxLeftStick, ButtonMap.CLIMBER_DOWN);
-		dingusGo = new JoystickButton(driveRightStick, ButtonMap.DINGUS_GO);
+		moveElevatorDistance = new JoystickButton(auxRightStick, ButtonMap.MOVE_ELEVATOR_DISTANCE);
 		releaseAssist = new JoystickButton(auxRightStick, ButtonMap.ASSIST_RELEASE);
+		zeroElevatorEncoder  = new JoystickButton(auxRightStick, ButtonMap.ZERO_ELEVATOR_ENCODER);
 		
 		//set commands
 		//box intake
@@ -68,7 +72,11 @@ public class OI {
 		extendLeft.whileHeld(new ExtendLeft());
 		extendRight.whileHeld(new ExtendRight());
 		spitAndExtend.whileHeld(new IntakeSpitAndExtend());
-		dingusGo.whileHeld(new DingusGo());
+		
+		//Elevator
+		moveElevatorDistance.whenPressed(new MoveElevatorDistance(1));
+		zeroElevatorEncoder.whenPressed(new ResetElevatorEncoder());
+		
 //		//grabber
 //		grabberOpen.whenPressed(new GrabberOpen());
 //		grabberClose.whenPressed(new GrabberClose());

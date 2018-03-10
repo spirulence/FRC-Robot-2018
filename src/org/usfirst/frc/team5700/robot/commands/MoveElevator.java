@@ -1,28 +1,50 @@
 package org.usfirst.frc.team5700.robot.commands;
 
+import java.util.concurrent.TimeUnit;
+
+import org.usfirst.frc.team5700.robot.Constants;
+import org.usfirst.frc.team5700.robot.Instrum;
 import org.usfirst.frc.team5700.robot.Robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ElevatorMove extends Command {
+public class MoveElevator extends Command {
+	
+	Joystick _stick;
+	StringBuilder _sb = new StringBuilder();
+	TalonSRX _talon;
 
-    public ElevatorMove() {
+    public MoveElevator() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.elevator);
+    		requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    		_stick = Robot.oi.getAuxRightStick();
+    		_talon = Robot.elevator.getTalon();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//TODO decide where joystick should live
-    	Robot.elevator.setSpeed(Robot.oi.getAuxRightStick().getY());
+  
+		/* Percent voltage mode */
+		_talon.set(ControlMode.PercentOutput, _stick.getY());
+		/* instrumentation */
+		Instrum.Process(_talon, _sb);
+		try {
+			TimeUnit.MILLISECONDS.sleep(10);
+		} catch (Exception e) {
+		};
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -32,12 +54,12 @@ public class ElevatorMove extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    Robot.elevator.stopElevator();
     }
+    
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
+    		end();
     }
 }
