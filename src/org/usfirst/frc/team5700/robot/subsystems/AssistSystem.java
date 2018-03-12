@@ -14,8 +14,8 @@ public class AssistSystem extends Subsystem {
 	
 	public AssistSystem() {
 		super();
-		pistons = new DoubleSolenoid(RobotMap.ASSIST_HOLD_CHANNEL, RobotMap.ASSIST_RELEASE_CHANNEL);
-		pistons.set(DoubleSolenoid.Value.kForward);
+		//pistons = new DoubleSolenoid(RobotMap.ASSIST_HOLD_CHANNEL, RobotMap.ASSIST_RELEASE_CHANNEL);
+		//pistons.set(DoubleSolenoid.Value.kForward);
 	}
 
     // Put methods for controlling this subsystem
@@ -26,10 +26,10 @@ public class AssistSystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }	
     public void releaseAssist(){
-    	pistons.set(DoubleSolenoid.Value.kReverse);    	
+    		//pistons.set(DoubleSolenoid.Value.kReverse);    	
     }
     public void holdAssist() {
-    	pistons.set(DoubleSolenoid.Value.kForward);
+    		//pistons.set(DoubleSolenoid.Value.kForward);
     }
 }
 

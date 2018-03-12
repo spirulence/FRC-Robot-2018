@@ -9,6 +9,7 @@ import org.usfirst.frc.team5700.robot.Robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -18,8 +19,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class MoveElevator extends Command {
 	
 	Joystick _stick;
-	StringBuilder _sb = new StringBuilder();
 	TalonSRX _talon;
+	
 
     public MoveElevator() {
         // Use requires() here to declare subsystem dependencies
@@ -35,17 +36,9 @@ public class MoveElevator extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//TODO decide where joystick should live
-  
-		/* Percent voltage mode */
-		_talon.set(ControlMode.PercentOutput, _stick.getY());
-		/* instrumentation */
-		Instrum.Process(_talon, _sb);
-		try {
-			TimeUnit.MILLISECONDS.sleep(10);
-		} catch (Exception e) {
-		};
+    		Robot.elevator.moveElevatorWithJoystick(_stick.getY());
     }
+		
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

@@ -12,13 +12,11 @@ public class BoxIntake extends Subsystem {
 	Spark leftIntakeMotor;
 	Spark rightIntakeMotor;
 	
-	private Solenoid dingus;
-	
 	private double intakeSpeed = -0.65; //TODO number
 	
     public BoxIntake() {
 		super();
-	    	leftPiston = new DoubleSolenoid(RobotMap.LEFT_PISTON_EXTEND_CHANNEL, RobotMap.LEFT_PISTON_RETRACT_CHANNEL);
+	    	leftPiston = new DoubleSolenoid(RobotMap.LEFT_PISTON_RETRACT_CHANNEL, RobotMap.LEFT_PISTON_EXTEND_CHANNEL);
 	    	leftPiston.set(DoubleSolenoid.Value.kReverse);
 	    	
 	    	rightPiston = new DoubleSolenoid(RobotMap.RIGHT_PISTON_EXTEND_CHANNEL, RobotMap.RIGHT_PISTON_RETRACT_CHANNEL);
@@ -26,9 +24,6 @@ public class BoxIntake extends Subsystem {
 
 	    	leftIntakeMotor = new Spark(RobotMap.LEFT_INTAKE_MOTOR);
 	    	rightIntakeMotor = new Spark(RobotMap.RIGHT_INTAKE_MOTOR);
-	    	
-	    	dingus = new Solenoid(RobotMap.DINGUS_CHANNEL);
-	    	dingus.set(false);
     }
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -112,14 +107,6 @@ public class BoxIntake extends Subsystem {
 
 	public void setLeftMotor(double speed) {
 		leftIntakeMotor.set(speed);
-	}
-	
-	public void extendDingus() {
-		dingus.set(true);
-	}
-	
-	public void retractDingus() {
-		dingus.set(false);
 	}
 }
 

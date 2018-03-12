@@ -35,8 +35,7 @@ public class DriveTrain extends Subsystem {
 	 * @param leftStick joystick is for turning
 	 */
 	public void arcadeDrive(Joystick rightStick, Joystick leftStick, boolean squaredInputs) {
-		double speed = Robot.oi.driveSlow() ? 0.6 : 1.0;
-		double direction = Robot.oi.directionToggle() ? -1 : 1;
+		double speed = 1;
 		
 		Preferences prefs = Preferences.getInstance();
 		//get max change rates  from Preferences Table

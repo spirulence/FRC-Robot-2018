@@ -4,18 +4,15 @@ import org.usfirst.frc.team5700.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
-public class GrabberClose extends Command {
+public class GrabCube extends Command {
 
-    public GrabberClose() {
-    	requires(Robot.grabber);
+    public GrabCube() {
+    		requires(Robot.grabber);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.grabber.close();
+    		Robot.grabber.grab();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -34,6 +31,6 @@ public class GrabberClose extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
+    		end();
     }
 }
