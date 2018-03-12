@@ -4,21 +4,19 @@ import org.usfirst.frc.team5700.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
-public class IntakeBox extends Command {
+public class GrabCube extends Command {
 
-    public IntakeBox() {
-    	requires(Robot.boxIntake);
+    public GrabCube() {
+    		requires(Robot.grabber);
     }
 
+    // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.boxIntake.extendBoth();
+    		Robot.grabber.grab();
     }
 
+    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.boxIntake.spinMotorsIn();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -28,13 +26,11 @@ public class IntakeBox extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.boxIntake.retractBoth();
-    	Robot.boxIntake.stopMotors();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
+    		end();
     }
 }

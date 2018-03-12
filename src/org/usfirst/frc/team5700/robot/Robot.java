@@ -1,8 +1,14 @@
 
 package org.usfirst.frc.team5700.robot;
 
+import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
+import org.usfirst.frc.team5700.robot.subsystems.Arm;
+import org.usfirst.frc.team5700.robot.subsystems.AssistSystem;
 import org.usfirst.frc.team5700.robot.subsystems.BoxIntake;
+import org.usfirst.frc.team5700.robot.subsystems.Climber;
 import org.usfirst.frc.team5700.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5700.robot.subsystems.Elevator;
+import org.usfirst.frc.team5700.robot.subsystems.Grabber;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
@@ -31,7 +37,11 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static DriveTrain drivetrain;
 	public static BoxIntake boxIntake;
-
+	public static Elevator elevator;
+	public static Climber climber; 
+	public static Arm arm; 
+	public static Grabber grabber;
+	public static AssistSystem assistSystem;
 
 
 
@@ -42,17 +52,25 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 
+		prefs = Preferences.getInstance();
+		
 		// Initialize all subsystems
 		drivetrain = new DriveTrain();
 		boxIntake = new BoxIntake();
+		elevator = new Elevator();
+		climber = new Climber();
+		arm = new Arm();
+		grabber = new Grabber();
+		assistSystem = new AssistSystem();
 		oi = new OI();
 
 
 		// instantiate the command used for the autonomous period
-
+		
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivetrain);
+		
 
 	}
 
@@ -122,6 +140,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
+		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
+		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
+		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
+		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
 	}
 
 	/**

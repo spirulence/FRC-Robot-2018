@@ -4,11 +4,21 @@ public class ButtonMap {
 	//class for button mapping, duh.
 	
 		//Drivetrain
-		//public static final int REVERSE_DRIVE = 3; //rightstick
-		public static final int SLOW_DRIVE = 3; //rightstick
-		public static final int TOGGLE_DIRECTION = 2; //rightstick
 		
 		//Intake
-		public static final int INTAKE_BOX = 1; //leftstick
-		public static final int ORIENT_BOX = 5; //leftstick
+		public static final int EXTEND_INTAKE = 1;//driveRightStick
+		public static final int SPIN_INTAKE_IN = 3;//driveRightStick
+		public static final int SPIN_INTAKE_OUT = 2;//driveRightStick
+//		//Grabber 
+		public static final int GRABBER_OPEN = 1;//auxRightstick
+		public static final int GRABBER_CLOSE = 2;//auxRightstick
+		//Climber
+		public static final int CLIMBER_UP = 2;//auxRightstick
+		public static final int CLIMBER_DOWN = 2;//auxLeftstick
+		//Climber Assist
+		public static final int ASSIST_RELEASE = 1;//auxRightstick
+		public static final int ZERO_ELEVATOR_ENCODER = 6; //auxRightstick
+		
+		//ELEVATOR
+		public static int MOVE_ELEVATOR_DISTANCE = 5;//driveRightstick
 }
