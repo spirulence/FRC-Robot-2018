@@ -6,7 +6,7 @@ layer {
     phase: TRAIN
   }
   data_param {
-    source: "/workspace/jobs/20180129-193704-e87b/train_db/features"
+    source: "/jobs/20180313-040328-5afb/train_db/features"
     batch_size: 40
     backend: LMDB
   }
@@ -19,7 +19,7 @@ layer {
     phase: TRAIN
   }
   data_param {
-    source: "/workspace/jobs/20180129-193704-e87b/train_db/labels"
+    source: "/jobs/20180313-040328-5afb/train_db/labels"
     batch_size: 40
     backend: LMDB
   }
@@ -32,7 +32,7 @@ layer {
     phase: TEST
   }
   data_param {
-    source: "/workspace/jobs/20180129-193704-e87b/val_db/features"
+    source: "/jobs/20180313-040328-5afb/val_db/features"
     batch_size: 40
     backend: LMDB
   }
@@ -45,7 +45,7 @@ layer {
     phase: TEST
   }
   data_param {
-    source: "/workspace/jobs/20180129-193704-e87b/val_db/labels"
+    source: "/jobs/20180313-040328-5afb/val_db/labels"
     batch_size: 40
     backend: LMDB
   }
