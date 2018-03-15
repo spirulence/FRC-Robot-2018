@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team5700.robot;
 
+import org.usfirst.frc.team5700.robot.commands.ResetArmEncoder;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
 import org.usfirst.frc.team5700.robot.subsystems.Arm;
 import org.usfirst.frc.team5700.robot.subsystems.AssistSystem;
@@ -70,6 +71,9 @@ public class Robot extends IterativeRobot {
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivetrain);
+
+		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
+		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
 		
 
 	}
@@ -139,12 +143,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
+		Scheduler.getInstance().run();	
 		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
 		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
 		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
 		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
+		SmartDashboard.putNumber("Arm Encoder Ticks", arm.getRawEncoderTicks());
+		SmartDashboard.putNumber("Arm Angle Deg", arm.getAngle());
 	}
 
 	/**

@@ -25,5 +25,5 @@ public class Constants {
 	 * Talon
 	 */
 	public static final int TalonMaxOutput = 1023;
-	public static final int VersaEncoderTPR = 4096;
+	public static final int VersaEncoderTPR = 1024;
 }

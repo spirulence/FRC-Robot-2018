@@ -15,12 +15,12 @@ public class Grabber extends Subsystem {
 		open();
 	}
 	
-	public void open() {
+	public void close() {
 		piston.set(false);
 		hasCube = false;
 	}
 	
-	public void grab() {
+	public void open() {
 		piston.set(true);
 		hasCube = true;
 	}

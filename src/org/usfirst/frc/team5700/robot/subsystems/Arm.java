@@ -25,11 +25,11 @@ public class Arm extends Subsystem {
 	private TalonSRX _talon;
 
 	//Constants
-	public final double reductionToEncoder = 1; // TODO find
-	public final double ticksPerDeg = (Constants.VersaEncoderTPR * reductionToEncoder) / 1; //TODO find
-	public final double encoderMaxSpeed = 1; //ticks per 100 ms
-	public double wCubeMaxNominalOutput; //Maximum nominal output, when arm is horizontal to ground
-	public double noCubeMaxNominalOutput;
+	public final double reductionToEncoder = 35; 
+	public final double ticksPerDeg = (Constants.VersaEncoderTPR * reductionToEncoder) / 360;
+	public final double encoderMaxSpeed = 1; //ticks per 100 ms //TODO find
+	public double wCubeMaxNominalOutput = 0; //Maximum nominal output, when arm is horizontal to ground
+	public double noCubeMaxNominalOutput = 0;
 	
 	public Arm() {
 		
@@ -49,8 +49,8 @@ public class Arm extends Subsystem {
 		/* set the peak and nominal outputs */
 		_talon.configNominalOutputForward(0, Constants.kTimeoutMs);
 		_talon.configNominalOutputReverse(0, Constants.kTimeoutMs);
-		_talon.configPeakOutputForward(0.7, Constants.kTimeoutMs);
-		_talon.configPeakOutputReverse(-0.7, Constants.kTimeoutMs);
+		_talon.configPeakOutputForward(1, Constants.kTimeoutMs);
+		_talon.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 	
 		/* set closed loop gains in slot 0 - see documentation */
 		_talon.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
@@ -69,7 +69,6 @@ public class Arm extends Subsystem {
 	
 	public void moveArmWithJoystick(double stickValue) {
 		StringBuilder sb = new StringBuilder();
-		setFeedForward();
 		
 		setTalon(stickValue);
 			
@@ -83,6 +82,10 @@ public class Arm extends Subsystem {
 	
 	public void zeroEncoder() {
 		_talon.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+	}
+	
+	public double getRawEncoderTicks() {
+		return _talon.getSelectedSensorPosition(0);
 	}
 
     public void initDefaultCommand() {
@@ -98,16 +101,9 @@ public class Arm extends Subsystem {
 		_talon.configNominalOutputReverse(nominalOutput, Constants.kTimeoutMs);
     }
     
-    private void setFeedForward() {
+    private double getFeedForward() {
     		//Feed Forward Logic
-    		double FF;
-		if (Robot.grabber.hasCube()) {
-			FF = wCubeMaxNominalOutput;
-		} else {
-			FF = noCubeMaxNominalOutput;
-		}
-		
-		configNominaloutPutForce(FF * Math.sin(getAngle()));
+    	return Math.sin(getAngle()) * (Robot.grabber.hasCube() ? wCubeMaxNominalOutput : noCubeMaxNominalOutput);
     }
     
     /**
@@ -135,7 +131,7 @@ public class Arm extends Subsystem {
     		Instrum.Process(_talon, sb);
     }
     
-    private double getAngle() {
+    public double getAngle() {
     		return _talon.getSelectedSensorPosition(0) / ticksPerDeg;
     }
 }
