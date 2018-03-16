@@ -46,16 +46,16 @@ public class OI {
 	JoystickButton zeroElevatorEncoder;
 	
 	public OI() {
-		spinIntakeIn = new JoystickButton (driveRightStick, ButtonMap.SPIN_INTAKE_IN);
-		spitIntakeOut = new JoystickButton (driveRightStick, ButtonMap.SPIN_INTAKE_OUT);
-		extendIntake = new JoystickButton (driveRightStick, ButtonMap.EXTEND_INTAKE);
-		releaseCube = new JoystickButton(auxRightStick, ButtonMap.GRABBER_OPEN);
-		grabCube = new JoystickButton(auxRightStick, ButtonMap.GRABBER_CLOSE);
-		climberUp = new JoystickButton(auxRightStick, ButtonMap.CLIMBER_UP);
-		climberDown = new JoystickButton(auxLeftStick, ButtonMap.CLIMBER_DOWN);
-		moveElevatorDistance = new JoystickButton(auxRightStick, ButtonMap.MOVE_ELEVATOR_DISTANCE);
-		releaseAssist = new JoystickButton(auxRightStick, ButtonMap.ASSIST_RELEASE);
-		zeroElevatorEncoder  = new JoystickButton(auxRightStick, ButtonMap.ZERO_ELEVATOR_ENCODER);
+		spinIntakeIn = new JoystickButton (ButtonMap.SPIN_INTAKE_IN.joystick, ButtonMap.SPIN_INTAKE_IN.buttonNum);
+		spitIntakeOut = new JoystickButton (ButtonMap.SPIN_INTAKE_OUT.joystick, ButtonMap.SPIN_INTAKE_IN.buttonNum);
+		extendIntake = new JoystickButton (ButtonMap.EXTEND_INTAKE.joystick, ButtonMap.EXTEND_INTAKE.buttonNum);
+		releaseCube = new JoystickButton(ButtonMap.GRABBER_OPEN.joystick, ButtonMap.GRABBER_OPEN.buttonNum);
+		grabCube = new JoystickButton(ButtonMap.GRABBER_CLOSE.joystick, ButtonMap.GRABBER_CLOSE.buttonNum);
+		climberUp = new JoystickButton(ButtonMap.CLIMBER_UP.joystick, ButtonMap.CLIMBER_UP.buttonNum);
+		climberDown = new JoystickButton(ButtonMap.CLIMBER_DOWN.joystick, ButtonMap.CLIMBER_DOWN.buttonNum);
+		moveElevatorDistance = new JoystickButton(ButtonMap.MOVE_ELEVATOR_DISTANCE.joystick, ButtonMap.MOVE_ELEVATOR_DISTANCE.buttonNum);
+		releaseAssist = new JoystickButton(ButtonMap.ASSIST_RELEASE.joystick, ButtonMap.ASSIST_RELEASE.buttonNum);
+		zeroElevatorEncoder  = new JoystickButton(ButtonMap.ZERO_ELEVATOR_ENCODER.joystick, ButtonMap.ZERO_ELEVATOR_ENCODER.buttonNum);
 		
 		//set commands
 		//box intake

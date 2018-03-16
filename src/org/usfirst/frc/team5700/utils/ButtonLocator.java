@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5700.utils;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 public class ButtonLocator {
 	
 	public final int buttonNum;
