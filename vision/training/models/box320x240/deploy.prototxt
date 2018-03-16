@@ -2,8 +2,8 @@ input: "data"
 input_shape {
   dim: 1
   dim: 3
-  dim: 360
-  dim: 640
+  dim: 240
+  dim: 320
 }
 layer {
   name: "deploy_transform"
@@ -2168,5 +2168,17 @@ layer {
       type: "constant"
       value: 0.0
     }
+  }
+}
+layer {
+  name: "cluster"
+  type: "Python"
+  bottom: "coverage"
+  bottom: "bboxes"
+  top: "bbox-list"
+  python_param {
+    module: "caffe.layers.detectnet.clustering"
+    layer: "ClusterDetections"
+    param_str: "320, 240, 16, 0.6, 2, 0.02, 22, 1"
   }
 }

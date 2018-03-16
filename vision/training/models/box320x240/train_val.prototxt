@@ -6,8 +6,8 @@ layer {
     phase: TRAIN
   }
   data_param {
-    source: "/jobs/20180313-040328-5afb/train_db/features"
-    batch_size: 40
+    source: "/jobs/20180315-202852-7732/train_db/features"
+    batch_size: 120
     backend: LMDB
   }
 }
@@ -19,8 +19,8 @@ layer {
     phase: TRAIN
   }
   data_param {
-    source: "/jobs/20180313-040328-5afb/train_db/labels"
-    batch_size: 40
+    source: "/jobs/20180315-202852-7732/train_db/labels"
+    batch_size: 120
     backend: LMDB
   }
 }
@@ -32,8 +32,8 @@ layer {
     phase: TEST
   }
   data_param {
-    source: "/jobs/20180313-040328-5afb/val_db/features"
-    batch_size: 40
+    source: "/jobs/20180315-202852-7732/val_db/features"
+    batch_size: 120
     backend: LMDB
   }
 }
@@ -45,8 +45,8 @@ layer {
     phase: TEST
   }
   data_param {
-    source: "/jobs/20180313-040328-5afb/val_db/labels"
-    batch_size: 40
+    source: "/jobs/20180315-202852-7732/val_db/labels"
+    batch_size: 120
     backend: LMDB
   }
 }
@@ -69,8 +69,8 @@ layer {
     gridbox_type: GRIDBOX_MIN
     min_cvg_len: 20
     coverage_type: RECTANGULAR
-    image_size_x: 640
-    image_size_y: 360
+    image_size_x: 320
+    image_size_y: 240
     obj_norm: true
     crop_bboxes: false
     object_class {
@@ -113,8 +113,8 @@ layer {
     gridbox_type: GRIDBOX_MIN
     min_cvg_len: 20
     coverage_type: RECTANGULAR
-    image_size_x: 640
-    image_size_y: 360
+    image_size_x: 320
+    image_size_y: 240
     obj_norm: true
     crop_bboxes: false
     object_class {
@@ -2407,7 +2407,7 @@ layer {
   python_param {
     module: "caffe.layers.detectnet.clustering"
     layer: "ClusterDetections"
-    param_str: "640, 360, 16, 0.6, 2, 0.02, 22, 1"
+    param_str: "320, 240, 16, 0.6, 2, 0.02, 22, 1"
   }
 }
 layer {
@@ -2422,7 +2422,7 @@ layer {
   python_param {
     module: "caffe.layers.detectnet.clustering"
     layer: "ClusterGroundtruth"
-    param_str: "640, 360, 16, 1"
+    param_str: "320, 240, 16, 1"
   }
 }
 layer {
@@ -2452,6 +2452,6 @@ layer {
   python_param {
     module: "caffe.layers.detectnet.mean_ap"
     layer: "mAP"
-    param_str: "640, 360, 16"
+    param_str: "320, 240, 16"
   }
 }
