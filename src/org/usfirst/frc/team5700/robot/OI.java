@@ -47,7 +47,9 @@ public class OI {
 	JoystickButton releaseAssist;
 	JoystickButton zeroElevatorEncoder;
 	JoystickButton resetArmEncoder;
-	JoystickButton moveArmToAngle;
+	//JoystickButton moveArmToAngle;
+	JoystickButton rotateArmTo0;
+	JoystickButton rotateArmTo180;
 	
 	public OI() {
 		spinIntakeIn = new JoystickButton (ButtonMap.SPIN_INTAKE_IN.joystick, ButtonMap.SPIN_INTAKE_IN.buttonNum);
@@ -60,6 +62,11 @@ public class OI {
 		moveElevatorDistance = new JoystickButton(ButtonMap.MOVE_ELEVATOR_DISTANCE.joystick, ButtonMap.MOVE_ELEVATOR_DISTANCE.buttonNum);
 		releaseAssist = new JoystickButton(ButtonMap.ASSIST_RELEASE.joystick, ButtonMap.ASSIST_RELEASE.buttonNum);
 		zeroElevatorEncoder  = new JoystickButton(ButtonMap.ZERO_ELEVATOR_ENCODER.joystick, ButtonMap.ZERO_ELEVATOR_ENCODER.buttonNum);
+		//Arm
+		resetArmEncoder = new JoystickButton(ButtonMap.RESET_ARM_ENCODER.joystick, ButtonMap.RESET_ARM_ENCODER.buttonNum);
+		rotateArmTo0 = new JoystickButton(ButtonMap.ROTATE_ARM_TO_0.joystick, ButtonMap.ROTATE_ARM_TO_0.buttonNum);
+		rotateArmTo180 = new JoystickButton(ButtonMap.ROTATE_ARM_TO_180.joystick, ButtonMap.ROTATE_ARM_TO_180.buttonNum);
+		
 		
 		//set commands
 		//box intake
@@ -71,7 +78,7 @@ public class OI {
 		moveElevatorDistance.whenPressed(new MoveElevatorDistance(1));
 		zeroElevatorEncoder.whenPressed(new ResetElevatorEncoder());
 		
-//		//grabber
+		//grabber
 		grabCube.whenPressed(new GrabCube());
 		releaseCube.whenPressed(new ReleaseCube());
 		//climber
@@ -82,7 +89,9 @@ public class OI {
 		
 		//arm 
 		resetArmEncoder.whenPressed(new ResetArmEncoder());
-		moveArmToAngle.whileHeld(new MoveArmToAngle(90));
+		rotateArmTo0.whileHeld(new MoveArmToAngle(0));
+		rotateArmTo180.whileHeld(new MoveArmToAngle(180));
+		//moveArmToAngle.whileHeld(new MoveArmToAngle(90));
 		
 	}
 	

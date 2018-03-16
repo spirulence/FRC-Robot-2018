@@ -11,7 +11,6 @@ public class ButtonLocator {
 		
 		this.buttonNum = buttonNum;
 		this.joystick = joystick;
-		
 	}
 
 }
