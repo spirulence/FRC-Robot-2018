@@ -1,8 +1,12 @@
 
 package org.usfirst.frc.team5700.robot;
 
+import org.usfirst.frc.team5700.robot.commands.AutoCenterSwitch;
+import org.usfirst.frc.team5700.robot.commands.AutoDoNotMove;
+import org.usfirst.frc.team5700.robot.commands.AutoLeftSideSwitch;
 import org.usfirst.frc.team5700.robot.commands.ResetArmEncoder;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
+import org.usfirst.frc.team5700.robot.commands.AutoRightSideSwtich;
 import org.usfirst.frc.team5700.robot.subsystems.Arm;
 import org.usfirst.frc.team5700.robot.subsystems.AssistSystem;
 import org.usfirst.frc.team5700.robot.subsystems.BoxIntake;
@@ -11,6 +15,7 @@ import org.usfirst.frc.team5700.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5700.robot.subsystems.Elevator;
 import org.usfirst.frc.team5700.robot.subsystems.Grabber;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -43,6 +48,10 @@ public class Robot extends IterativeRobot {
 	public static Arm arm; 
 	public static Grabber grabber;
 	public static AssistSystem assistSystem;
+	
+	public static boolean switchOnRight;
+	public static boolean scaleOnRight;
+	public static boolean atSwitch;
 
 
 
@@ -75,7 +84,14 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
 		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
 		
-
+		//Autonomous Chooser
+        chooser = new SendableChooser<Command>();
+ 		chooser.addDefault("Don't Move", new AutoDoNotMove());
+ 		chooser.addObject("Center Switch", new AutoCenterSwitch());
+ 		chooser.addObject("Right Side Switch", new AutoRightSideSwtich());
+ 		chooser.addObject("Left Side Switch", new AutoLeftSideSwitch());
+ 		SmartDashboard.putData("Autonomous Chooser", chooser);
+		autonomousCommand = chooser.getSelected();
 	}
 
 	/**
@@ -106,7 +122,19 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		boolean switchOnRight = true;
+		boolean scaleOnRight = true;
+		
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+         if(gameData.length() > 0) {
+        	 	if(gameData.charAt(0) == 'L') {
+        	 		switchOnRight = false;
+        	 	}
+        	 	if (gameData.charAt(1) == 'L') {
+        	 		scaleOnRight = false;
+        	 	}
+         }
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",

@@ -4,7 +4,9 @@ import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.robot.RobotMap;
 import org.usfirst.frc.team5700.robot.commands.ArcadeDriveWithJoysticks;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -28,6 +30,24 @@ public class DriveTrain extends Subsystem {
 	// here. Call these from Commands.
 	private double limitedY = 0;
 	private double limitedX = 0;
+	
+	private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+
+	private Encoder leftEncoder = new Encoder(1, 2, true);
+	private Encoder rightEncoder = new Encoder(3, 4, false);
+
+	//Encoder specs: S4T-360-250-S-D (usdigital.com)
+	//S4T Shaft Encoder, 360 CPR, 1/4" Dia Shaft, Single-Ended, Default Torque
+	//Encoder Distance Constants
+    public static final double WHEEL_DIAMETER = 6; //Inches
+    public static final double PULSE_PER_REVOLUTION = 360;
+    public static final double ENCODER_GEAR_RATIO = 1;
+    public static final double GEAR_RATIO = 10.71;
+    public static final double FUDGE_FACTOR = 0.88235; //340/300 //TODO what is this
+
+
+    final double distancePerPulse = 12 * Math.PI * WHEEL_DIAMETER / PULSE_PER_REVOLUTION /
+        		ENCODER_GEAR_RATIO / GEAR_RATIO * FUDGE_FACTOR;
 
 	/**
 	 * Arcade Drive
@@ -86,6 +106,16 @@ public class DriveTrain extends Subsystem {
 	
 	public double getZAccel() {
 		return accel.getZ();
+	}
+
+	public void reset() {
+		gyro.reset();
+		leftEncoder.reset();
+		rightEncoder.reset();
+	}
+
+	public double getDistance() {
+		return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
 	}
 }
 
