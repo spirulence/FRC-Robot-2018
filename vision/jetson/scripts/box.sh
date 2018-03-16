@@ -13,7 +13,8 @@ pkill -9 detect
 pkill -9 gst
 
 #launch detectnet and pipe unbuffered output to python to be sent to network tables
-unbuffer $VISION_HOME/jetson-inference/build/aarch64/bin/detectnet-camera \
+unbuffer \
+$VISION_HOME/jetson-inference/build/aarch64/bin/detectnet-camera \
 --prototxt=$VISION_HOME/models/$MODEL/deploy.prototxt \
 --model=$VISION_HOME/models/$MODEL/snapshot.caffemodel \
 --input_blob=data --output_cvg=coverage --output_bbox=bboxes --threshold=$THRESHOLD \

@@ -373,7 +373,7 @@ main ()
 	do_cpu
 	do_gpu
 	do_emc
-	do_fan
+	#do_fan
 }
 
 if [ -e "/sys/devices/soc0/family" ]; then

@@ -3,10 +3,10 @@
 export DISPLAY=:0
 
 VISION_HOME=/5700/vision
-VISION_SCRIPTS=$VISION_HOME/scripts
+VISION_SCRIPTS=.
 
 MODEL=box
-THRESHOLD=0.7
+THRESHOLD=0.85
 
 #kill previous model
 pkill -9 detect
