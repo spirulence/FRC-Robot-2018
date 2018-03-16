@@ -144,12 +144,17 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();	
+
+		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
+		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
+		
 		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
 		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
 		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
 		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
 		SmartDashboard.putNumber("Arm Encoder Ticks", arm.getRawEncoderTicks());
-		SmartDashboard.putNumber("Arm Angle Deg", arm.getAngle());
+		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
+		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
 	}
 
 	/**

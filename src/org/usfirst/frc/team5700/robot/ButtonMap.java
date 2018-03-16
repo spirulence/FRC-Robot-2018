@@ -17,8 +17,9 @@ public class ButtonMap {
 		public static final int CLIMBER_DOWN = 2;//auxLeftstick
 		//Climber Assist
 		public static final int ASSIST_RELEASE = 1;//auxRightstick
-		public static final int ZERO_ELEVATOR_ENCODER = 6; //auxRightstick
-		
+		public static final int ZERO_ELEVATOR_ENCODER = 6; //auxRightstick	
 		//ELEVATOR
-		public static int MOVE_ELEVATOR_DISTANCE = 5;//driveRightstick
+		public static final int MOVE_ELEVATOR_DISTANCE = 5;//driveRightstick
+		public static final int RESET_ARM_ENCODER = 11; //auxRightStick
+		public static final int MOVE_ARM_TO_ANGLE = 10; //auxRightStick
 }

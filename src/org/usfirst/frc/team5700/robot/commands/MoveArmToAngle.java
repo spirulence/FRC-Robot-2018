@@ -4,24 +4,31 @@ import org.usfirst.frc.team5700.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ResetArmEncoder extends Command {
+/**
+ *
+ */
+public class MoveArmToAngle extends Command {
 
-    public ResetArmEncoder() {
-    		requires(Robot.arm);
+    private double targetAngleDeg;
+	
+	public MoveArmToAngle(double angleDeg) {
+        requires(Robot.arm);
+        
+        targetAngleDeg = angleDeg;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    		Robot.arm.zeroEncoder();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    		Robot.arm.moveToAngle(targetAngleDeg);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
@@ -31,5 +38,6 @@ public class ResetArmEncoder extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    		end();
     }
 }

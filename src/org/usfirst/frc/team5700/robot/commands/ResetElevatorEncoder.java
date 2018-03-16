@@ -7,11 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ResetElevatorEncoder extends Command {
 
     public ResetElevatorEncoder() {
+    		requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    		Robot.arm.zeroEncoder();
+    		Robot.elevator.zeroEncoder();
     }
 
     // Called repeatedly when this Command is scheduled to run
