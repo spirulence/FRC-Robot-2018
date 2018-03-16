@@ -5,9 +5,11 @@ import org.usfirst.frc.team5700.robot.commands.ClimberUp;
 import org.usfirst.frc.team5700.robot.commands.ExtendIntake;
 import org.usfirst.frc.team5700.robot.commands.GrabCube;
 import org.usfirst.frc.team5700.robot.commands.ReleaseCube;
+import org.usfirst.frc.team5700.robot.commands.ResetArmEncoder;
 import org.usfirst.frc.team5700.robot.commands.IntakeBox;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpinIn;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpitOut;
+import org.usfirst.frc.team5700.robot.commands.MoveArmToAngle;
 import org.usfirst.frc.team5700.robot.commands.MoveElevatorDistance;
 import org.usfirst.frc.team5700.robot.commands.ReleaseAssistArm;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
@@ -44,6 +46,8 @@ public class OI {
 	JoystickButton moveElevatorDistance; 
 	JoystickButton releaseAssist;
 	JoystickButton zeroElevatorEncoder;
+	JoystickButton resetArmEncoder;
+	JoystickButton moveArmToAngle;
 	
 	public OI() {
 		spinIntakeIn = new JoystickButton (ButtonMap.SPIN_INTAKE_IN.joystick, ButtonMap.SPIN_INTAKE_IN.buttonNum);
@@ -75,6 +79,10 @@ public class OI {
 		climberDown.whileHeld(new ClimberDown());
 		//climber assist
 		releaseAssist.whileHeld(new ReleaseAssistArm());
+		
+		//arm 
+		resetArmEncoder.whenPressed(new ResetArmEncoder());
+		moveArmToAngle.whileHeld(new MoveArmToAngle(90));
 		
 	}
 	

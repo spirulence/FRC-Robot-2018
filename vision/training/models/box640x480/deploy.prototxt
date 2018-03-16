@@ -2,7 +2,7 @@ input: "data"
 input_shape {
   dim: 1
   dim: 3
-  dim: 360
+  dim: 480
   dim: 640
 }
 layer {

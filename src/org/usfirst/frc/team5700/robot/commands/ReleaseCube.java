@@ -15,7 +15,7 @@ public class ReleaseCube extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    		Robot.grabber.open();
+    		Robot.grabber.close();
     }
 
     // Called repeatedly when this Command is scheduled to run
