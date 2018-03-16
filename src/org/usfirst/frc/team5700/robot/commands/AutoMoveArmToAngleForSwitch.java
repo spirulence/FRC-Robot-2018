@@ -12,6 +12,7 @@ public class AutoMoveArmToAngleForSwitch extends Command {
     private double targetAngleDeg;
     private boolean robotOnRight;
     private boolean switchOnRobotSide;
+    private boolean doingCenter = false;
 	
 	public AutoMoveArmToAngleForSwitch(double angleDeg, boolean robotOnRight) {
         requires(Robot.arm);
@@ -19,10 +20,25 @@ public class AutoMoveArmToAngleForSwitch extends Command {
         targetAngleDeg = angleDeg;
         this.robotOnRight = robotOnRight;
     }
+	
+	/**
+	 * Constructor to use when doing center switch auto.
+	 * @param angle in degrees
+	 */
+	public AutoMoveArmToAngleForSwitch(double angle) {
+		targetAngleDeg = angle;
+		doingCenter = true;
+	}
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    		switchOnRobotSide = robotOnRight ? Robot.switchOnRight : !Robot.switchOnRight;
+    		if (doingCenter) {
+    			if (!Robot.switchOnRight) {
+    				targetAngleDeg = -1 * targetAngleDeg;
+    			}
+    		} else {
+    			switchOnRobotSide = robotOnRight ? Robot.switchOnRight : !Robot.switchOnRight;
+    		}
     }
 
     // Called repeatedly when this Command is scheduled to run

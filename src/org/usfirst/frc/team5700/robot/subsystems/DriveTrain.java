@@ -39,11 +39,12 @@ public class DriveTrain extends Subsystem {
 	//Encoder specs: S4T-360-250-S-D (usdigital.com)
 	//S4T Shaft Encoder, 360 CPR, 1/4" Dia Shaft, Single-Ended, Default Torque
 	//Encoder Distance Constants
-    public static final double WHEEL_DIAMETER = 6; //Inches
-    public static final double PULSE_PER_REVOLUTION = 360;
-    public static final double ENCODER_GEAR_RATIO = 1;
-    public static final double GEAR_RATIO = 10.71;
-    public static final double FUDGE_FACTOR = 0.88235; //340/300 //TODO what is this
+    public final double WHEEL_BASE_WIDTH_IN = 28; //TOOD find
+	public final double WHEEL_DIAMETER = 6;
+    public final double PULSE_PER_REVOLUTION = 360;
+    public final double ENCODER_GEAR_RATIO = 1;
+    public final double GEAR_RATIO = 10.71;
+    public final double FUDGE_FACTOR = 0.88235; //340/300 //TODO what is this
 
 
     final double distancePerPulse = 12 * Math.PI * WHEEL_DIAMETER / PULSE_PER_REVOLUTION /
@@ -116,6 +117,10 @@ public class DriveTrain extends Subsystem {
 
 	public double getDistance() {
 		return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
+	}
+
+	public double getHeading() {
+		return gyro.getAngle();
 	}
 }
 

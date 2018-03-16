@@ -1,41 +1,51 @@
 package org.usfirst.frc.team5700.robot.commands;
 
+import org.usfirst.frc.team5700.robot.AutonomousPaths;
 import org.usfirst.frc.team5700.robot.Robot;
+import org.usfirst.frc.team5700.utils.DriveTurnDrivePath;
 import org.usfirst.frc.team5700.utils.LinearAccelerationFilter;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DrivePastDistance extends Command {
+public class AutoSwitchDrivePastDistance extends Command {
 
-    private int direction = 1;
 	private double distanceIn;
 	private double speed;
 	private boolean stop;
 	private LinearAccelerationFilter filter;
 	private boolean dropCubeAtEnd;
+	private AutonomousPaths paths;
+	private boolean first;
 
-	public DrivePastDistance(double distanceIn, double speed, boolean stop, boolean dropCubeAtEnd) {
-        requires(Robot.drivetrain);
-        
-        this.distanceIn = distanceIn;
-        this.speed = speed;
-        this.stop = stop;
-        this.dropCubeAtEnd = dropCubeAtEnd;
-    }
-	
-	public DrivePastDistance(double speed, boolean stop) {
-        requires(Robot.drivetrain);
-        this.speed = speed;
-        this.stop = stop;
-    }
+	public AutoSwitchDrivePastDistance(double speed, boolean first, boolean dropCubeAtEnd, boolean stop) {
+		this.speed = speed;
+		this.first = first;
+		this.dropCubeAtEnd = dropCubeAtEnd;
+		this.stop = stop;
+		paths = new AutonomousPaths();
+	}
 
     protected void initialize() {
     		//logs
     		System.out.println("Initializing DrivePastDistance Command");
-    		System.out.println("Using preset distance");
+
+    		if (Robot.switchOnRight) {
+    			if (first) {
+    				distanceIn = paths.rightSide.firstDistance;
+    			} else {
+    				distanceIn = paths.rightSide.secondDistance;
+    			}
+    		} else {
+    			if (first) {
+    				distanceIn = paths.leftSide.firstDistance;
+    			} else {
+    				distanceIn = paths.leftSide.secondDistance;
+    			}
+    		}
     		
-    		System.out.println("First Distance: " + distanceIn * direction);
-	    	System.out.println("driveSpeed: " + speed);
+    		
+    		System.out.println("First Distance: " + distanceIn);
+	    	System.out.println("Drive Speed: " + speed);
 	    	
 	    	Robot.drivetrain.reset();
 	    	double filterSlopeTime = Robot.prefs.getDouble("FilterSlopeTime", 1);
@@ -43,7 +53,7 @@ public class DrivePastDistance extends Command {
     }
 
     protected void execute() {
-    		Robot.drivetrain.drive(direction * speed * filter.output(), 0);
+    		Robot.drivetrain.drive(speed * filter.output(), 0);
     }
 
     protected boolean isFinished() {

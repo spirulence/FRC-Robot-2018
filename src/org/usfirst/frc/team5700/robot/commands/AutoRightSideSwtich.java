@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoRightSideSwtich extends CommandGroup {
 
     public AutoRightSideSwtich() {
-    addParallel(new DrivePastDistance(156, 0.4, true));
-    	addParallel(new AutoMoveArmToAngleForSwitch(270, true));
+	    addParallel(new DrivePastDistance(156, 0.4, true, true));
+	    	addParallel(new AutoMoveArmToAngleForSwitch(270, true));
     }
 }
