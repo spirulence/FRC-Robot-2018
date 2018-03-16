@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class BoxIntake extends Subsystem {
 	
-	private DoubleSolenoid leftPiston, rightPiston;
+	private Solenoid solenoid;
 	Spark leftIntakeMotor;
 	Spark rightIntakeMotor;
 	
@@ -16,11 +16,7 @@ public class BoxIntake extends Subsystem {
 	
     public BoxIntake() {
 		super();
-	    	leftPiston = new DoubleSolenoid(RobotMap.LEFT_PISTON_RETRACT_CHANNEL, RobotMap.LEFT_PISTON_EXTEND_CHANNEL);
-	    	leftPiston.set(DoubleSolenoid.Value.kReverse);
-	    	
-	    	rightPiston = new DoubleSolenoid(RobotMap.RIGHT_PISTON_EXTEND_CHANNEL, RobotMap.RIGHT_PISTON_RETRACT_CHANNEL);
-	    	rightPiston.set(DoubleSolenoid.Value.kReverse);
+	    	solenoid = new Solenoid(RobotMap.EXTEND_INTAKES_CHANNEL);
 
 	    	leftIntakeMotor = new Spark(RobotMap.LEFT_INTAKE_MOTOR);
 	    	rightIntakeMotor = new Spark(RobotMap.RIGHT_INTAKE_MOTOR);
@@ -31,58 +27,40 @@ public class BoxIntake extends Subsystem {
         // Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
     }
-    //this method says what the intake pistons can do
-    public void extendLeft(){
-		leftPiston.set(DoubleSolenoid.Value.kForward);    	
-    }
-    
-    public void extendRight(){
-		rightPiston.set(DoubleSolenoid.Value.kForward);    	
-    }
     
     public void extendBoth(){
-    	extendRight();
-    	extendLeft();
-    }
-    
-    public void retractLeft(){
-		leftPiston.set(DoubleSolenoid.Value.kReverse);
-    }
-    
-    public void retractRight(){
-		rightPiston.set(DoubleSolenoid.Value.kReverse);
+    		solenoid.set(true);
     }
     
     public void retractBoth(){
-		retractRight();
-		retractLeft();
+		solenoid.set(false);
     }
     
 	//These methods are for spitting out a box.
-	public void spitBothMotors(){
-		spitLeft();
-		spitRight();
+	public void spinBothMotorsOut(){
+		spinLeftOut();
+		spinRightOut();
 	}
 	
-	public void spitLeft(){
+	public void spinLeftOut(){
 		leftIntakeMotor.set(intakeSpeed * 1);
 	}
 	
-	public void spitRight(){
+	public void spinRightOut(){
 		rightIntakeMotor.set(intakeSpeed * -1);
 	}
 	
 	//these methods are for pulling in the box (intaking).
 	public void spinMotorsIn() {
-		leftMotorIn();
-		rightMotorIn();
+		spinLeftIn();
+		spinRightIn();
 	}
 	
-	public void leftMotorIn(){
+	public void spinLeftIn(){
 		leftIntakeMotor.set(-intakeSpeed);
 	}
 	
-	public void rightMotorIn(){
+	public void spinRightIn(){
 		rightIntakeMotor.set(intakeSpeed);
 	}
 	

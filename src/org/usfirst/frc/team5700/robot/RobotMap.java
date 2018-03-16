@@ -17,13 +17,11 @@ public class RobotMap {
 	public static final int ARM_MOTOR = 5;
 	
 	//Pneumatics
-	public static final int GRABBER_CHANNEL = 6;
-	public static final int ASSIST_RELEASE_CHANNEL = 7;
-	public static final int ASSIST_HOLD_CHANNEL = 8;
-	public static final int LEFT_PISTON_EXTEND_CHANNEL = 1;
-	public static final int LEFT_PISTON_RETRACT_CHANNEL = 2;
-	public static final int RIGHT_PISTON_EXTEND_CHANNEL= 0;
-	public static final int RIGHT_PISTON_RETRACT_CHANNEL = 3;
+	public static final int EXTEND_INTAKES_CHANNEL = 0;
+	public static final int OPEN_GRABBER_CHANNEL = 1;
+	public static final int CLOSE_GRABBER_CHANNEL = 2;
+	public static final int ASSIST_HOLD_CHANNEL = 3;
+	public static final int ASSIST_RELEASE_CHANNEL = 4;
 	
 	//Sensors (DIO)
 	public static final int TOP_LIMIT_PORT = 3; 
