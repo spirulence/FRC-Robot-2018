@@ -7,19 +7,23 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ReleaseCube extends Command {
+public class MoveArmToAngle extends Command {
 
-    public ReleaseCube() {
-    		requires(Robot.grabber);
+    private double targetAngleDeg;
+	
+	public MoveArmToAngle(double angleDeg) {
+        requires(Robot.arm);
+        
+        targetAngleDeg = angleDeg;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    		Robot.grabber.close();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    		Robot.arm.moveToAngle(targetAngleDeg);
     }
 
     // Make this return true when this Command no longer needs to run execute()

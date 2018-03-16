@@ -84,7 +84,7 @@ public class DriveTrain extends Subsystem {
 		return accel.getY();
 	}
 	
-	public double  getZAccel() {
+	public double getZAccel() {
 		return accel.getZ();
 	}
 }
