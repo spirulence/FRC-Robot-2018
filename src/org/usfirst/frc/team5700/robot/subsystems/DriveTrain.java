@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5700.robot.subsystems;
 
+import org.usfirst.frc.team5700.robot.Constants;
 import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.robot.RobotMap;
 import org.usfirst.frc.team5700.robot.commands.ArcadeDriveWithJoysticks;
@@ -20,6 +21,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveTrain extends Subsystem {
 
+	public static double MAX_SPEED_IN_PER_SEC = 120; //TODO find
+	public static double MAX_ACCEL_IN_PER_SEC = 120;
+	public double previousSpeedInput = 0;
+	
 	private SpeedController leftMotor = new Spark(RobotMap.LEFT_DRIVE_MOTOR);
 	private SpeedController rightMotor = new Spark(RobotMap.RIGHT_DRIVE_PWM);		
 
@@ -44,11 +49,10 @@ public class DriveTrain extends Subsystem {
     public final double PULSE_PER_REVOLUTION = 360;
     public final double ENCODER_GEAR_RATIO = 1;
     public final double GEAR_RATIO = 10.71;
-    public final double FUDGE_FACTOR = 0.88235; //340/300 //TODO what is this
 
 
     final double distancePerPulse = 12 * Math.PI * WHEEL_DIAMETER / PULSE_PER_REVOLUTION /
-        		ENCODER_GEAR_RATIO / GEAR_RATIO * FUDGE_FACTOR;
+        		ENCODER_GEAR_RATIO / GEAR_RATIO;
 
 	/**
 	 * Arcade Drive
@@ -84,6 +88,22 @@ public class DriveTrain extends Subsystem {
 
 		drive.arcadeDrive(-limitedY, -limitedX, squaredInputs);	
 	}
+	
+	public void safeArcadeDrive(Joystick rightStick, Joystick leftStick) {
+		double newSpeedInput = rightStick.getY(); //inches per second
+		Preferences prefs = Preferences.getInstance();
+		MAX_ACCEL_IN_PER_SEC = prefs.getDouble("Max Accel", 0);
+		MAX_SPEED_IN_PER_SEC = prefs.getDouble("Max Speed in/s", 0);
+		double wantedChangeInSpeed = newSpeedInput * MAX_SPEED_IN_PER_SEC - getAverageEncoderRate();
+		
+		if (Math.abs(wantedChangeInSpeed) > MAX_ACCEL_IN_PER_SEC) {
+			newSpeedInput = previousSpeedInput + wantedChangeInSpeed/Math.abs(wantedChangeInSpeed) * 
+					(MAX_ACCEL_IN_PER_SEC / MAX_SPEED_IN_PER_SEC * Constants.roborioCycleTimeSec);
+		}
+		
+		drive.arcadeDrive(newSpeedInput, leftStick.getY());
+		previousSpeedInput = newSpeedInput;
+	}
 
 	public void drive(double outputMagnitude, double curve) {
 		drive.drive(outputMagnitude, curve);
@@ -117,6 +137,13 @@ public class DriveTrain extends Subsystem {
 
 	public double getDistance() {
 		return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
+	}
+	
+	/**
+	 * @return rate, ticks per second
+	 */
+	public double getAverageEncoderRate() {
+		return ((leftEncoder.getRate() + rightEncoder.getRate())/2);
 	}
 
 	public double getHeading() {

@@ -26,4 +26,10 @@ public class Constants {
 	 */
 	public static final int TalonMaxOutput = 1023;
 	public static final int VersaEncoderTPR = 4096;
+	
+	/**
+	 * Roborio
+	 */
+	
+	public static final double roborioCycleTimeSec = 0.05;
 }

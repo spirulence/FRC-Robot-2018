@@ -183,6 +183,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Arm Encoder Ticks", arm.getRawEncoderTicks());
 		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
 		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
+		SmartDashboard.putNumber("Drivetrain speed in/s", drivetrain.getAverageEncoderRate());
 	}
 
 	/**
