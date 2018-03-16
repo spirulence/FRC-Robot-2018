@@ -6,3 +6,5 @@
 *.jar
 /dist/
 /build/
+*.class
+*.class
