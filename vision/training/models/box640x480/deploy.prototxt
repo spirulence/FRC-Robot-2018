@@ -2170,15 +2170,3 @@ layer {
     }
   }
 }
-layer {
-  name: "cluster"
-  type: "Python"
-  bottom: "coverage"
-  bottom: "bboxes"
-  top: "bbox-list"
-  python_param {
-    module: "caffe.layers.detectnet.clustering"
-    layer: "ClusterDetections"
-    param_str: "640, 480, 16, 0.6, 2, 0.02, 22, 1"
-  }
-}
