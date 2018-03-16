@@ -9,3 +9,5 @@
 *.class
 *.class
 *.class
+*.class
+build/org/usfirst/frc/team5700/robot/Robot.class
