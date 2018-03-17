@@ -18,10 +18,7 @@ public class TurnRadiusPastAngle extends Command {
 	private double targetAngleDeg;
 	private double turnSpeed;
 	private double turnRadiusIn;
-	private enum Direction {LEFT, RIGHT};
 	private int turnDirection;
-	private boolean recordAngle = false;
-	private boolean checkSide;
 
 	/**
 	 * No PID
@@ -30,19 +27,16 @@ public class TurnRadiusPastAngle extends Command {
 	 * @param speed
 	 * @param left
 	 */
-	public TurnRadiusPastAngle(double radius, double angle, double speed, boolean checkSide) {
+	public TurnRadiusPastAngle(double radius, double angle, double speed) {
 		requires(Robot.drivetrain);
 		
 		this.targetAngleDeg = angle;
 		this.turnSpeed = speed;
 		this.turnRadiusIn = radius;
-		this.checkSide = checkSide;
 	}
 
 	@Override
 	protected void initialize() {
-
-		System.out.println("Using preset angle");
 		
 		//logs
 		System.out.println();
@@ -53,15 +47,11 @@ public class TurnRadiusPastAngle extends Command {
 	    	System.out.println("  Turn Direction (1 left, -1 right: " + turnDirection);
     	
 		Robot.drivetrain.resetSensors();
-		
-		if (checkSide) {
-			this.turnDirection = Robot.switchOnRight ? -1 : 1;
-		}
 	}
 
 	@Override
 	protected void execute() {
-		Robot.drivetrain.drive(turnSpeed, turnDirection * Math.exp(-turnRadiusIn / Robot.drivetrain.WHEEL_BASE_WIDTH_IN));
+		Robot.drivetrain.safeArcadeDrive(turnSpeed, turnDirection * Math.exp(-turnRadiusIn / Robot.drivetrain.WHEEL_BASE_WIDTH_IN));
 	}
 
 	@Override

@@ -93,29 +93,27 @@ public class DriveTrain extends Subsystem {
 		drive.arcadeDrive(-limitedY, -limitedX, squaredInputs);	
 	}
 	
-	public void safeArcadeDrive(Joystick rightStick, Joystick leftStick) {
+	public void safeArcadeDrive(double speed, double turn) {
 		
 		double currentSpeedInPerSec = getAverageEncoderRate();
 		
 		//linear accel.
-		double newSpeedInput = Math.signum(rightStick.getY()) * Math.pow(rightStick.getY(), 2); //inches per second
+		double newSpeedInput = Math.signum(speed) * Math.pow(speed, 2); //inches per second
 		Preferences prefs = Preferences.getInstance();
 		MAX_FORWARD_ACCEL = Math.max(prefs.getDouble("Max Forward Accel", 60), 5); //0.3 g -> 116 in/s^2
 		MAX_BACKWARD_ACCEL = Math.max(prefs.getDouble("Max Backward Accel", 60), 5); //0.3 g -> 116 in/s^2
 		MAX_SPEED_IN_PER_SEC = Math.max(prefs.getDouble("Max Speed", 168), 5); //14 ft/s
 		double wantedChangeInSpeedInPerCycle = newSpeedInput * MAX_SPEED_IN_PER_SEC - currentSpeedInPerSec;
 		
-		if (MAX_FORWARD_ACCEL != 0 && MAX_BACKWARD_ACCEL != 0 && MAX_SPEED_IN_PER_SEC != 0) {
-			if (wantedChangeInSpeedInPerCycle > MAX_FORWARD_ACCEL * Constants.CYCLE_MS) {
-				newSpeedInput = previousSpeedInput + (MAX_FORWARD_ACCEL * Constants.CYCLE_MS / MAX_SPEED_IN_PER_SEC );
-			} 
-			else if (wantedChangeInSpeedInPerCycle < -MAX_BACKWARD_ACCEL * Constants.CYCLE_MS) {
-				newSpeedInput = previousSpeedInput - (MAX_BACKWARD_ACCEL * Constants.CYCLE_MS / MAX_SPEED_IN_PER_SEC);
-			}
+		if (wantedChangeInSpeedInPerCycle > MAX_FORWARD_ACCEL * Constants.CYCLE_MS) {
+			newSpeedInput = previousSpeedInput + (MAX_FORWARD_ACCEL * Constants.CYCLE_MS / MAX_SPEED_IN_PER_SEC );
+			
+		} else if (wantedChangeInSpeedInPerCycle < -MAX_BACKWARD_ACCEL * Constants.CYCLE_MS) {
+			newSpeedInput = previousSpeedInput - (MAX_BACKWARD_ACCEL * Constants.CYCLE_MS / MAX_SPEED_IN_PER_SEC);
 		}
 		
 		//rotational accel.
-		double newTurnInput = Math.signum(leftStick.getX()) * Math.pow(leftStick.getX(), 2);
+		double newTurnInput = Math.signum(turn) * Math.pow(turn, 2);
 		double turnRadiusIn = -Math.log(newTurnInput) * WHEEL_BASE_WIDTH_IN;
 		MAX_SIDE_ACCEL = prefs.getDouble("Max Side Accel", 60);
 		double radiusThreshhold = prefs.getDouble("radius threshhold", 10);

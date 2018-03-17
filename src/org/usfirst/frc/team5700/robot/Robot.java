@@ -1,12 +1,14 @@
 
 package org.usfirst.frc.team5700.robot;
 
-import org.usfirst.frc.team5700.robot.commands.AutoCenterSwitch;
+import org.usfirst.frc.team5700.robot.commands.AutoCenterToLeftSwitch;
+import org.usfirst.frc.team5700.robot.commands.AutoCenterToRightSwitch;
+import org.usfirst.frc.team5700.robot.commands.AutoCrossBaseline;
 import org.usfirst.frc.team5700.robot.commands.AutoDoNotMove;
 import org.usfirst.frc.team5700.robot.commands.AutoLeftSideSwitch;
 import org.usfirst.frc.team5700.robot.commands.ResetArmEncoder;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
-import org.usfirst.frc.team5700.robot.commands.AutoRightSideSwtich;
+import org.usfirst.frc.team5700.robot.commands.AutoRightSideSwitch;
 import org.usfirst.frc.team5700.robot.subsystems.Arm;
 import org.usfirst.frc.team5700.robot.subsystems.AssistSystem;
 import org.usfirst.frc.team5700.robot.subsystems.BoxIntake;
@@ -14,7 +16,6 @@ import org.usfirst.frc.team5700.robot.subsystems.Climber;
 import org.usfirst.frc.team5700.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5700.robot.subsystems.Elevator;
 import org.usfirst.frc.team5700.robot.subsystems.Grabber;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
@@ -34,10 +35,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	private Command autonomousCommand;
+	private String autoSelected;
+	private Command autoCommand;
 	public static Preferences prefs;
 
-	SendableChooser<Command> chooser;
+	SendableChooser<String> chooser;
 
 
 	public static OI oi;
@@ -51,9 +53,7 @@ public class Robot extends IterativeRobot {
 	
 	public static boolean switchOnRight;
 	public static boolean scaleOnRight;
-	public static boolean atSwitch;
-
-
+	public static boolean dropCube;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -85,13 +85,14 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
 		
 		//Autonomous Chooser
-        chooser = new SendableChooser<Command>();
- 		chooser.addDefault("Dont Move", new AutoDoNotMove());
- 		chooser.addObject("Center Switch", new AutoCenterSwitch());
- 		chooser.addObject("Right Side Switch", new AutoRightSideSwtich());
- 		chooser.addObject("Left Side Switch", new AutoLeftSideSwitch());
+        chooser = new SendableChooser<String>();
+ 		chooser.addDefault("Dont Move", "Dont Move");
+ 		chooser.addObject("Cross Baseline", "Cross Baseline");
+ 		chooser.addObject("Center Switch", "Center Switch");
+ 		chooser.addObject("Right Side Switch", "Right Side Switch");
+ 		chooser.addObject("Left Side Switch", "Left Side Switch");
  		SmartDashboard.putData("Autonomous Chooser", chooser);
-		autonomousCommand = chooser.getSelected();
+		autoSelected = chooser.getSelected();
 	}
 
 	/**
@@ -135,17 +136,38 @@ public class Robot extends IterativeRobot {
         	 		scaleOnRight = false;
         	 	}
          }
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+         
+         switch (autoSelected) {
+         	case "Dont Move":
+         		autoCommand = new AutoDoNotMove();
+         		break;
+         	case "Cross Baseline":
+         		autoCommand = new AutoCrossBaseline();
+         		break;
+         	case "Center Switch":
+         		if (switchOnRight) {
+         			autoCommand = new AutoCenterToRightSwitch();
+         		} else {
+         			autoCommand = new AutoCenterToLeftSwitch();
+         		}
+         		break;
+         	case "Right Side Switch":
+         		if (switchOnRight) {
+         			autoCommand = new AutoRightSideSwitch();
+         		} else {
+         			autoCommand = new AutoCrossBaseline();
+         		}
+         		break;
+         	case "Left Side Switch":
+         		if (!switchOnRight) {
+         			autoCommand = new AutoLeftSideSwitch();
+         		} else {
+         			autoCommand = new AutoCrossBaseline();
+         		}
+         		break;
+         }
+         
+         autoCommand.start();
 	}
 
 	/**
@@ -162,8 +184,8 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
+		if (autoCommand != null)
+			autoCommand.cancel();
 	}
 
 	/**

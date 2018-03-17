@@ -7,11 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DrivePastDistance extends Command {
 
-    private int direction = 1;
 	private double distanceIn;
 	private double speed;
 	private boolean stop;
-	private LinearAccelerationFilter filter;
 	private boolean dropCubeAtEnd;
 
 	public DrivePastDistance(double distanceIn, double speed, boolean stop, boolean dropCubeAtEnd) {
@@ -23,10 +21,11 @@ public class DrivePastDistance extends Command {
         this.dropCubeAtEnd = dropCubeAtEnd;
     }
 	
-	public DrivePastDistance(double speed, boolean stop) {
+	public DrivePastDistance(double distanceIn, boolean stop) {
         requires(Robot.drivetrain);
-        this.speed = speed;
+        this.distanceIn = distanceIn;
         this.stop = stop;
+        speed = 0.5;
     }
 
     protected void initialize() {
@@ -34,16 +33,14 @@ public class DrivePastDistance extends Command {
     		System.out.println("Initializing DrivePastDistance Command");
     		System.out.println("Using preset distance");
     		
-    		System.out.println("First Distance: " + distanceIn * direction);
+    		System.out.println("First Distance: " + distanceIn);
 	    	System.out.println("driveSpeed: " + speed);
 	    	
 	    	Robot.drivetrain.resetSensors();
-	    	double filterSlopeTime = Robot.prefs.getDouble("FilterSlopeTime", 1);
-		filter = new LinearAccelerationFilter(filterSlopeTime);
     }
 
     protected void execute() {
-    		Robot.drivetrain.drive(direction * speed * filter.output(), 0);
+    		Robot.drivetrain.safeArcadeDrive(speed, 0);
     }
 
     protected boolean isFinished() {
@@ -52,13 +49,15 @@ public class DrivePastDistance extends Command {
 
     protected void end() {
     		if (dropCubeAtEnd) {
-    			Robot.atSwitch = true;
+    			Robot.dropCube = true;
     		}
     		
     		Robot.drivetrain.resetSensors();
     		
     		if (stop) {
-    			Robot.drivetrain.stop();
+    			while (Robot.drivetrain.getAverageEncoderRate() > 5) {
+    				Robot.drivetrain.safeArcadeDrive(0, 0);
+			}
     		}
     		
     		System.out.println("DrivePastDistance Command Finished");
