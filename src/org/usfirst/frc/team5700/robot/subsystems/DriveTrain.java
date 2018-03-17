@@ -21,6 +21,7 @@ public class DriveTrain extends Subsystem {
 
 	public static double MAX_SPEED_IN_PER_SEC; //TODO find
 	public static double MAX_FORWARD_ACCEL;
+	public static double MAX_BACKWARD_ACCEL;
 	public static double MAX_SIDE_ACCEL;
 	public double previousSpeedInput = 0;
 	
@@ -99,14 +100,17 @@ public class DriveTrain extends Subsystem {
 		//linear accel.
 		double newSpeedInput = Math.signum(rightStick.getY()) * Math.pow(rightStick.getY(), 2); //inches per second
 		Preferences prefs = Preferences.getInstance();
-		MAX_FORWARD_ACCEL = prefs.getDouble("Max Accel", 60); //0.3 g -> 116 in/s^2
-		MAX_SPEED_IN_PER_SEC = prefs.getDouble("Max Speed", 168); //14 ft/s
+		MAX_FORWARD_ACCEL = Math.max(prefs.getDouble("Max Forward Accel", 60), 5); //0.3 g -> 116 in/s^2
+		MAX_BACKWARD_ACCEL = Math.max(prefs.getDouble("Max Backward Accel", 60), 5); //0.3 g -> 116 in/s^2
+		MAX_SPEED_IN_PER_SEC = Math.max(prefs.getDouble("Max Speed", 168), 5); //14 ft/s
 		double wantedChangeInSpeedInPerCycle = newSpeedInput * MAX_SPEED_IN_PER_SEC - currentSpeedInPerSec;
 		
-		if (MAX_FORWARD_ACCEL != 0 && MAX_SPEED_IN_PER_SEC != 0) {
-			if (Math.abs(wantedChangeInSpeedInPerCycle) > MAX_FORWARD_ACCEL * Constants.CYCLE_MS) {
-				newSpeedInput = previousSpeedInput + Math.signum(wantedChangeInSpeedInPerCycle) * 
-						(MAX_FORWARD_ACCEL * Constants.CYCLE_MS / MAX_SPEED_IN_PER_SEC );
+		if (MAX_FORWARD_ACCEL != 0 && MAX_BACKWARD_ACCEL != 0 && MAX_SPEED_IN_PER_SEC != 0) {
+			if (wantedChangeInSpeedInPerCycle > MAX_FORWARD_ACCEL * Constants.CYCLE_MS) {
+				newSpeedInput = previousSpeedInput + (MAX_FORWARD_ACCEL * Constants.CYCLE_MS / MAX_SPEED_IN_PER_SEC );
+			} 
+			else if (wantedChangeInSpeedInPerCycle < -MAX_BACKWARD_ACCEL * Constants.CYCLE_MS) {
+				newSpeedInput = previousSpeedInput - (MAX_BACKWARD_ACCEL * Constants.CYCLE_MS / MAX_SPEED_IN_PER_SEC);
 			}
 		}
 		
