@@ -222,6 +222,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Drivetrain speed in per s", drivetrain.getAverageEncoderRate());
 		SmartDashboard.putNumber("Right encoder distance", drivetrain.getRightEncoder().getDistance());
 		SmartDashboard.putNumber("Left encoder distance", drivetrain.getLeftEncoder().getDistance());
+		
+		SmartDashboard.putNumber("Arcade Drive motor input", drivetrain.previousSpeedInput);
+		
+		SmartDashboard.putBoolean("Override Drive Stick", drivetrain.isOverrideDriveStick());
+		SmartDashboard.putBoolean("Override Turn Stick", drivetrain.isOverrideTurnStick());
 	}
 
 	/**

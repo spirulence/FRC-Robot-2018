@@ -48,6 +48,8 @@ public class DriveTrain extends Subsystem {
     
 	private Encoder leftEncoder = new Encoder(4, 5, false);
 	private Encoder rightEncoder = new Encoder(6, 7, true);
+	private boolean overrideDriveStick;
+	private boolean overrideTurnStick;
 
     final static double distancePerPulseIn = Math.PI * WHEEL_DIAMETER / PULSE_PER_REVOLUTION;
     
@@ -97,6 +99,9 @@ public class DriveTrain extends Subsystem {
 		
 		double currentSpeedInPerSec = getAverageEncoderRate();
 		
+		setOverrideDriveStick(false);
+		setOverrideTurnStick(false);
+		
 		//linear accel.
 		double newSpeedInput = Math.signum(speed) * Math.pow(speed, 2); //inches per second
 		Preferences prefs = Preferences.getInstance();
@@ -107,9 +112,11 @@ public class DriveTrain extends Subsystem {
 		
 		if (wantedChangeInSpeedInPerCycle > MAX_FORWARD_ACCEL * Constants.CYCLE_MS) {
 			newSpeedInput = previousSpeedInput + (MAX_FORWARD_ACCEL * Constants.CYCLE_MS / MAX_SPEED_IN_PER_SEC );
+			setOverrideDriveStick(true);
 			
 		} else if (wantedChangeInSpeedInPerCycle < -MAX_BACKWARD_ACCEL * Constants.CYCLE_MS) {
 			newSpeedInput = previousSpeedInput - (MAX_BACKWARD_ACCEL * Constants.CYCLE_MS / MAX_SPEED_IN_PER_SEC);
+			setOverrideDriveStick(true);
 		}
 		
 		//rotational accel.
@@ -121,6 +128,7 @@ public class DriveTrain extends Subsystem {
 		
 		if (turnRadiusIn > radiusThreshhold && wantedSideAccel > MAX_SIDE_ACCEL) {
 			newTurnInput = Math.exp((-Math.pow(currentSpeedInPerSec, 2)/MAX_SIDE_ACCEL)/WHEEL_BASE_WIDTH_IN);
+			setOverrideTurnStick(true);
 		}
 		
 		
@@ -180,6 +188,26 @@ public class DriveTrain extends Subsystem {
 	
 	public Encoder getLeftEncoder() {
 		return leftEncoder;
+	}
+
+
+	public boolean isOverrideDriveStick() {
+		return overrideDriveStick;
+	}
+
+
+	public void setOverrideDriveStick(boolean overrideDriveStick) {
+		this.overrideDriveStick = overrideDriveStick;
+	}
+
+
+	public boolean isOverrideTurnStick() {
+		return overrideTurnStick;
+	}
+
+
+	public void setOverrideTurnStick(boolean overrideTurnStick) {
+		this.overrideTurnStick = overrideTurnStick;
 	}
 }
 

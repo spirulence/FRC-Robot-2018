@@ -145,7 +145,7 @@ public class Arm extends Subsystem {
     		double currentAngleDeg = getRawAngle();
     		double angleToUse;
     		
-    		double choiceA = targetAngleDeg + (currentAngleDeg > 0 ? 0 : -360) + 360 * Math.floor((currentAngleDeg/360));
+    		double choiceA = targetAngleDeg + (currentAngleDeg >= 0 ? 0 : -360) + 360 * Math.floor((currentAngleDeg/360));
     		double choiceB = choiceA + (choiceA < currentAngleDeg ? 360 : -360);
     		
     		if (Math.abs(currentAngleDeg - choiceA) < Math.abs(currentAngleDeg - choiceB)) {
