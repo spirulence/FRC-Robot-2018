@@ -31,5 +31,5 @@ public class Constants {
 	 * Roborio
 	 */
 	
-	public static final double roborioCycleTimeSec = 0.05;
+	public static final double CYCLE_MS = 0.020; //20 milliseconds
 }

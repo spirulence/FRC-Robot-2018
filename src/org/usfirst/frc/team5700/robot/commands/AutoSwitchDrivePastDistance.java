@@ -47,7 +47,7 @@ public class AutoSwitchDrivePastDistance extends Command {
     		System.out.println("First Distance: " + distanceIn);
 	    	System.out.println("Drive Speed: " + speed);
 	    	
-	    	Robot.drivetrain.reset();
+	    	Robot.drivetrain.resetSensors();
 	    	double filterSlopeTime = Robot.prefs.getDouble("FilterSlopeTime", 1);
 		filter = new LinearAccelerationFilter(filterSlopeTime);
     }
@@ -65,7 +65,7 @@ public class AutoSwitchDrivePastDistance extends Command {
     			Robot.atSwitch = true;
     		}
     		
-    		Robot.drivetrain.reset();
+    		Robot.drivetrain.resetSensors();
     		
     		if (stop) {
     			Robot.drivetrain.stop();

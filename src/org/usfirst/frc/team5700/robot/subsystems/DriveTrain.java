@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5700.robot.subsystems;
 
 import org.usfirst.frc.team5700.robot.Constants;
-import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.robot.RobotMap;
 import org.usfirst.frc.team5700.robot.commands.ArcadeDriveWithJoysticks;
 
@@ -11,7 +10,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -21,8 +19,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveTrain extends Subsystem {
 
-	public static double MAX_SPEED_IN_PER_SEC = 120; //TODO find
-	public static double MAX_ACCEL_IN_PER_SEC = 120;
+	public static double MAX_SPEED_IN_PER_SEC; //TODO find
+	public static double MAX_FORWARD_ACCEL;
+	public static double MAX_SIDE_ACCEL;
 	public double previousSpeedInput = 0;
 	
 	private SpeedController leftMotor = new Spark(RobotMap.LEFT_DRIVE_MOTOR);
@@ -38,21 +37,25 @@ public class DriveTrain extends Subsystem {
 	
 	private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
-	private Encoder leftEncoder = new Encoder(4, 5, true);
-	private Encoder rightEncoder = new Encoder(6, 7, false);
-
 	//Encoder specs: S4T-360-250-S-D (usdigital.com)
 	//S4T Shaft Encoder, 360 CPR, 1/4" Dia Shaft, Single-Ended, Default Torque
 	//Encoder Distance Constants
-    public final double WHEEL_BASE_WIDTH_IN = 28; //TOOD find
-	public final double WHEEL_DIAMETER = 6;
-    public final double PULSE_PER_REVOLUTION = 360;
-    public final double ENCODER_GEAR_RATIO = 1;
-    public final double GEAR_RATIO = 10.71;
+    public final static double WHEEL_BASE_WIDTH_IN = 25; //TOOD find
+	public final static double WHEEL_DIAMETER = 6;
+    public final static double PULSE_PER_REVOLUTION = 1440;
+    
+	private Encoder leftEncoder = new Encoder(4, 5, true);
+	private Encoder rightEncoder = new Encoder(6, 7, false);
 
-
-    final double distancePerPulse = 12 * Math.PI * WHEEL_DIAMETER / PULSE_PER_REVOLUTION /
-        		ENCODER_GEAR_RATIO / GEAR_RATIO;
+    final static double distancePerPulseIn = Math.PI * WHEEL_DIAMETER / PULSE_PER_REVOLUTION;
+    
+    public DriveTrain() {
+    		leftEncoder.setDistancePerPulse(distancePerPulseIn);
+		rightEncoder.setDistancePerPulse(distancePerPulseIn);
+		
+		resetSensors();
+    }
+ 
 
 	/**
 	 * Arcade Drive
@@ -90,19 +93,38 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void safeArcadeDrive(Joystick rightStick, Joystick leftStick) {
-		double newSpeedInput = rightStick.getY(); //inches per second
-		Preferences prefs = Preferences.getInstance();
-		MAX_ACCEL_IN_PER_SEC = prefs.getDouble("Max Accel", 0);
-		MAX_SPEED_IN_PER_SEC = prefs.getDouble("Max Speed in per s", 0);
-		double wantedChangeInSpeed = newSpeedInput * MAX_SPEED_IN_PER_SEC - getAverageEncoderRate();
 		
-		if (Math.abs(wantedChangeInSpeed) > MAX_ACCEL_IN_PER_SEC) {
-			newSpeedInput = previousSpeedInput + wantedChangeInSpeed/Math.abs(wantedChangeInSpeed) * 
-					(MAX_ACCEL_IN_PER_SEC / MAX_SPEED_IN_PER_SEC * Constants.roborioCycleTimeSec);
+		double currentSpeedInPerSec = getAverageEncoderRate();
+		
+		//linear accel.
+		double newSpeedInput = Math.signum(rightStick.getY()) * Math.pow(rightStick.getY(), 2); //inches per second
+		Preferences prefs = Preferences.getInstance();
+		MAX_FORWARD_ACCEL = prefs.getDouble("Max Accel", 60); //0.3 g -> 116 in/s^2
+		MAX_SPEED_IN_PER_SEC = prefs.getDouble("Max Speed", 168); //14 ft/s
+		double wantedChangeInSpeedInPerCycle = newSpeedInput * MAX_SPEED_IN_PER_SEC - currentSpeedInPerSec;
+		
+		if (MAX_FORWARD_ACCEL != 0 && MAX_SPEED_IN_PER_SEC != 0) {
+			if (Math.abs(wantedChangeInSpeedInPerCycle) > MAX_FORWARD_ACCEL * Constants.CYCLE_MS) {
+				newSpeedInput = previousSpeedInput + Math.signum(wantedChangeInSpeedInPerCycle) * 
+						(MAX_FORWARD_ACCEL * Constants.CYCLE_MS / MAX_SPEED_IN_PER_SEC );
+			}
 		}
 		
-		drive.arcadeDrive(newSpeedInput, leftStick.getY());
+		//rotational accel.
+		double newTurnInput = Math.signum(leftStick.getX()) * Math.pow(leftStick.getX(), 2);
+		double turnRadiusIn = -Math.log(newTurnInput) * WHEEL_BASE_WIDTH_IN;
+		MAX_SIDE_ACCEL = prefs.getDouble("Max Side Accel", 60);
+		double radiusThreshhold = prefs.getDouble("radius threshhold", 10);
+		double wantedSideAccel = Math.pow(currentSpeedInPerSec, 2) / turnRadiusIn;
+		
+		if (turnRadiusIn > radiusThreshhold && wantedSideAccel > MAX_SIDE_ACCEL) {
+			newTurnInput = Math.exp((-Math.pow(currentSpeedInPerSec, 2)/MAX_SIDE_ACCEL)/WHEEL_BASE_WIDTH_IN);
+		}
+		
+		
+		drive.arcadeDrive(newSpeedInput, newTurnInput);
 		previousSpeedInput = newSpeedInput;
+		
 	}
 
 	public void drive(double outputMagnitude, double curve) {
@@ -129,7 +151,7 @@ public class DriveTrain extends Subsystem {
 		return accel.getZ();
 	}
 
-	public void reset() {
+	public void resetSensors() {
 		gyro.reset();
 		leftEncoder.reset();
 		rightEncoder.reset();
@@ -148,6 +170,14 @@ public class DriveTrain extends Subsystem {
 
 	public double getHeading() {
 		return gyro.getAngle();
+	}
+
+	public Encoder getRightEncoder() {
+		return rightEncoder;
+	}
+	
+	public Encoder getLeftEncoder() {
+		return leftEncoder;
 	}
 }
 

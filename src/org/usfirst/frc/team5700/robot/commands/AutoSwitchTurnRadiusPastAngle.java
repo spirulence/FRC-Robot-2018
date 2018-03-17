@@ -53,7 +53,7 @@ public class AutoSwitchTurnRadiusPastAngle extends Command {
 	    	System.out.println("  Turn Angle: " + targetAngleDeg + " Degrees");
 	    	System.out.println("  Drive Speed: " + turnSpeed);
     	
-		Robot.drivetrain.reset();
+		Robot.drivetrain.resetSensors();
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class AutoSwitchTurnRadiusPastAngle extends Command {
 
 	@Override
 	protected void end() {
-		Robot.drivetrain.reset();
+		Robot.drivetrain.resetSensors();
 		System.out.println("Turn Radius To Angle Command Complete");
 	}
 	

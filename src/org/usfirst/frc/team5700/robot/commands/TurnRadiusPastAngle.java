@@ -52,7 +52,7 @@ public class TurnRadiusPastAngle extends Command {
 	    	System.out.println("  Drive Speed: " + turnSpeed);
 	    	System.out.println("  Turn Direction (1 left, -1 right: " + turnDirection);
     	
-		Robot.drivetrain.reset();
+		Robot.drivetrain.resetSensors();
 		
 		if (checkSide) {
 			this.turnDirection = Robot.switchOnRight ? -1 : 1;
@@ -71,7 +71,7 @@ public class TurnRadiusPastAngle extends Command {
 
 	@Override
 	protected void end() {
-		Robot.drivetrain.reset();
+		Robot.drivetrain.resetSensors();
 		System.out.println("Turn Radius To Angle Command Complete");
 	}
 	

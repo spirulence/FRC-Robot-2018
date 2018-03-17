@@ -180,10 +180,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
 		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
 		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
-		SmartDashboard.putNumber("Arm Encoder Ticks", arm.getRawEncoderTicks());
 		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
 		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
 		SmartDashboard.putNumber("Drivetrain speed in per s", drivetrain.getAverageEncoderRate());
+		SmartDashboard.putNumber("Right encoder distance", drivetrain.getRightEncoder().getDistance());
+		SmartDashboard.putNumber("Left encoder distance", drivetrain.getLeftEncoder().getDistance());
 	}
 
 	/**
