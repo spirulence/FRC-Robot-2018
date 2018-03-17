@@ -38,8 +38,8 @@ public class DriveTrain extends Subsystem {
 	
 	private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
-	private Encoder leftEncoder = new Encoder(1, 2, true);
-	private Encoder rightEncoder = new Encoder(3, 4, false);
+	private Encoder leftEncoder = new Encoder(4, 5, true);
+	private Encoder rightEncoder = new Encoder(6, 7, false);
 
 	//Encoder specs: S4T-360-250-S-D (usdigital.com)
 	//S4T Shaft Encoder, 360 CPR, 1/4" Dia Shaft, Single-Ended, Default Torque
@@ -93,7 +93,7 @@ public class DriveTrain extends Subsystem {
 		double newSpeedInput = rightStick.getY(); //inches per second
 		Preferences prefs = Preferences.getInstance();
 		MAX_ACCEL_IN_PER_SEC = prefs.getDouble("Max Accel", 0);
-		MAX_SPEED_IN_PER_SEC = prefs.getDouble("Max Speed in/s", 0);
+		MAX_SPEED_IN_PER_SEC = prefs.getDouble("Max Speed in per s", 0);
 		double wantedChangeInSpeed = newSpeedInput * MAX_SPEED_IN_PER_SEC - getAverageEncoderRate();
 		
 		if (Math.abs(wantedChangeInSpeed) > MAX_ACCEL_IN_PER_SEC) {

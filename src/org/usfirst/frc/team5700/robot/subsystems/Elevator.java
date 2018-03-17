@@ -176,9 +176,9 @@ public class Elevator extends Subsystem {
     		_talon.set(ControlMode.MotionMagic, heightIn);
 
     		/* append more signals to print when in speed mode. */
-    		sb.append("\terr:");
+    		sb.append(" err:");
     		sb.append(_talon.getClosedLoopError(Constants.kPIDLoopIdx));
-    		sb.append("\ttrg:");
+    		sb.append(" trg:");
     		sb.append(heightIn);
     		
     		Instrum.Process(_talon, sb);

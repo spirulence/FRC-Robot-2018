@@ -6,8 +6,6 @@ package org.usfirst.frc.team5700.robot.commands;
 
 import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.robot.AutonomousPaths;
-import org.usfirst.frc.team5700.robot.Dimensions;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**

@@ -86,7 +86,7 @@ public class Robot extends IterativeRobot {
 		
 		//Autonomous Chooser
         chooser = new SendableChooser<Command>();
- 		chooser.addDefault("Don't Move", new AutoDoNotMove());
+ 		chooser.addDefault("Dont Move", new AutoDoNotMove());
  		chooser.addObject("Center Switch", new AutoCenterSwitch());
  		chooser.addObject("Right Side Switch", new AutoRightSideSwtich());
  		chooser.addObject("Left Side Switch", new AutoLeftSideSwitch());
@@ -183,7 +183,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Arm Encoder Ticks", arm.getRawEncoderTicks());
 		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
 		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
-		SmartDashboard.putNumber("Drivetrain speed in/s", drivetrain.getAverageEncoderRate());
+		SmartDashboard.putNumber("Drivetrain speed in per s", drivetrain.getAverageEncoderRate());
 	}
 
 	/**

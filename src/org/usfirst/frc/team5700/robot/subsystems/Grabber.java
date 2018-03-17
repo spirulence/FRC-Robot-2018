@@ -14,7 +14,7 @@ public class Grabber extends Subsystem {
 	public Grabber() {
 		super();
 		piston = new DoubleSolenoid(RobotMap.CLOSE_GRABBER_CHANNEL, RobotMap.OPEN_GRABBER_CHANNEL);
-		open();
+		close();
 	}
 	
 	public void close() {

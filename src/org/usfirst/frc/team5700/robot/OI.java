@@ -13,10 +13,9 @@ import org.usfirst.frc.team5700.robot.commands.MoveArmToAngle;
 import org.usfirst.frc.team5700.robot.commands.MoveElevatorDistance;
 import org.usfirst.frc.team5700.robot.commands.ReleaseAssistArm;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.Joystick;
 
 
 /**
@@ -52,20 +51,20 @@ public class OI {
 	JoystickButton rotateArmTo180;
 	
 	public OI() {
-		spinIntakeIn = new JoystickButton (ButtonMap.SPIN_INTAKE_IN.joystick, ButtonMap.SPIN_INTAKE_IN.buttonNum);
-		spitIntakeOut = new JoystickButton (ButtonMap.SPIN_INTAKE_OUT.joystick, ButtonMap.SPIN_INTAKE_IN.buttonNum);
-		extendIntake = new JoystickButton (ButtonMap.EXTEND_INTAKE.joystick, ButtonMap.EXTEND_INTAKE.buttonNum);
-		releaseCube = new JoystickButton(ButtonMap.GRABBER_OPEN.joystick, ButtonMap.GRABBER_OPEN.buttonNum);
-		grabCube = new JoystickButton(ButtonMap.GRABBER_CLOSE.joystick, ButtonMap.GRABBER_CLOSE.buttonNum);
-		climberUp = new JoystickButton(ButtonMap.CLIMBER_UP.joystick, ButtonMap.CLIMBER_UP.buttonNum);
-		climberDown = new JoystickButton(ButtonMap.CLIMBER_DOWN.joystick, ButtonMap.CLIMBER_DOWN.buttonNum);
-		moveElevatorDistance = new JoystickButton(ButtonMap.MOVE_ELEVATOR_DISTANCE.joystick, ButtonMap.MOVE_ELEVATOR_DISTANCE.buttonNum);
-		releaseAssist = new JoystickButton(ButtonMap.ASSIST_RELEASE.joystick, ButtonMap.ASSIST_RELEASE.buttonNum);
-		zeroElevatorEncoder  = new JoystickButton(ButtonMap.ZERO_ELEVATOR_ENCODER.joystick, ButtonMap.ZERO_ELEVATOR_ENCODER.buttonNum);
+		spinIntakeIn = new JoystickButton (driveRightStick, ButtonMap.SPIN_INTAKE_IN);
+		spitIntakeOut = new JoystickButton (driveRightStick, ButtonMap.SPIN_INTAKE_IN);
+		extendIntake = new JoystickButton (driveRightStick, ButtonMap.EXTEND_INTAKE);
+		releaseCube = new JoystickButton(auxRightStick, ButtonMap.GRABBER_OPEN);
+		grabCube = new JoystickButton(auxRightStick, ButtonMap.GRABBER_CLOSE);
+		climberUp = new JoystickButton(auxRightStick, ButtonMap.CLIMBER_UP);
+		climberDown = new JoystickButton(auxRightStick, ButtonMap.CLIMBER_DOWN);
+		moveElevatorDistance = new JoystickButton(auxRightStick, ButtonMap.MOVE_ELEVATOR_DISTANCE);
+		releaseAssist = new JoystickButton(auxLeftStick, ButtonMap.ASSIST_RELEASE);
+		zeroElevatorEncoder  = new JoystickButton(auxRightStick, ButtonMap.ZERO_ELEVATOR_ENCODER);
 		//Arm
-		resetArmEncoder = new JoystickButton(ButtonMap.RESET_ARM_ENCODER.joystick, ButtonMap.RESET_ARM_ENCODER.buttonNum);
-		rotateArmTo0 = new JoystickButton(ButtonMap.ROTATE_ARM_TO_0.joystick, ButtonMap.ROTATE_ARM_TO_0.buttonNum);
-		rotateArmTo180 = new JoystickButton(ButtonMap.ROTATE_ARM_TO_180.joystick, ButtonMap.ROTATE_ARM_TO_180.buttonNum);
+		resetArmEncoder = new JoystickButton(auxLeftStick, ButtonMap.RESET_ARM_ENCODER);
+		rotateArmTo0 = new JoystickButton(auxLeftStick, ButtonMap.ROTATE_ARM_TO_0);
+		rotateArmTo180 = new JoystickButton(auxLeftStick, ButtonMap.ROTATE_ARM_TO_180);
 		
 		
 		//set commands
