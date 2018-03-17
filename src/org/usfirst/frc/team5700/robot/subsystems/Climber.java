@@ -17,6 +17,10 @@ public class Climber extends Subsystem {
 	private DigitalInput hallSensorTop = new DigitalInput(8);
 	private DigitalInput hallSensorBottom = new DigitalInput(9);
 	
+	public Climber() {
+		climberMotor.setInverted(true);
+	}
+	
 	public void up(double speed) {
 		if (hallSensorTop.get())
 			climberMotor.set(speed);

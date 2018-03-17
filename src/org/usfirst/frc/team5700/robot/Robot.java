@@ -86,8 +86,8 @@ public class Robot extends IterativeRobot {
 		
 		//Autonomous Chooser
         chooser = new SendableChooser<String>();
- 		chooser.addDefault("Dont Move", "Dont Move");
- 		chooser.addObject("Cross Baseline", "Cross Baseline");
+ 		chooser.addObject("Dont Move", "Dont Move");
+ 		chooser.addDefault("Cross Baseline", "Cross Baseline");
  		chooser.addObject("Center Switch", "Center Switch");
  		chooser.addObject("Right Side Switch", "Right Side Switch");
  		chooser.addObject("Left Side Switch", "Left Side Switch");
@@ -165,6 +165,8 @@ public class Robot extends IterativeRobot {
          			autoCommand = new AutoCrossBaseline();
          		}
          		break;
+         	default: 
+         		autoCommand = new AutoCrossBaseline();
          }
          
          autoCommand.start();
@@ -176,6 +178,19 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		
+		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
+		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
+		
+		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
+		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
+		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
+		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
+		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
+		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
+		SmartDashboard.putNumber("Drivetrain speed in per s", drivetrain.getAverageEncoderRate());
+		SmartDashboard.putNumber("Right encoder distance", drivetrain.getRightEncoder().getDistance());
+		SmartDashboard.putNumber("Left encoder distance", drivetrain.getLeftEncoder().getDistance());
 	}
 
 	@Override

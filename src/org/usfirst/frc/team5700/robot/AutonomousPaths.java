@@ -7,6 +7,8 @@ public class AutonomousPaths {
    public static final DriveTurnDrivePath leftSide = new DriveTurnDrivePath();
    public static final DriveTurnDrivePath rightSide = new DriveTurnDrivePath();
    
+   public static final double distanceToCenterOfSwitch = 140;
+   
    public AutonomousPaths() {
 	   leftSide.setFirstDistance(34.025);
 	   leftSide.setTurnToAngle(24, 58);

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5700.robot.subsystems;
 
 import org.usfirst.frc.team5700.robot.Constants;
+import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.robot.RobotMap;
 import org.usfirst.frc.team5700.robot.commands.ArcadeDriveWithJoysticks;
 
@@ -43,10 +44,10 @@ public class DriveTrain extends Subsystem {
 	//Encoder Distance Constants
     public final static double WHEEL_BASE_WIDTH_IN = 25; //TOOD find
 	public final static double WHEEL_DIAMETER = 6;
-    public final static double PULSE_PER_REVOLUTION = 1440;
+    public final static double PULSE_PER_REVOLUTION = 360;
     
-	private Encoder leftEncoder = new Encoder(4, 5, true);
-	private Encoder rightEncoder = new Encoder(6, 7, false);
+	private Encoder leftEncoder = new Encoder(4, 5, false);
+	private Encoder rightEncoder = new Encoder(6, 7, true);
 
     final static double distancePerPulseIn = Math.PI * WHEEL_DIAMETER / PULSE_PER_REVOLUTION;
     
@@ -64,33 +65,32 @@ public class DriveTrain extends Subsystem {
 	 * @param leftStick joystick is for turning
 	 */
 	public void arcadeDrive(Joystick rightStick, Joystick leftStick, boolean squaredInputs) {
-		double speed = 1;
 		
 		Preferences prefs = Preferences.getInstance();
 		//get max change rates  from Preferences Table
-		double maxChangeY = prefs.getDouble("MaxChangeY", 0.05);
-		double maxChangeX = prefs.getDouble("MaxChangeX", 0.05);
-		
-		double y = rightStick.getY();
-		double x = leftStick.getX();
+//		double maxChangeY = prefs.getDouble("MaxChangeY", 0.05);
+//		double maxChangeX = prefs.getDouble("MaxChangeX", 0.05);
+//		
+//		double y = rightStick.getY();
+//		double x = leftStick.getX();
+//
+//		double changeY = y - limitedY;
+//		double changeX = x - limitedX;
+//		
+//		if (Math.abs(changeY) > maxChangeY)	
+//			limitedY += (changeY > 0) ? maxChangeY : - maxChangeY;
+//		else
+//			limitedY = y;
+//		
+//		if (Math.abs(changeX) > maxChangeX)	{
+//			limitedX += (changeX > 0) ? maxChangeX : - maxChangeX;
+//			System.out.println("Limiting x to " + limitedX);
+//		}
+//		else
+//			limitedX = x;
 
-		double changeY = y - limitedY;
-		double changeX = x - limitedX;
-		
-		if (Math.abs(changeY) > maxChangeY)	
-			limitedY += (changeY > 0) ? maxChangeY : - maxChangeY;
-		else
-			limitedY = y;
-		
-		if (Math.abs(changeX) > maxChangeX)	{
-			limitedX += (changeX > 0) ? maxChangeX : - maxChangeX;
-			System.out.println("Limiting x to " + limitedX);
-		}
-		else
-			limitedX = x;
 
-
-		drive.arcadeDrive(-limitedY, -limitedX, squaredInputs);	
+		drive.arcadeDrive(-rightStick.getY() * 0.7, -leftStick.getX() * 0.7, squaredInputs);	
 	}
 	
 	public void safeArcadeDrive(double speed, double turn) {

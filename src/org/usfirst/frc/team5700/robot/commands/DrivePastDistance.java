@@ -3,6 +3,7 @@ package org.usfirst.frc.team5700.robot.commands;
 import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.utils.LinearAccelerationFilter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DrivePastDistance extends Command {
@@ -25,7 +26,7 @@ public class DrivePastDistance extends Command {
         requires(Robot.drivetrain);
         this.distanceIn = distanceIn;
         this.stop = stop;
-        speed = 0.5;
+        speed = 0.3;
     }
 
     protected void initialize() {
@@ -40,7 +41,7 @@ public class DrivePastDistance extends Command {
     }
 
     protected void execute() {
-    		Robot.drivetrain.safeArcadeDrive(speed, 0);
+    		Robot.drivetrain.drive(speed, 0);
     }
 
     protected boolean isFinished() {
@@ -55,9 +56,11 @@ public class DrivePastDistance extends Command {
     		Robot.drivetrain.resetSensors();
     		
     		if (stop) {
-    			while (Robot.drivetrain.getAverageEncoderRate() > 5) {
-    				Robot.drivetrain.safeArcadeDrive(0, 0);
-			}
+//    			while (Robot.drivetrain.getAverageEncoderRate() > 5) {
+//    				Robot.drivetrain.drive(0, 0);
+//    				Timer.delay(0.02);
+//			}
+    			Robot.drivetrain.drive(0, 0);
     		}
     		
     		System.out.println("DrivePastDistance Command Finished");
