@@ -103,8 +103,8 @@ public class DriveTrain extends Subsystem {
 
 		double currentSpeedInPerSec = -getAverageEncoderRate(); //positive or negative
 
-		setOverrideDriveStick(false);
-		setOverrideTurnStick(false);
+		overrideDriveStick = false;
+		overrideTurnStick = false;
 
 		//linear accel.
 		double newSpeedInput = Math.signum(speed) * Math.pow(speed, 2); //squared input with sign
@@ -121,11 +121,11 @@ public class DriveTrain extends Subsystem {
 		if (Math.abs(currentSpeedInPerSec) > speedThreshold) {
 			if (wantedChangeInSpeedInPerCycle > MAX_FORWARD_ACCEL * Constants.CYCLE_SEC) {
 				newSpeedInput = previousSpeedInput + (MAX_FORWARD_ACCEL * Constants.CYCLE_SEC / MAX_SPEED_IN_PER_SEC );
-				setOverrideDriveStick(true);
+				overrideDriveStick = true;
 
 			} else if (wantedChangeInSpeedInPerCycle < -MAX_BACKWARD_ACCEL * Constants.CYCLE_SEC) {
 				newSpeedInput = previousSpeedInput - (MAX_BACKWARD_ACCEL * Constants.CYCLE_SEC / MAX_SPEED_IN_PER_SEC);
-				setOverrideDriveStick(true);
+				overrideDriveStick = true;
 			}
 		}
 
@@ -147,8 +147,13 @@ public class DriveTrain extends Subsystem {
 
 	}
 
-	public void drive(double outputMagnitude, double curve) {
-		drive.drive(-outputMagnitude, -(curve));
+	public void arcadeDrive(double outputMagnitude, double curve) {
+		drive.arcadeDrive(-outputMagnitude, -curve);
+	}
+	
+	public void tankDrive(double left, double right) {
+		rightMotor.set(right);
+		leftMotor.set(-left + 0.065);
 	}
 
 	public void stop() {
@@ -200,25 +205,14 @@ public class DriveTrain extends Subsystem {
 		return leftEncoder;
 	}
 
-
 	public boolean isOverrideDriveStick() {
 		return overrideDriveStick;
 	}
-
-
-	public void setOverrideDriveStick(boolean overrideDriveStick) {
-		this.overrideDriveStick = overrideDriveStick;
-	}
-
 
 	public boolean isOverrideTurnStick() {
 		return overrideTurnStick;
 	}
 
-
-	public void setOverrideTurnStick(boolean overrideTurnStick) {
-		this.overrideTurnStick = overrideTurnStick;
-	}
 }
 
 
