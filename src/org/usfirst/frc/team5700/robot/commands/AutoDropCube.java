@@ -29,6 +29,7 @@ public class AutoDropCube extends Command {
     // Called once after isFinished returns true
     protected void end() {
     		Robot.grabber.open();
+    		Robot.dropCube = false;
     }
 
     // Called when another command which requires one or more of the same

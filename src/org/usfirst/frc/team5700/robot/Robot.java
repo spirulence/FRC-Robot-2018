@@ -53,7 +53,7 @@ public class Robot extends IterativeRobot {
 	
 	public static boolean switchOnRight;
 	public static boolean scaleOnRight;
-	public static boolean dropCube;
+	public static boolean dropCube = false;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -92,7 +92,9 @@ public class Robot extends IterativeRobot {
  		chooser.addObject("Right Side Switch", "Right Side Switch");
  		chooser.addObject("Left Side Switch", "Left Side Switch");
  		SmartDashboard.putData("Autonomous Chooser", chooser);
-		autoSelected = chooser.getSelected();
+		//autoSelected = chooser.getSelected();
+ 		
+ 		grabber.close();
 	}
 
 	/**
@@ -102,12 +104,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		grabber.close();
 
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		grabber.close();
 	}
 
 	/**
@@ -123,6 +127,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		grabber.close();
+		autoSelected = chooser.getSelected();
+		
 		boolean switchOnRight = true;
 		boolean scaleOnRight = true;
 		
@@ -143,6 +150,8 @@ public class Robot extends IterativeRobot {
          		break;
          	case "Cross Baseline":
          		autoCommand = new AutoCrossBaseline();
+         		System.out.print("Starting Cross Baseline command");
+         		//autoCommand = new AutoRightSideSwitch();
          		break;
          	case "Center Switch":
          		if (switchOnRight) {
@@ -165,7 +174,8 @@ public class Robot extends IterativeRobot {
          			autoCommand = new AutoCrossBaseline();
          		}
          		break;
-         	default: 
+         	default:
+         		System.out.print("Starting default command");
          		autoCommand = new AutoCrossBaseline();
          }
          
@@ -227,6 +237,8 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putBoolean("Override Drive Stick", drivetrain.isOverrideDriveStick());
 		SmartDashboard.putBoolean("Override Turn Stick", drivetrain.isOverrideTurnStick());
+		
+		SmartDashboard.putNumber("Desired speed change", drivetrain.wantedChangeInSpeedInPerCycle);
 	}
 
 	/**

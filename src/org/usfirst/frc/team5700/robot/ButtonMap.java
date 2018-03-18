@@ -5,7 +5,7 @@ public class ButtonMap {
 		//Intake
 		public static final int EXTEND_INTAKE = 1; //rightstick
 		public static final int SPIN_INTAKE_IN = 2; // //Robot.oi.getDriveRightStick());
-		public static final int SPIN_INTAKE_OUT = 3; ////Robot.oi.getDriveRightStick());
+		public static final int SPIN_INTAKE_OUT = 2; ////Robot.oi.getDriveLeftStick());
 		//Grabber 
 		public static final int GRABBER_OPEN = 1; //Robot.oi.getAuxRightStick());
 		public static final int GRABBER_CLOSE = 2; //Robot.oi.getAuxRightStick());

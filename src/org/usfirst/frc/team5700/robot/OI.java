@@ -52,7 +52,7 @@ public class OI {
 	
 	public OI() {
 		spinIntakeIn = new JoystickButton (driveRightStick, ButtonMap.SPIN_INTAKE_IN);
-		spitIntakeOut = new JoystickButton (driveRightStick, ButtonMap.SPIN_INTAKE_OUT);
+		spitIntakeOut = new JoystickButton (driveLeftStick, ButtonMap.SPIN_INTAKE_OUT);
 		extendIntake = new JoystickButton (driveRightStick, ButtonMap.EXTEND_INTAKE);
 		releaseCube = new JoystickButton(auxRightStick, ButtonMap.GRABBER_OPEN);
 		grabCube = new JoystickButton(auxRightStick, ButtonMap.GRABBER_CLOSE);

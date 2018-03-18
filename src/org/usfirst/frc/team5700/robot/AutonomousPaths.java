@@ -7,7 +7,7 @@ public class AutonomousPaths {
    public static final DriveTurnDrivePath leftSide = new DriveTurnDrivePath();
    public static final DriveTurnDrivePath rightSide = new DriveTurnDrivePath();
    
-   public static final double distanceToCenterOfSwitch = 140;
+   public static final double distanceToCenterOfSwitchIn = 14*12 - 28;
    
    public AutonomousPaths() {
 	   leftSide.setFirstDistance(34.025);
