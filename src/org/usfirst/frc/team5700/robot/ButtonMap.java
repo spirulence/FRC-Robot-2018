@@ -21,4 +21,6 @@ public class ButtonMap {
 		public static final int RESET_ARM_ENCODER = 7; //Robot.oi.getAuxLeftStick());
 		public static final int ROTATE_ARM_TO_0 = 3; //Robot.oi.getAuxLeftStick());
 		public static final int ROTATE_ARM_TO_180 = 4; //Robot.oi.getAuxLeftStick());
+		
+		public static final int ELEVATOR_MOVE_TO_TOP = 12; //rigtauxStick
 }

@@ -76,9 +76,9 @@ public class Elevator extends Subsystem {
 		/* set closed loop gains in slot 0 - see documentation */
 		_talon.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
 		_talon.config_kF(0, Constants.TalonMaxOutput * 1.0/encoderMaxSpeed, Constants.kTimeoutMs);
-		_talon.config_kP(0, 0.2, Constants.kTimeoutMs);
-		_talon.config_kI(0, 0.0017, Constants.kTimeoutMs);
-		_talon.config_kD(0, 1.8, Constants.kTimeoutMs);
+		_talon.config_kP(0, 0.7, Constants.kTimeoutMs);
+		_talon.config_kI(0, 0.0, Constants.kTimeoutMs);
+		_talon.config_kD(0, 0.0, Constants.kTimeoutMs);
 		
 		/* set acceleration and cruise velocity - see documentation */
 		_talon.configMotionCruiseVelocity(8000, Constants.kTimeoutMs);
@@ -183,5 +183,9 @@ public class Elevator extends Subsystem {
     		
     		Instrum.Process(_talon, sb);
     }
+
+	public double getHeight() {
+		return _talon.getSelectedSensorPosition(0) / ticksPerIn;
+	}
 }
 

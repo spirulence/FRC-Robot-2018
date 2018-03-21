@@ -10,6 +10,7 @@ import org.usfirst.frc.team5700.robot.commands.IntakeBox;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpinIn;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpitOut;
 import org.usfirst.frc.team5700.robot.commands.MoveArmToAngle;
+import org.usfirst.frc.team5700.robot.commands.MoveElevator;
 import org.usfirst.frc.team5700.robot.commands.MoveElevatorDistance;
 import org.usfirst.frc.team5700.robot.commands.ReleaseAssistArm;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
@@ -49,6 +50,7 @@ public class OI {
 	//JoystickButton moveArmToAngle;
 	JoystickButton rotateArmTo0;
 	JoystickButton rotateArmTo180;
+	JoystickButton mvoeElevatorToTop;
 	
 	public OI() {
 		spinIntakeIn = new JoystickButton (driveRightStick, ButtonMap.SPIN_INTAKE_IN);
@@ -65,6 +67,7 @@ public class OI {
 		resetArmEncoder = new JoystickButton(auxLeftStick, ButtonMap.RESET_ARM_ENCODER);
 		rotateArmTo0 = new JoystickButton(auxLeftStick, ButtonMap.ROTATE_ARM_TO_0);
 		rotateArmTo180 = new JoystickButton(auxLeftStick, ButtonMap.ROTATE_ARM_TO_180);
+		mvoeElevatorToTop= new JoystickButton(auxRightStick, ButtonMap.ELEVATOR_MOVE_TO_TOP);
 		
 		
 		//set commands
@@ -76,6 +79,7 @@ public class OI {
 		//Elevator
 		moveElevatorDistance.whenPressed(new MoveElevatorDistance(1));
 		zeroElevatorEncoder.whenPressed(new ResetElevatorEncoder());
+		mvoeElevatorToTop.whileHeld(new MoveElevatorDistance(20));
 		
 		//grabber
 		grabCube.whenPressed(new GrabCube());

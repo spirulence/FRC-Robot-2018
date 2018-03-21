@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5700.robot.commands;
 
+import org.usfirst.frc.team5700.robot.AutonomousPaths;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -14,7 +16,10 @@ public class AutoCenterToRightSwitch extends CommandGroup {
 	double speed = 0.5;
 	
 	public AutoCenterToRightSwitch() {
-    		addSequential(new DrivePastDistance(firstDistanceIn, speed, false, false));
+		
+		addParallel(new MoveArmToAngle(270));
+		addParallel(new AutoOpenIntakes());
+		addSequential(new DrivePastDistance(firstDistanceIn, speed, false, false));
     		addSequential(new TurnRadiusPastAngle(turnRadiusIn, turnAngleDeg, speed));
     		addParallel(new MoveArmToAngle(270));
     		addParallel(new DrivePastDistance(secondDistanceIn, speed, true, true));

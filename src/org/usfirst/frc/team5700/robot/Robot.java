@@ -127,6 +127,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		dropCube = false;
 		grabber.close();
 		autoSelected = chooser.getSelected();
 		
@@ -223,6 +224,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
 		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
 		
+		SmartDashboard.putNumber("Elevator Height", elevator.getHeight());
 		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
 		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
 		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
@@ -232,12 +234,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Drivetrain speed in per s", drivetrain.getAverageEncoderRate());
 		SmartDashboard.putNumber("Right encoder distance", drivetrain.getRightEncoder().getDistance());
 		SmartDashboard.putNumber("Left encoder distance", drivetrain.getLeftEncoder().getDistance());
-		
 		SmartDashboard.putNumber("Arcade Drive motor input", drivetrain.previousSpeedInput);
-		
 		SmartDashboard.putBoolean("Override Drive Stick", drivetrain.isOverrideDriveStick());
 		SmartDashboard.putBoolean("Override Turn Stick", drivetrain.isOverrideTurnStick());
-		
 		SmartDashboard.putNumber("Desired speed change", drivetrain.wantedChangeInSpeedInPerCycle);
 	}
 
