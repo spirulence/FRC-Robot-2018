@@ -36,7 +36,7 @@ public class Elevator extends Subsystem {
 	private DigitalInput topLimit, interstageLimit, bottomLimit;
 
 	//Constants
-	public static final double spanIn = 60; //TODO Find actual	
+	public static final double spanIn = 57;
 	public static final double winchRadiusIn = 1.125; //TODO Find actual
 	public static final double reductionToEncoder = 5;
 	public static final double winchCircumferenceIn = 2 * Math.PI * winchRadiusIn;
@@ -137,27 +137,27 @@ public class Elevator extends Subsystem {
     		return _talon.getMotorOutputVoltage();
     }
     
-    private void configNominaloutPutForce(double nominalOutput) {
-    		_talon.configNominalOutputForward(nominalOutput, Constants.kTimeoutMs);
-		_talon.configNominalOutputReverse(nominalOutput, Constants.kTimeoutMs);
-    }
-    
-    private void setFeedForward() {
-    		//Feed Forward Logic
-		if (!interstageLimit.get()) {
-			if (Robot.grabber.hasCube()) {
-				configNominaloutPutForce(highWCubeFF);
-			} else {
-				configNominaloutPutForce(highNoCubeFF);
-			}
-		} else {
-			if (Robot.grabber.hasCube()) {
-				configNominaloutPutForce(lowWCubeFF);
-			} else {
-				configNominaloutPutForce(lowNoCubeFF);
-			}
-		}
-    }
+//    private void configNominaloutPutForce(double nominalOutput) {
+//    		_talon.configNominalOutputForward(nominalOutput, Constants.kTimeoutMs);
+//		_talon.configNominalOutputReverse(nominalOutput, Constants.kTimeoutMs);
+//    }
+//    
+//    private void setFeedForward() {
+//    		//Feed Forward Logic
+//		if (!interstageLimit.get()) {
+//			if (Robot.grabber.hasCube()) {
+//				configNominaloutPutForce(highWCubeFF);
+//			} else {
+//				configNominaloutPutForce(highNoCubeFF);
+//			}
+//		} else {
+//			if (Robot.grabber.hasCube()) {
+//				configNominaloutPutForce(lowWCubeFF);
+//			} else {
+//				configNominaloutPutForce(lowNoCubeFF);
+//			}
+//		}
+//    }
     
     /**
      * Sets TalonSRX to output value
@@ -186,6 +186,10 @@ public class Elevator extends Subsystem {
 
 	public double getHeight() {
 		return _talon.getSelectedSensorPosition(0) / ticksPerIn;
+	}
+	
+	public double getEncoderTicks() {
+		return _talon.getSelectedSensorPosition(0);
 	}
 }
 

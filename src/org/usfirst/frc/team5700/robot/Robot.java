@@ -225,6 +225,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
 		
 		SmartDashboard.putNumber("Elevator Height", elevator.getHeight());
+		SmartDashboard.putNumber("Elevator Encoder Raw Ticks", elevator.getEncoderTicks());
 		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
 		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
 		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
