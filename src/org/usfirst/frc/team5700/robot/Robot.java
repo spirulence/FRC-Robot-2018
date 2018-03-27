@@ -9,6 +9,7 @@ import org.usfirst.frc.team5700.robot.commands.AutoLeftSideSwitch;
 import org.usfirst.frc.team5700.robot.commands.ResetArmEncoder;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
 import org.usfirst.frc.team5700.robot.commands.AutoRightSideSwitch;
+import org.usfirst.frc.team5700.robot.commands.DriveReplay;
 import org.usfirst.frc.team5700.robot.subsystems.Arm;
 import org.usfirst.frc.team5700.robot.subsystems.AssistSystem;
 import org.usfirst.frc.team5700.robot.subsystems.BoxIntake;
@@ -16,6 +17,8 @@ import org.usfirst.frc.team5700.robot.subsystems.Climber;
 import org.usfirst.frc.team5700.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5700.robot.subsystems.Elevator;
 import org.usfirst.frc.team5700.robot.subsystems.Grabber;
+import org.usfirst.frc.team5700.utils.CsvLogger;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
@@ -54,6 +57,14 @@ public class Robot extends IterativeRobot {
 	public static boolean switchOnRight;
 	public static boolean scaleOnRight;
 	public static boolean dropCube = false;
+	
+	public static CsvLogger csvLogger;
+	String[] data_fields ={"time",
+			"move_value",
+			"rotate_value",
+			"average_encoder_rate",
+			"accel_y"
+			};
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -92,9 +103,14 @@ public class Robot extends IterativeRobot {
  		chooser.addObject("Right Side Switch", "Right Side Switch");
  		chooser.addObject("Left Side Switch", "Left Side Switch");
  		SmartDashboard.putData("Autonomous Chooser", chooser);
-		//autoSelected = chooser.getSelected();
+ 		//doing it twice fixes the bug in dashboard
+ 		SmartDashboard.putData("Chooser", chooser);
+		autoSelected = chooser.getSelected();
  		
  		grabber.close();
+ 		
+		System.out.println("Instantiating CsvLogger...");
+		csvLogger = new CsvLogger();
 	}
 
 	/**
@@ -127,6 +143,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		csvLogger.init(data_fields);
+		SmartDashboard.putString("Autonomous Mode: ", chooser.getSelected());
 		dropCube = false;
 		grabber.close();
 		autoSelected = chooser.getSelected();
@@ -175,6 +193,9 @@ public class Robot extends IterativeRobot {
          			autoCommand = new AutoCrossBaseline();
          		}
          		break;
+         	case "Replay":
+         		autoCommand = new DriveReplay();
+         		break;
          	default:
          		System.out.print("Starting default command");
          		autoCommand = new AutoCrossBaseline();
@@ -212,6 +233,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autoCommand != null)
 			autoCommand.cancel();
+		csvLogger.init(data_fields);
 	}
 
 	/**
@@ -231,13 +253,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
 		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
 		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
-		SmartDashboard.putNumber("Drivetrain speed in per s", drivetrain.getAverageEncoderRate());
-		SmartDashboard.putNumber("Right encoder distance", drivetrain.getRightEncoder().getDistance());
-		SmartDashboard.putNumber("Left encoder distance", drivetrain.getLeftEncoder().getDistance());
-		SmartDashboard.putNumber("Arcade Drive motor input", drivetrain.previousSpeedInput);
-		SmartDashboard.putBoolean("Override Drive Stick", drivetrain.isOverrideDriveStick());
-		SmartDashboard.putBoolean("Override Turn Stick", drivetrain.isOverrideTurnStick());
-		SmartDashboard.putNumber("Desired speed change", drivetrain.wantedChangeInSpeedInPerCycle);
 	}
 
 	/**
