@@ -95,10 +95,12 @@ public class Elevator extends Subsystem {
 		//setFeedForward();
 			
 		//Limit Sensor Logic
-		if (atTopLimit()) {
-			setTalon(Math.min(0, stickValue));
-		} else if (atBottomLimit()) {
-			setTalon(Math.max(0, stickValue));
+		if (!Robot.oi.overrideLimits()) {
+			if (atTopLimit()) {
+				setTalon(Math.min(0, stickValue));
+			} else if (atBottomLimit()) {
+				setTalon(Math.max(0, stickValue));
+			}	
 		} else {
 			setTalon(stickValue);
 		}

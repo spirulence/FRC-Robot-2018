@@ -164,7 +164,7 @@ public class Arm extends Subsystem {
 	    			closestAngle = getClosestAngle(currentAngle, collisionAngle);
 	    		}
 	    	}
-	    		
+	    
 	   		_talon.set(ControlMode.MotionMagic, closestAngle * ticksPerDeg);
     }
     
