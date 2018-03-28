@@ -12,22 +12,34 @@ public class MoveElevatorDistance extends Command {
 
 	StringBuilder _sb = new StringBuilder();
 	TalonSRX _talon;
-	Timer _timer;
 	double _targetHeightIn;
+	double _endToleranceIn;
 
-    public MoveElevatorDistance(double targetHeightIn) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    		requires(Robot.elevator);
-    		_targetHeightIn = targetHeightIn;
+    /**
+     * Move elevator to target height, command ends when elevator is 
+     * at the height +- a tolerance is 0.05 inches
+     * @param targetHeightIn
+     */
+	public MoveElevatorDistance(double targetHeightIn) {
+    	this(targetHeightIn, 0.05);
+    }
+    
+	/**
+     * Move elevator to target height, command ends when elevator is 
+     * at the height +- a the specified tolerance
+     * @param targetHeightIn
+     * @param endToleranceIn
+     */
+	public MoveElevatorDistance(double targetHeightIn, double endToleranceIn) {
+    	requires(Robot.elevator);
+		_targetHeightIn = targetHeightIn;
+		_endToleranceIn = endToleranceIn;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     		System.out.print("MED Init");
     		_talon = Robot.elevator.getTalon();
-    		_timer = new Timer();
-    		_timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -42,7 +54,11 @@ public class MoveElevatorDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return _timer.get() > 2;
+        boolean withinTolerance = (_targetHeightIn - _endToleranceIn) <= Robot.elevator.getHeight() 
+        		&& Robot.elevator.getHeight() <= (_targetHeightIn + _endToleranceIn);
+        
+        System.out.println(withinTolerance);
+        return withinTolerance;
     }
 
     // Called once after isFinished returns true

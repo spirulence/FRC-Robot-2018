@@ -9,9 +9,11 @@ import org.usfirst.frc.team5700.robot.commands.ResetArmEncoder;
 import org.usfirst.frc.team5700.robot.commands.IntakeBox;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpinIn;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpitOut;
+import org.usfirst.frc.team5700.robot.commands.MoveArmAndElevatorDistance;
 import org.usfirst.frc.team5700.robot.commands.MoveArmToAngle;
 import org.usfirst.frc.team5700.robot.commands.MoveElevator;
 import org.usfirst.frc.team5700.robot.commands.MoveElevatorDistance;
+import org.usfirst.frc.team5700.robot.commands.PickUpBox;
 import org.usfirst.frc.team5700.robot.commands.ReleaseAssistArm;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -50,7 +52,11 @@ public class OI {
 	//JoystickButton moveArmToAngle;
 	JoystickButton rotateArmTo0;
 	JoystickButton rotateArmTo180;
-	JoystickButton mvoeElevatorToTop;
+	//JoystickButton mvoeElevatorToTop;
+	JoystickButton moveToPickUpPosition;
+	JoystickButton pickUpBox;
+	JoystickButton moveToCruise;
+	JoystickButton moveElevatorToTop;
 	
 	public OI() {
 		spinIntakeIn = new JoystickButton (driveRightStick, ButtonMap.SPIN_INTAKE_IN);
@@ -67,9 +73,11 @@ public class OI {
 		resetArmEncoder = new JoystickButton(auxLeftStick, ButtonMap.RESET_ARM_ENCODER);
 		rotateArmTo0 = new JoystickButton(auxLeftStick, ButtonMap.ROTATE_ARM_TO_0);
 		rotateArmTo180 = new JoystickButton(auxLeftStick, ButtonMap.ROTATE_ARM_TO_180);
-		mvoeElevatorToTop= new JoystickButton(auxRightStick, ButtonMap.ELEVATOR_MOVE_TO_TOP);
-		
-		
+		//mvoeElevatorToTop= new JoystickButton(auxRightStick, ButtonMap.ELEVATOR_MOVE_TO_TOP);
+		moveToPickUpPosition = new JoystickButton(auxRightStick, ButtonMap.MOVE_TO_PICK_UP_POSITION);
+		pickUpBox = new JoystickButton(auxRightStick, ButtonMap.PICK_UP_BOX);
+		moveToCruise = new JoystickButton(auxRightStick, ButtonMap.MOVE_TO_SCALE_POSITION);
+		moveElevatorToTop = new JoystickButton(auxRightStick, ButtonMap.MOVE_ELEVATOR_TO_TOP);
 		//set commands
 		//box intake
 		spinIntakeIn.whileHeld(new IntakeSpinIn());
@@ -77,9 +85,9 @@ public class OI {
 		spitIntakeOut.whileHeld(new IntakeSpitOut());
 		
 		//Elevator
-		moveElevatorDistance.whenPressed(new MoveElevatorDistance(1));
+		moveElevatorDistance.whileHeld(new MoveElevatorDistance(40));
 		zeroElevatorEncoder.whenPressed(new ResetElevatorEncoder());
-		mvoeElevatorToTop.whileHeld(new MoveElevatorDistance(20));
+		//mvoeElevatorToTop.whileHeld(new MoveElevatorDistance(20));
 		
 		//grabber
 		grabCube.whenPressed(new GrabCube());
@@ -95,6 +103,11 @@ public class OI {
 		rotateArmTo0.whileHeld(new MoveArmToAngle(0));
 		rotateArmTo180.whileHeld(new MoveArmToAngle(180));
 		//moveArmToAngle.whileHeld(new MoveArmToAngle(90));
+		
+		//arm AND elevator(combined motions)
+		moveToPickUpPosition.whileHeld(new MoveArmAndElevatorDistance(14, 0));
+		pickUpBox.whileHeld(new PickUpBox());
+		moveToCruise.whileHeld(new MoveArmAndElevatorDistance(2, 180));
 		
 	}
 	

@@ -16,11 +16,16 @@ public class ButtonMap {
 		public static final int ASSIST_RELEASE = 12; //Robot.oi.getAuxLeftStick());
 		//ELEVATOR
 		public static final int ZERO_ELEVATOR_ENCODER = 7; //Robot.oi.getAuxRightStick());
-		public static final int MOVE_ELEVATOR_DISTANCE = 5; //Robot.oi.getAuxRightStick());
+		public static final int MOVE_ELEVATOR_DISTANCE = 8; //Robot.oi.getAuxRightStick());
+		public static final int ELEVATOR_MOVE_TO_TOP = 12; //rigtauxStick
+		public static final int MOVE_ELEVATOR_TO_TOP = 6; //Robot.oi.getAuxRightStick());
 		//Arm
 		public static final int RESET_ARM_ENCODER = 7; //Robot.oi.getAuxLeftStick());
 		public static final int ROTATE_ARM_TO_0 = 3; //Robot.oi.getAuxLeftStick());
 		public static final int ROTATE_ARM_TO_180 = 4; //Robot.oi.getAuxLeftStick());
 		
-		public static final int ELEVATOR_MOVE_TO_TOP = 12; //rigtauxStick
+		//Combined motion
+		public static final int MOVE_TO_PICK_UP_POSITION = 5; //Robot.oi.getAuxRightStick();
+		public static final int PICK_UP_BOX = 11; //Robot.oi.getAuxRightStick();
+		public static final int MOVE_TO_SCALE_POSITION = 9;
 }

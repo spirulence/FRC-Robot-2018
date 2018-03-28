@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class MoveElevator extends Command {
 	
 	Joystick _stick;
-	TalonSRX _talon;
 	
 
     public MoveElevator() {
@@ -31,12 +30,11 @@ public class MoveElevator extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     		_stick = Robot.oi.getAuxRightStick();
-    		_talon = Robot.elevator.getTalon();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    		Robot.elevator.moveElevatorWithJoystick(_stick.getY());
+    		Robot.elevator.moveElevatorWithJoystick(-_stick.getY());
     }
 		
 

@@ -177,7 +177,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void resetSensors() {
-		gyro.reset();
+		//gyro.reset();
 		leftEncoder.reset();
 		rightEncoder.reset();
 	}
