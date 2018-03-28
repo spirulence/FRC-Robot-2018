@@ -32,7 +32,7 @@ public class Arm extends Subsystem {
 	private double collisionAngle = 45;
 	
 	public ArmCollisionBounds withCubeBounds = new ArmCollisionBounds(20, 45, 2); //TODO find values
-	public ArmCollisionBounds noCubeBounds = new ArmCollisionBounds(15, 45, 5); //TODO find values
+	public ArmCollisionBounds noCubeBounds = new ArmCollisionBounds(14, 45, 5); //TODO find values
 	
 	public Arm() {
 		

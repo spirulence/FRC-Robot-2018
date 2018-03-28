@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * @author roman
+ * @author maddy
+ * @author renatatatata
  *
  */
 
@@ -34,7 +36,7 @@ public class Elevator extends Subsystem {
 	private DigitalInput topLimit, interstageLimit, bottomLimit;
 
 	//Constants
-	public static final double heightIn = 58;
+	public static final double heightIn = 57;
 	public static final double winchRadiusIn = 1.125; //TODO Find actual
 	public static final double reductionToEncoder = 5;
 	public static final double winchCircumferenceIn = 2 * Math.PI * winchRadiusIn;
