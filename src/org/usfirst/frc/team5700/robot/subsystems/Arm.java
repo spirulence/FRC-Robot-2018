@@ -67,7 +67,7 @@ public class Arm extends Subsystem {
 	public void moveArmWithJoystick(double stickValue) {
 		StringBuilder sb = new StringBuilder();
 		
-		if (!Robot.oi.overrideLimits()) {;
+		if (!Robot.oi.overrideLimits()) {
 			if (atCounterClockwiseLimit()) {
 				setTalon(Math.min(0, stickValue));
 			} else if (atClockwiseLimit()) {
