@@ -240,6 +240,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Override Drive Stick", drivetrain.isOverrideDriveStick());
 		SmartDashboard.putBoolean("Override Turn Stick", drivetrain.isOverrideTurnStick());
 		SmartDashboard.putNumber("Desired speed change", drivetrain.wantedChangeInSpeedInPerCycle);
+		SmartDashboard.putBoolean("Limits Overriden ", oi.overrideLimits());
 	}
 
 	/**

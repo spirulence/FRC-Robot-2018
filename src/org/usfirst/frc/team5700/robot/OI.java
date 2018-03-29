@@ -50,6 +50,9 @@ public class OI {
 	JoystickButton climberUp;
 	JoystickButton climberDown;
 	
+	//Elevator
+	JoystickButton moveElevatorDistance;
+	
 	//Assist 
 	JoystickButton releaseAssist;
 	
@@ -63,6 +66,7 @@ public class OI {
 	JoystickButton zeroElevatorEncoder;
 	JoystickButton zeroArmEncoder;
 	JoystickButton overrideLimits;
+
 	
 	public OI() {
 		/**
@@ -81,14 +85,17 @@ public class OI {
 		climberUp = new JoystickButton(auxRightStick, ButtonMap.CLIMBER_UP);
 		climberDown = new JoystickButton(auxRightStick, ButtonMap.CLIMBER_DOWN);
 		
+		//Elevator
+		moveElevatorDistance = new JoystickButton(auxLeftStick, ButtonMap.MOVE_ELEVATOR_DISTANCE);
+		
 		//Assist
 		releaseAssist = new JoystickButton(auxLeftStick, ButtonMap.ASSIST_RELEASE);
 		
 		//Lifter Automation Buttons
-		moveToPickUpPosition = new JoystickButton(auxRightStick, ButtonMap.MOVE_TO_PICK_UP_POSITION);
-		pickUpBox = new JoystickButton(auxRightStick, ButtonMap.PICK_UP_BOX);
-		moveToCruise = new JoystickButton(auxLeftStick, ButtonMap.MOVE_TO_CRUISE_POSITION);
-		moveElevatorToTop = new JoystickButton(auxLeftStick, ButtonMap.MOVE_ELEVATOR_TO_TOP);
+		moveToPickUpPosition = new JoystickButton(auxLeftStick, ButtonMap.MOVE_TO_PICK_UP_POSITION);
+		pickUpBox = new JoystickButton(auxLeftStick, ButtonMap.PICK_UP_BOX);
+		moveToCruise = new JoystickButton(auxRightStick, ButtonMap.MOVE_TO_CRUISE_POSITION);
+		moveElevatorToTop = new JoystickButton(auxRightStick, ButtonMap.MOVE_ELEVATOR_TO_TOP);
 		
 		//Operations Buttons
 		zeroElevatorEncoder  = new JoystickButton(auxRightStick, ButtonMap.ZERO_ELEVATOR_ENCODER);
@@ -111,6 +118,9 @@ public class OI {
 		//climber
 		climberUp.whileHeld(new ClimberUp());
 		climberDown.whileHeld(new ClimberDown());
+		
+		//elevator
+		moveElevatorDistance.whileHeld(new MoveElevatorDistance(30));
 		
 		//climber assist
 		releaseAssist.whileHeld(new ReleaseAssistArm());

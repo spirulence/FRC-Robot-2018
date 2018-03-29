@@ -67,12 +67,46 @@ public class Arm extends Subsystem {
 	public void moveArmWithJoystick(double stickValue) {
 		StringBuilder sb = new StringBuilder();
 		
+		if (!Robot.oi.overrideLimits()) {
+			if (atCounterClockwiseLimit()) {
+				setTalon(Math.min(0, stickValue));
+			} else if (atClockwiseLimit()) {
+				setTalon(Math.max(0, stickValue));
+			}	
+		} else {
+			setTalon(stickValue);
+		}
+		
 		setTalon(stickValue + getFeedForward());
 			
 		/* instrumentation */
 		Instrum.Process(_talon, sb);
     }
 	
+	//TODO figure out logic
+	public boolean atCounterClockwiseLimit() {
+		boolean atLimit = false;
+//   		ArmCollisionBounds bounds = Robot.grabber.hasCube() ? withCubeBounds: noCubeBounds;
+//   		
+//		if (Robot.elevator.getHeight() <= bounds.heightIn
+//   				&& Math.abs(getNormalizedAngle()) < bounds.outsideAngle) {
+//			
+//   			if (!(Math.abs(getNormalizedAngle()) < bounds.insideAngle)) {
+//				if (getNormalizedAngle() < 0) {
+//					atLimit = true;
+//				} else {
+//					atLimit = true; //what is going on here, figure it out
+//				}
+//			}
+//		}
+		return atLimit;
+	}
+	
+	
+	//TODO figure out logic
+	public boolean atClockwiseLimit() {
+		return false;
+	}
 	public TalonSRX getTalon() {
 		return _talon;
 	}
