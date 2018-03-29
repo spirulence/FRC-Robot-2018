@@ -93,17 +93,29 @@ public class Elevator extends Subsystem {
 	}
 	
 	public void moveElevatorWithJoystick(double stickValue) {
+		
+		//stickValue is negative for up, positive for down
+		System.out.println("Elevator Stick Value" + stickValue);
 		StringBuilder sb = new StringBuilder();
 		//setFeedForward();
 			
 		//Limit Sensor Logic
 		if (!Robot.oi.overrideLimits()) {
+			System.out.println("Limits not overriden");
 			if (atTopLimit()) {
+				//only let it go down or not move at all
+				System.out.println("At top limit");
 				setTalon(Math.min(0, stickValue));
 			} else if (atBottomLimit()) {
+				//only let it go up or not move at all
+				System.out.println("At bottom limit");
 				setTalon(Math.max(0, stickValue));
-			}	
+			} else {
+				System.out.println("Not at a limit");
+				setTalon(stickValue);
+			}
 		} else {
+			System.out.println("Limits are overriden");
 			setTalon(stickValue);
 		}
 		
@@ -208,9 +220,10 @@ public class Elevator extends Subsystem {
     	
     	if (Math.abs(getHeight()) <= bounds.heightIn
     			 && Math.abs(armAngle) <= bounds.outsideAngle
-    			 && Math.abs(armAngle) <= bounds.insideAngle) {
+    			 && !(Math.abs(armAngle) <= bounds.insideAngle))  {
     		isColliding = true;
     	}
+    	System.out.println("Is colliding set to " + isColliding);
     	return isColliding;
     }
 }

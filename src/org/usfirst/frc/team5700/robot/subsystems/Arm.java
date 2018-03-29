@@ -31,8 +31,8 @@ public class Arm extends Subsystem {
 	private double dangerOfCollisionHeight = 14;
 	private double collisionAngle = 45;
 	
-	public ArmCollisionBounds withCubeBounds = new ArmCollisionBounds(20, 45, 2); //TODO find values
-	public ArmCollisionBounds noCubeBounds = new ArmCollisionBounds(14, 45, 5); //TODO find values
+	public ArmCollisionBounds withCubeBounds = new ArmCollisionBounds(20, 45, 5); //TODO find values
+	public ArmCollisionBounds noCubeBounds = new ArmCollisionBounds(14, 45, 2); //TODO find values
 	
 	public Arm() {
 		
@@ -67,7 +67,7 @@ public class Arm extends Subsystem {
 	public void moveArmWithJoystick(double stickValue) {
 		StringBuilder sb = new StringBuilder();
 		
-		if (!Robot.oi.overrideLimits()) {
+		if (!Robot.oi.overrideLimits()) {;
 			if (atCounterClockwiseLimit()) {
 				setTalon(Math.min(0, stickValue));
 			} else if (atClockwiseLimit()) {

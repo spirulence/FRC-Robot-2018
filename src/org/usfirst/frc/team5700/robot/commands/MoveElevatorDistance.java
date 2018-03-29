@@ -57,7 +57,7 @@ public class MoveElevatorDistance extends Command {
         boolean withinTolerance = (_targetHeightIn - _endToleranceIn) <= Robot.elevator.getHeight() 
         		&& Robot.elevator.getHeight() <= (_targetHeightIn + _endToleranceIn);
         
-        System.out.println(withinTolerance);
+        System.out.println("Elevator within tolerance? " + withinTolerance);
         return withinTolerance;
     }
 
