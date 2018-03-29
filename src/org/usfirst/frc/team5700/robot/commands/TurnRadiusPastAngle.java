@@ -55,9 +55,9 @@ public class TurnRadiusPastAngle extends Command {
 	}
 
 	//@Override
-//	protected boolean isFinished() {
-//		return Math.abs(Robot.drivetrain.getHeading()) >= targetAngleDeg;
-//	}
+	protected boolean isFinished() {
+		return Math.abs(Robot.drivetrain.getHeading()) >= targetAngleDeg;
+	}
 
 	@Override
 	protected void end() {
