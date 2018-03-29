@@ -192,7 +192,6 @@ public class Elevator extends Subsystem {
 	}
 
 	public double getHeight() {
-<<<<<<< HEAD
 		return getEncoderTicks() * inPerTick;
 	} 
 	
@@ -214,9 +213,5 @@ public class Elevator extends Subsystem {
     	}
     	return isColliding;
     }
-=======
-		return _talon.getSelectedSensorPosition(0) / ticksPerIn;
-	}
->>>>>>> parent of 1c3998b... add elevator encoder logging
 }
 

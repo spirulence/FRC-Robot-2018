@@ -51,7 +51,7 @@ public class TurnRadiusPastAngle extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.drivetrain.arcadeDrive(turnSpeed, turnDirection * Math.exp(-turnRadiusIn / Robot.drivetrain.WHEEL_BASE_WIDTH_IN));
+		Robot.drivetrain.safeArcadeDrive(turnSpeed, turnDirection * Math.exp(-turnRadiusIn / Robot.drivetrain.WHEEL_BASE_WIDTH_IN));
 	}
 
 	//@Override
