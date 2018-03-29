@@ -140,27 +140,27 @@ public class Elevator extends Subsystem {
     		return _talon.getMotorOutputVoltage();
     }
     
-    private void configNominaloutPutForce(double nominalOutput) {
-    		_talon.configNominalOutputForward(nominalOutput, Constants.kTimeoutMs);
-		_talon.configNominalOutputReverse(nominalOutput, Constants.kTimeoutMs);
-    }
-    
-    private void setFeedForward() {
-    		//Feed Forward Logic
-		if (!interstageLimit.get()) {
-			if (Robot.grabber.hasCube()) {
-				configNominaloutPutForce(highWCubeFF);
-			} else {
-				configNominaloutPutForce(highNoCubeFF);
-			}
-		} else {
-			if (Robot.grabber.hasCube()) {
-				configNominaloutPutForce(lowWCubeFF);
-			} else {
-				configNominaloutPutForce(lowNoCubeFF);
-			}
-		}
-    }
+//    private void configNominaloutPutForce(double nominalOutput) {
+//    		_talon.configNominalOutputForward(nominalOutput, Constants.kTimeoutMs);
+//		_talon.configNominalOutputReverse(nominalOutput, Constants.kTimeoutMs);
+//    }
+//    
+//    private void setFeedForward() {
+//    		//Feed Forward Logic
+//		if (!interstageLimit.get()) {
+//			if (Robot.grabber.hasCube()) {
+//				configNominaloutPutForce(highWCubeFF);
+//			} else {
+//				configNominaloutPutForce(highNoCubeFF);
+//			}
+//		} else {
+//			if (Robot.grabber.hasCube()) {
+//				configNominaloutPutForce(lowWCubeFF);
+//			} else {
+//				configNominaloutPutForce(lowNoCubeFF);
+//			}
+//		}
+//    }
     
     /**
      * Sets TalonSRX to output value
