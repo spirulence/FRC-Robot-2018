@@ -14,16 +14,11 @@ public class RobotMap {
 	public static final int CLIMBER_MOTOR = 6;
 	
 	//Pneumatics
-//	public static final int EXTEND_RIGHT_INTAKES_CHANNEL = 0;
-	public static final int EXTEND_RIGHT_INTAKES_CHANNEL = 3;
-	public static final int CLOSE_RIGHT_INTAKES_CHANNEL = 2;
-	public static final int EXTEND_LEFT_INTAKES_CHANNEL = 1;
-	public static final int CLOSE_LEFT_INTAKES_CHANNEL = 0;
-	public static final int GRABBER_CHANNEL = 4;
-//	public static final int OPEN_GRABBER_CHANNEL = 1;
-//	public static final int CLOSE_GRABBER_CHANNEL = 2;
-	public static final int ASSIST_HOLD_CHANNEL = 5;//3;
-	public static final int ASSIST_RELEASE_CHANNEL = 6;//4;
+	public static final int EXTEND_INTAKES_CHANNEL = 0;
+	public static final int OPEN_GRABBER_CHANNEL = 1;
+	public static final int CLOSE_GRABBER_CHANNEL = 2;
+	public static final int ASSIST_HOLD_CHANNEL = 3;
+	public static final int ASSIST_RELEASE_CHANNEL = 4;
 	
 	//Sensors (DIO)
 	public static final int TOP_LIMIT_PORT = 3; 
