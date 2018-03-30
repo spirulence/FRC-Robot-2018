@@ -191,21 +191,19 @@ public class Arm extends Subsystem {
     }
     
     private double getClosestAngle(double currentAngle, double targetAngle) {
-    	
-    	//return targetAngle + 360 * Math.round(currentAngle/360);
-    	
-    	int delta = (int) Math.floor(currentAngle/360);
-    	double normalizedCurrentAngle = currentAngle % 360;
-    	normalizedCurrentAngle += normalizedCurrentAngle < 0 ? 360 : 0;
-    
-    	if (normalizedCurrentAngle < (targetAngle - 180)) {
-    		delta += -1;
-    	} else if (normalizedCurrentAngle > (targetAngle + 180)) {
-    		delta += 1;
-    	} 
-    	
-    	return targetAngle + 360 * delta;	
-    }
+    		
+    		int delta = (int) Math.floor(currentAngle/360);
+	    	double normalizedCurrentAngle = currentAngle % 360;
+	    	normalizedCurrentAngle += normalizedCurrentAngle < 0 ? 360 : 0;
+	    
+	    	if (normalizedCurrentAngle < (targetAngle - 180)) {
+	    		delta += -1;
+	    	} else if (normalizedCurrentAngle > (targetAngle + 180)) {
+	    		delta += 1;
+	    	} 
+	    	
+	    	return targetAngle + 360 * delta;	
+	}
     
     public class ArmCollisionBounds {
     	
