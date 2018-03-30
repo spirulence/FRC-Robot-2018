@@ -145,7 +145,7 @@ public class Elevator extends Subsystem {
     		double feedForward = 0;
     		
     		//Feed Forward Logic
-		if (interstageLimit.get()) {
+		if (getInterstageLimit()) {
 			if (Robot.grabber.hasCube()) {
 				feedForward = highWCubeFF;
 			} else {

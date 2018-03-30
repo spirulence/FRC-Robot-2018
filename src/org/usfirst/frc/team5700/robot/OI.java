@@ -49,15 +49,12 @@ public class OI {
 	JoystickButton climberUp;
 	JoystickButton climberDown;
 	
-<<<<<<< HEAD
 	//Arm
 	JoystickButton moveArmTo90;
 	
 	//Elevator
 	JoystickButton moveElevatorDistance;
 	
-=======
->>>>>>> 62684946d93ac86440bc56510d63d82f587c2167
 	//Assist 
 	JoystickButton releaseAssist;
 	
@@ -89,15 +86,12 @@ public class OI {
 		climberUp = new JoystickButton(auxRightStick, ButtonMap.CLIMBER_UP);
 		climberDown = new JoystickButton(auxRightStick, ButtonMap.CLIMBER_DOWN);
 		
-<<<<<<< HEAD
 		//Arm
 		moveArmTo90 = new JoystickButton(auxLeftStick, ButtonMap.MOVE_ARM_TO_90);
 		
 		//Elevator
 		moveElevatorDistance = new JoystickButton(auxLeftStick, ButtonMap.MOVE_ELEVATOR_DISTANCE);
 		
-=======
->>>>>>> 62684946d93ac86440bc56510d63d82f587c2167
 		//Assist
 		releaseAssist = new JoystickButton(auxLeftStick, ButtonMap.ASSIST_RELEASE);
 		
