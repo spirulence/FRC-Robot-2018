@@ -29,7 +29,6 @@ public class ButtonMap {
 		
 		//Elevator
 		public static final int MOVE_ELEVATOR_DISTANCE = 6; // AuxLeftStick
-		
 		//Lifter Placer Automation
 		public static final int MOVE_TO_PICK_UP_POSITION = 3; //Robot.oi.getAuxRightStick();
 		public static final int PICK_UP_BOX = 4; //Robot.oi.getAuxRightStick();
