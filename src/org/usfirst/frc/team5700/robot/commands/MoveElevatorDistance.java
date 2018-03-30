@@ -14,32 +14,35 @@ public class MoveElevatorDistance extends Command {
 	TalonSRX _talon;
 	double _targetHeightIn;
 	double _endToleranceIn;
+	double _delaySec;
 
     /**
      * Move elevator to target height, command ends when elevator is 
-     * at the height +- a tolerance is 0.05 inches
-     * @param targetHeightIn
+     * at the height +- a tolerance is 0.1 inches, no delay in start of command
+     * @param targetHeightIn, height to move elevator to in inches
      */
 	public MoveElevatorDistance(double targetHeightIn) {
-    	this(targetHeightIn, 0.05);
+    	this(targetHeightIn, 0);
     }
     
 	/**
      * Move elevator to target height, command ends when elevator is 
-     * at the height +- a the specified tolerance
-     * @param targetHeightIn
-     * @param endToleranceIn
+     * at the height +- a tolerance is 0.1 inches, command starts after specified delay in seconds.
+     * @param targetHeightIn, height to move elevator to in inches
+     * @param delaySec, delay until start of command in seconds
      */
-	public MoveElevatorDistance(double targetHeightIn, double endToleranceIn) {
+	public MoveElevatorDistance(double targetHeightIn, double delaySec) {
     	requires(Robot.elevator);
 		_targetHeightIn = targetHeightIn;
-		_endToleranceIn = endToleranceIn;
+		_delaySec = delaySec;
+		_endToleranceIn = 0.1;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     		System.out.print("MED Init");
     		_talon = Robot.elevator.getTalon();
+    		Timer.delay(_delaySec);
     }
 
     // Called repeatedly when this Command is scheduled to run

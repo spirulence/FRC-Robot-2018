@@ -4,7 +4,7 @@ import org.usfirst.frc.team5700.robot.Constants;
 import org.usfirst.frc.team5700.robot.Instrum;
 import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.robot.RobotMap;
-import org.usfirst.frc.team5700.robot.commands.MoveElevator;
+import org.usfirst.frc.team5700.robot.commands.MoveElevatorWithJoystick;
 import org.usfirst.frc.team5700.robot.subsystems.Arm.ArmCollisionBounds;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * @author roman
+ * @author maddy
+ * @author renatatatata
  *
  */
 
@@ -34,7 +36,7 @@ public class Elevator extends Subsystem {
 	private DigitalInput topLimit, interstageLimit, bottomLimit;
 
 	//Constants
-	public static final double heightIn = 58;
+	public static final double heightIn = 57;
 	public static final double winchRadiusIn = 1.125; //TODO Find actual
 	public static final double reductionToEncoder = 5;
 	public static final double winchCircumferenceIn = 2 * Math.PI * winchRadiusIn;
@@ -100,7 +102,9 @@ public class Elevator extends Subsystem {
 				setTalon(Math.min(0, stickValue));
 			} else if (atBottomLimit()) {
 				setTalon(Math.max(0, stickValue));
-			}	
+			} else {
+				setTalon(stickValue);
+			}
 		} else {
 			setTalon(stickValue);
 		}
@@ -110,7 +114,7 @@ public class Elevator extends Subsystem {
 		Instrum.Process(_talon, sb);
     }
 	
-	private boolean atTopLimit() {
+	public boolean atTopLimit() {
 		return getHeight() > heightIn;
 	}
 
@@ -131,7 +135,7 @@ public class Elevator extends Subsystem {
 	}
 
     public void initDefaultCommand() {
-        setDefaultCommand(new MoveElevator());
+        setDefaultCommand(new MoveElevatorWithJoystick());
     }
     
     public double getTalonOutputVolatage() {
@@ -200,13 +204,13 @@ public class Elevator extends Subsystem {
 	private boolean isColliding() {
 		
 		boolean isColliding = false;
-		double armAngle = Robot.arm.getNormalizedAngle();
+		double armAngle = Robot.arm.get180NormalizedAngle();
 		
     	ArmCollisionBounds bounds = Robot.grabber.hasCube() ? Robot.arm.withCubeBounds: Robot.arm.noCubeBounds;
     	
     	if (Math.abs(getHeight()) <= bounds.heightIn
     			 && Math.abs(armAngle) <= bounds.outsideAngle
-    			 && Math.abs(armAngle) <= bounds.insideAngle) {
+    			 && !(Math.abs(armAngle) <= bounds.insideAngle)) {
     		isColliding = true;
     	}
     	return isColliding;

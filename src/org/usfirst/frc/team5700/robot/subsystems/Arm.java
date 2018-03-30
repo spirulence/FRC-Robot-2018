@@ -31,8 +31,8 @@ public class Arm extends Subsystem {
 	private double dangerOfCollisionHeight = 14;
 	private double collisionAngle = 45;
 	
-	public ArmCollisionBounds withCubeBounds = new ArmCollisionBounds(20, 45, 2); //TODO find values
-	public ArmCollisionBounds noCubeBounds = new ArmCollisionBounds(15, 45, 5); //TODO find values
+	public ArmCollisionBounds withCubeBounds = new ArmCollisionBounds(28.5, 40, 3); //TODO find values
+	public ArmCollisionBounds noCubeBounds = new ArmCollisionBounds(14, 40, 5); //TODO find values
 	
 	public Arm() {
 		
@@ -178,18 +178,31 @@ public class Arm extends Subsystem {
     /**
      * @return angle in degrees between -180 and 180
      */
-    public double getNormalizedAngle() {
-    		double angle = Math.abs((_talon.getSelectedSensorPosition(0) / ticksPerDeg) % 360);
+    public double get180NormalizedAngle() {
+    		double angle = getRawAngle() % 360;
     		
-    		if (angle > 180) {
+    		if (angle < -180) {
+    			angle += 360;
+    		} else if (angle > 180) {
     			angle -= 360;
     		}
-    		
+   
     		return angle;
     }
     
     private double getClosestAngle(double currentAngle, double targetAngle) {
-    	return targetAngle + 360 * Math.round(currentAngle/360);
+    	//return targetAngle + 360 * Math.round(currentAngle/360);
+    	int delta = (int) Math.floor(currentAngle/360);
+    	double normalizedCurrentAngle = currentAngle % 360;
+    	normalizedCurrentAngle += normalizedCurrentAngle < 0 ? 360 : 0;
+    
+    	if (normalizedCurrentAngle < (targetAngle - 180)) {
+    		delta += -1;
+    	} else if (normalizedCurrentAngle > (targetAngle + 180)) {
+    		delta += 1;
+    	} 
+    	
+    	return targetAngle + 360 * delta;	
     }
     
     public class ArmCollisionBounds {

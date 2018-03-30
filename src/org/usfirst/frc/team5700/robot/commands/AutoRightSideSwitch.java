@@ -12,7 +12,7 @@ public class AutoRightSideSwitch extends CommandGroup {
     public AutoRightSideSwitch() {
 		addParallel(new MoveArmToAngle(270));
 		addParallel(new AutoOpenIntakes());
-    		addParallel(new DrivePastDistance(AutonomousPaths.distanceToCenterOfSwitchIn - 8, 0.5, true, true));
+    		addParallel(new DrivePastDistance(AutonomousPaths.distanceToCenterOfSwitchIn, 0.5, true, true));
     		addSequential(new AutoDropCube());
     		//addSequential(new MoveArmToAngle(0));
     }

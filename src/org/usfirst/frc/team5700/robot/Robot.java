@@ -190,18 +190,25 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		
-		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
-		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
-		
+	
+		//Drivetrain
 		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
 		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
 		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
-		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
-		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
-		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
 		SmartDashboard.putNumber("Drivetrain speed in per s", drivetrain.getAverageEncoderRate());
 		SmartDashboard.putNumber("Right encoder distance", drivetrain.getRightEncoder().getDistance());
 		SmartDashboard.putNumber("Left encoder distance", drivetrain.getLeftEncoder().getDistance());
+		
+		//Elevator
+		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
+		
+		//Arm
+		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
+		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
+		
+		//Reset Encoders 
+		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
+		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
 	}
 
 	@Override
@@ -221,18 +228,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();	
 
-		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
-		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
-		
-		SmartDashboard.putNumber("Elevator Height", elevator.getHeight());
-		SmartDashboard.putNumber("Elevator Encoder Ticks", elevator.getEncoderTicks());
-		SmartDashboard.putNumber("Elevator Encoder Velocity", elevator.getVelocityTicks());
-		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
-		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
-		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
-		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
-		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
-		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
+		//Drivetrain
 		SmartDashboard.putNumber("Drivetrain speed in per s", drivetrain.getAverageEncoderRate());
 		SmartDashboard.putNumber("Right encoder distance", drivetrain.getRightEncoder().getDistance());
 		SmartDashboard.putNumber("Left encoder distance", drivetrain.getLeftEncoder().getDistance());
@@ -240,6 +236,31 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Override Drive Stick", drivetrain.isOverrideDriveStick());
 		SmartDashboard.putBoolean("Override Turn Stick", drivetrain.isOverrideTurnStick());
 		SmartDashboard.putNumber("Desired speed change", drivetrain.wantedChangeInSpeedInPerCycle);
+		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
+		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
+		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
+		
+		//Elevator 
+		SmartDashboard.putNumber("Elevator Height", elevator.getHeight());
+		SmartDashboard.putNumber("Elevator Encoder Ticks", elevator.getEncoderTicks());
+		SmartDashboard.putNumber("Elevator Encoder Velocity", elevator.getVelocityTicks());
+		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
+		SmartDashboard.putBoolean("At Bottom Limit ", elevator.atBottomLimit());;
+		SmartDashboard.putBoolean("At Top Limit ", elevator.atTopLimit());
+		SmartDashboard.putBoolean("At Bottom Limit ", elevator.atBottomLimit());;
+		SmartDashboard.putBoolean("At Top Limit ", elevator.atTopLimit());
+													
+		// Arm
+		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
+		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
+		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
+		SmartDashboard.putNumber("Arm Normalized Angle ", arm.get180NormalizedAngle());
+
+		//Reset Encoders
+		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
+		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
+		
+		SmartDashboard.putBoolean("Limits Overriden ", oi.overrideLimits());
 	}
 
 	/**

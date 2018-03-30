@@ -1,27 +1,19 @@
 package org.usfirst.frc.team5700.robot.commands;
 
-import java.util.concurrent.TimeUnit;
-
-import org.usfirst.frc.team5700.robot.Constants;
-import org.usfirst.frc.team5700.robot.Instrum;
 import org.usfirst.frc.team5700.robot.Robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class MoveElevator extends Command {
+public class MoveElevatorWithJoystick extends Command {
 	
 	Joystick _stick;
 	
 
-    public MoveElevator() {
+    public MoveElevatorWithJoystick() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     		requires(Robot.elevator);

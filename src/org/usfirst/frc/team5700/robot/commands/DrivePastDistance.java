@@ -41,7 +41,7 @@ public class DrivePastDistance extends Command {
     }
 
     protected void execute() {
-    		Robot.drivetrain.tankDrive(-speed, -speed);
+    		Robot.drivetrain.drive(-speed, 0);
     }
 
     protected boolean isFinished() {
@@ -60,7 +60,7 @@ public class DrivePastDistance extends Command {
 //    				Robot.drivetrain.drive(0, 0);
 //    				Timer.delay(0.02);
 //			}
-    		Robot.drivetrain.arcadeDrive(0, 0);
+    		Robot.drivetrain.drive(0, 0);
     		
     		System.out.println("DrivePastDistance Command Finished");
     }
