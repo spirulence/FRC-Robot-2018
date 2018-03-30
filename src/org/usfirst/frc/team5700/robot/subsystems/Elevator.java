@@ -32,11 +32,13 @@ public class Elevator extends Subsystem {
 	//Motor Controller
 	private TalonSRX _talon = new TalonSRX(1);
 
+
 	//Limit Hall Effect Sensors
-	private DigitalInput topLimit, interstageLimit, bottomLimit;
+//	private DigitalInput topLimit, interstageLimit, bottomLimit;
 
 	//Constants
 	public static final double heightIn = 57;
+	public static final double interstageEngagedHeightIn = 26.1;
 	public static final double winchRadiusIn = 1.125; //TODO Find actual
 	public static final double reductionToEncoder = 5;
 	public static final double winchCircumferenceIn = 2 * Math.PI * winchRadiusIn;
@@ -51,9 +53,9 @@ public class Elevator extends Subsystem {
 		Preferences prefs = Preferences.getInstance();
 		
 		//Instantiate limit sensors and variables
-		topLimit = new DigitalInput(RobotMap.TOP_LIMIT_PORT);
-		interstageLimit = new DigitalInput(RobotMap.INTERSTAGE_LIMIT_PORT);
-		bottomLimit = new DigitalInput(RobotMap.BOTTOM_LIMIT_PORT);
+//		topLimit = new DigitalInput(RobotMap.TOP_LIMIT_PORT);
+//		interstageLimit = new DigitalInput(RobotMap.INTERSTAGE_LIMIT_PORT);
+//		bottomLimit = new DigitalInput(RobotMap.BOTTOM_LIMIT_PORT);
 		
 		/* first choose the sensor */
 		_talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
@@ -93,25 +95,21 @@ public class Elevator extends Subsystem {
 	}
 	
 	public void moveElevatorWithJoystick(double stickValue) {
-		StringBuilder sb = new StringBuilder();
-		//setFeedForward();
-			
+		//addFeedForward();
+		double input = stickValue + getFeedForward();
+		
 		//Limit Sensor Logic
 		if (!Robot.oi.overrideLimits()) {
 			if (atTopLimit()) {
-				setTalon(Math.min(0, stickValue));
+				setTalon(Math.min(0, input));
 			} else if (atBottomLimit()) {
-				setTalon(Math.max(0, stickValue));
+				setTalon(Math.max(0, input));
 			} else {
-				setTalon(stickValue);
+				setTalon(input);
 			}
 		} else {
-			setTalon(stickValue);
+			setTalon(input);
 		}
-		
-			
-		/* instrumentation */
-		Instrum.Process(_talon, sb);
     }
 	
 	public boolean atTopLimit() {
@@ -119,7 +117,7 @@ public class Elevator extends Subsystem {
 	}
 
 	public boolean getInterstageLimit() {
-		return interstageLimit.get();
+		return getHeight() > interstageEngagedHeightIn;
 	}
 
 	public boolean atBottomLimit() {
@@ -142,27 +140,27 @@ public class Elevator extends Subsystem {
     		return _talon.getMotorOutputVoltage();
     }
     
-//    private void configNominaloutPutForce(double nominalOutput) {
-//    		_talon.configNominalOutputForward(nominalOutput, Constants.kTimeoutMs);
-//		_talon.configNominalOutputReverse(nominalOutput, Constants.kTimeoutMs);
-//    }
-//    
-//    private void setFeedForward() {
-//    		//Feed Forward Logic
-//		if (!interstageLimit.get()) {
-//			if (Robot.grabber.hasCube()) {
-//				configNominaloutPutForce(highWCubeFF);
-//			} else {
-//				configNominaloutPutForce(highNoCubeFF);
-//			}
-//		} else {
-//			if (Robot.grabber.hasCube()) {
-//				configNominaloutPutForce(lowWCubeFF);
-//			} else {
-//				configNominaloutPutForce(lowNoCubeFF);
-//			}
-//		}
-//    }
+    private double getFeedForward() {
+    	
+    		double feedForward = 0;
+    		
+    		//Feed Forward Logic
+		if (interstageLimit.get()) {
+			if (Robot.grabber.hasCube()) {
+				feedForward = highWCubeFF;
+			} else {
+				feedForward = highNoCubeFF;
+			}
+		} else {
+			if (Robot.grabber.hasCube()) {
+				feedForward = lowWCubeFF;
+			} else {
+				feedForward = lowNoCubeFF;
+			}
+		}
+		
+		return feedForward;
+    }
     
     /**
      * Sets TalonSRX to output value
