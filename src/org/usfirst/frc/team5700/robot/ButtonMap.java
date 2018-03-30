@@ -14,8 +14,8 @@ public class ButtonMap {
 		 * Auxillary Driver Buttons
 		 */
 		//Grabber 
-		public static final int GRABBER_OPEN = 1; //Robot.oi.getAuxRightStick());
-		public static final int GRABBER_CLOSE = 2; //Robot.oi.getAuxRightStick());
+		public static final int GRABBER_OPEN = 2; //Robot.oi.getAuxRightStick());
+		public static final int GRABBER_CLOSE = 1; //Robot.oi.getAuxRightStick());
 		
 		//Climber
 		public static final int CLIMBER_UP = 12; //Robot.oi.getAuxRightStick());
@@ -23,6 +23,9 @@ public class ButtonMap {
 		
 		//Climber Assist
 		public static final int ASSIST_RELEASE = 11; //Robot.oi.getAuxLeftStick());
+		
+		//Arm
+		public static final int MOVE_ARM_TO_90 = 12; // auxLeftStick
 		
 		//Elevator
 		public static final int MOVE_ELEVATOR_DISTANCE = 6; // AuxLeftStick

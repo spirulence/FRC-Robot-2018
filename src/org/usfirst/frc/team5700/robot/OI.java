@@ -11,7 +11,7 @@ import org.usfirst.frc.team5700.robot.commands.IntakeSpinIn;
 import org.usfirst.frc.team5700.robot.commands.IntakeSpitOut;
 import org.usfirst.frc.team5700.robot.commands.MoveArmAndElevatorDistance;
 import org.usfirst.frc.team5700.robot.commands.MoveArmToAngle;
-import org.usfirst.frc.team5700.robot.commands.MoveElevator;
+import org.usfirst.frc.team5700.robot.commands.MoveElevatorWithJoystick;
 import org.usfirst.frc.team5700.robot.commands.MoveElevatorDistance;
 import org.usfirst.frc.team5700.robot.commands.PickUpBox;
 import org.usfirst.frc.team5700.robot.commands.ReleaseAssistArm;
@@ -50,6 +50,9 @@ public class OI {
 	JoystickButton climberUp;
 	JoystickButton climberDown;
 	
+	//Arm
+	JoystickButton moveArmTo90;
+	
 	//Elevator
 	JoystickButton moveElevatorDistance;
 	
@@ -85,6 +88,9 @@ public class OI {
 		climberUp = new JoystickButton(auxRightStick, ButtonMap.CLIMBER_UP);
 		climberDown = new JoystickButton(auxRightStick, ButtonMap.CLIMBER_DOWN);
 		
+		//Arm
+		moveArmTo90 = new JoystickButton(auxLeftStick, ButtonMap.MOVE_ARM_TO_90);
+		
 		//Elevator
 		moveElevatorDistance = new JoystickButton(auxLeftStick, ButtonMap.MOVE_ELEVATOR_DISTANCE);
 		
@@ -119,6 +125,9 @@ public class OI {
 		climberUp.whileHeld(new ClimberUp());
 		climberDown.whileHeld(new ClimberDown());
 		
+		//arm
+		moveArmTo90.whileHeld(new MoveArmToAngle(90));
+		
 		//elevator
 		moveElevatorDistance.whileHeld(new MoveElevatorDistance(30));
 		
@@ -127,9 +136,9 @@ public class OI {
 		
 		//Lifter Automation Buttons
 		moveToPickUpPosition.whileHeld(new MoveArmAndElevatorDistance(14.5, 0));
-		pickUpBox.whileHeld(new PickUpBox());
-		moveToCruise.whileHeld(new MoveArmAndElevatorDistance(2, 180));
-		moveElevatorToTop.whileHeld(new MoveElevatorDistance(50));
+		pickUpBox.whenPressed(new PickUpBox());
+		moveToCruise.whileHeld(new MoveArmAndElevatorDistance(2, 180, 0.5, 0));
+		moveElevatorToTop.whileHeld(new MoveElevatorDistance(58));
 		
 		//Operations Buttons
 		zeroElevatorEncoder.whenPressed(new ResetElevatorEncoder());

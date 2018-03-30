@@ -10,31 +10,44 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class MoveArmToAngle extends Command {
 
-    private double targetAngleDeg;
-    private double delaySec;
+    private double _targetAngleDeg;
+    private double _delaySec;
 	
-	public MoveArmToAngle(double angleDeg) {
+	/**
+	 * Moves arm to specified angle with no delay until start. Angle is absolute, 
+	 * between 0 when the arm is facing straight down, angle increasing as the 
+	 * arm rotates counterclockwise. 
+	 * @param angleDeg, angle between 0 inclusive and 360 exclusive.
+	 */
+    public MoveArmToAngle(double angleDeg) {
         requires(Robot.arm);
         
-        targetAngleDeg = angleDeg;
-        this.delaySec = 0;
+        _targetAngleDeg = angleDeg;
+        _delaySec = 0;
     }
 	
-	public MoveArmToAngle(double angleDeg, double delaySec) {
+    /**
+	 * Moves arm to specified angle with specified delay until start. Angle is absolute, 
+	 * between 0 when the arm is facing straight down, angle increasing as the 
+	 * arm rotates counterclockwise. 
+	 * @param angleDeg, angle between 0 inclusive and 360 exclusive.
+	 * @param delaySec, time to delay until start of movement in seconds
+	 */
+    public MoveArmToAngle(double angleDeg, double delaySec) {
         requires(Robot.arm);
         
-        targetAngleDeg = angleDeg;
-        this.delaySec = delaySec;
+        _targetAngleDeg = angleDeg;
+        _delaySec = delaySec;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {	
-    		//Timer.delay(delaySec);
+    	Timer.delay(_delaySec);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    		Robot.arm.moveToAngle(targetAngleDeg);
+    		Robot.arm.moveToAngle(_targetAngleDeg);
     }
 
     // Make this return true when this Command no longer needs to run execute()
