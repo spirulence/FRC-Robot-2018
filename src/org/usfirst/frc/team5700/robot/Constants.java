@@ -32,4 +32,6 @@ public class Constants {
 	 */
 	
 	public static final double CYCLE_SEC = 0.020; //20 milliseconds
+	
+	public static final String DATA_DIR = "/home/lvuser/data_capture/";
 }

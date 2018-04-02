@@ -16,6 +16,8 @@ import org.usfirst.frc.team5700.robot.subsystems.Climber;
 import org.usfirst.frc.team5700.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5700.robot.subsystems.Elevator;
 import org.usfirst.frc.team5700.robot.subsystems.Grabber;
+import org.usfirst.frc.team5700.utils.CsvLogger;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
@@ -54,6 +56,18 @@ public class Robot extends IterativeRobot {
 	public static boolean switchOnRight;
 	public static boolean scaleOnRight;
 	public static boolean dropCube = false;
+	
+	String[] data_fields ={
+			"time",
+			"moveValue",
+			"rotateValue",
+			"speed",
+			"rightSpeed",
+			"leftSpeed",
+			"rightDistance",
+			"leftDistance"
+	};
+	private CsvLogger csvLogger;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -94,6 +108,8 @@ public class Robot extends IterativeRobot {
  		SmartDashboard.putData("Autonomous Chooser", chooser);
 		//autoSelected = chooser.getSelected();
  		
+		csvLogger = new CsvLogger();
+ 		
  		grabber.close();
 	}
 
@@ -108,10 +124,11 @@ public class Robot extends IterativeRobot {
 
 	}
 
+
 	@Override
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
 		grabber.close();
+		csvLogger.close();
 	}
 
 	/**
@@ -219,6 +236,8 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autoCommand != null)
 			autoCommand.cancel();
+		
+		csvLogger.init(data_fields, Constants.DATA_DIR, false, null);
 	}
 
 	/**
@@ -232,10 +251,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Drivetrain speed in per s", drivetrain.getAverageEncoderRate());
 		SmartDashboard.putNumber("Right encoder distance", drivetrain.getRightEncoder().getDistance());
 		SmartDashboard.putNumber("Left encoder distance", drivetrain.getLeftEncoder().getDistance());
-		SmartDashboard.putNumber("Arcade Drive motor input", drivetrain.previousSpeedInput);
-		SmartDashboard.putBoolean("Override Drive Stick", drivetrain.isOverrideDriveStick());
-		SmartDashboard.putBoolean("Override Turn Stick", drivetrain.isOverrideTurnStick());
-		SmartDashboard.putNumber("Desired speed change", drivetrain.wantedChangeInSpeedInPerCycle);
+
 		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
 		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
 		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());

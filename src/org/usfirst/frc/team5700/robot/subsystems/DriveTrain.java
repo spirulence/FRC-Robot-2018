@@ -4,6 +4,7 @@ import org.usfirst.frc.team5700.robot.Constants;
 import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.robot.RobotMap;
 import org.usfirst.frc.team5700.robot.commands.ArcadeDriveWithJoysticks;
+import org.usfirst.frc.team5700.utils.BoostFilter;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
@@ -13,7 +14,9 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -23,7 +26,7 @@ public class DriveTrain extends Subsystem {
 	public static double MAX_SPEED_IN_PER_SEC; //TODO find
 	public static double MAX_FORWARD_ACCEL;
 	public static double MAX_BACKWARD_ACCEL;
-	public static double MAX_SIDE_ACCEL;
+	public static double maxSideAccel;
 	public double previousSpeedInput = 0;
 
 	private SpeedController leftMotor = new Spark(RobotMap.LEFT_DRIVE_MOTOR);
@@ -38,6 +41,7 @@ public class DriveTrain extends Subsystem {
 	private double limitedX = 0;
 
 	private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+	Timer timer = new Timer();
 
 	//Encoder specs: S4T-360-250-S-D (usdigital.com)
 	//S4T Shaft Encoder, 360 CPR, 1/4" Dia Shaft, Single-Ended, Default Torque
@@ -48,15 +52,27 @@ public class DriveTrain extends Subsystem {
 
 	private Encoder leftEncoder = new Encoder(4, 5, false);
 	private Encoder rightEncoder = new Encoder(6, 7, true);
-	private boolean overrideDriveStick;
-	private boolean overrideTurnStick;
-	public double wantedChangeInSpeedInPerCycle;
 
-	final static double distancePerPulseIn = Math.PI * WHEEL_DIAMETER / PULSE_PER_REVOLUTION;
+	Preferences prefs = Preferences.getInstance();
+	
+	//input limiting fields
+	private double previousMoveValue = 0;
+	private double positiveInputChangeLimit;
+	private double moveBoost;
+	private double rotateBoost;
+	private double requestedMoveChange;
+	private double limitedMoveValue;
+	private double negativeInputChangeLimit;
+	private boolean positiveInputLimitActive;
+	private boolean negativeInputLimitActive;
+	private double newRotateValue;
+	private boolean rotateInputLimitActive;
+
+	final static double DISTANCE_PER_PULSE = Math.PI * WHEEL_DIAMETER / PULSE_PER_REVOLUTION;
 
 	public DriveTrain() {
-		leftEncoder.setDistancePerPulse(distancePerPulseIn);
-		rightEncoder.setDistancePerPulse(distancePerPulseIn);
+		leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
+		rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
 		
 		leftMotor.setInverted(false);
 		rightMotor.setInverted(false);
@@ -64,87 +80,102 @@ public class DriveTrain extends Subsystem {
 		resetSensors();
 	}
 
-
 	/**
-	 * Arcade Drive
-	 * @param rightStick joystick is for moving forwards and backwards
-	 * @param leftStick joystick is for turning
+	 * Limits move input changes
+	 * @param moveValue input for forward/backward motion
+	 * @param rotateValue input for rotation
+	 * 
+	 * After change limit is applied, the input is passed to boosted arcadeDrive.
+	 * Input from joystick should already be filtered for sensitivity
 	 */
-	public void arcadeDrive(Joystick rightStick, Joystick leftStick, boolean squaredInputs) {
+	public void safeArcadeDrive(double moveValue, double rotateValue) {
+		requestedMoveChange = moveValue - previousMoveValue;
+		limitedMoveValue = moveValue;
+		positiveInputLimitActive = false;
+		negativeInputLimitActive = false;
 
-		Preferences prefs = Preferences.getInstance();
-		//get max change rates  from Preferences Table
-		//		double maxChangeY = prefs.getDouble("MaxChangeY", 0.05);
-		//		double maxChangeX = prefs.getDouble("MaxChangeX", 0.05);
-		//		
-		//		double y = rightStick.getY();
-		//		double x = leftStick.getX();
-		//
-		//		double changeY = y - limitedY;
-		//		double changeX = x - limitedX;
-		//		
-		//		if (Math.abs(changeY) > maxChangeY)	
-		//			limitedY += (changeY > 0) ? maxChangeY : - maxChangeY;
-		//		else
-		//			limitedY = y;
-		//		
-		//		if (Math.abs(changeX) > maxChangeX)	{
-		//			limitedX += (changeX > 0) ? maxChangeX : - maxChangeX;
-		//			System.out.println("Limiting x to " + limitedX);
-		//		}
-		//		else
-		//			limitedX = x;
-
-
-		drive.arcadeDrive(-rightStick.getY() * 0.8, -(leftStick.getX() + 0.05) * 0.8, squaredInputs);	
-	}
-
-	public void safeArcadeDrive(double speed, double turn) {
-
-		double currentSpeedInPerSec = -getAverageEncoderRate(); //positive or negative
-
-		setOverrideDriveStick(false);
-		setOverrideTurnStick(false);
-
-		//linear accel.
-		double newSpeedInput = Math.signum(speed) * Math.pow(speed, 2); //squared input with sign
-		Preferences prefs = Preferences.getInstance();
+		boolean useMoveInputLimit = prefs.getBoolean("useMoveInputLimit", true);
+		prefs.putBoolean("useMoveInputLimit", useMoveInputLimit);
 		
-		//prevent getting 0 or negative values from prefs
-		MAX_FORWARD_ACCEL = Math.max(prefs.getDouble("Max Forward Accel", 60), 5); //0.3 g -> 116 in/s^2
-		MAX_BACKWARD_ACCEL = Math.max(prefs.getDouble("Max Backward Accel", 60), 5); //0.3 g -> 116 in/s^2
-		MAX_SPEED_IN_PER_SEC = Math.max(prefs.getDouble("Max Speed", 168), Math.abs(currentSpeedInPerSec)); //14 ft/s
-		wantedChangeInSpeedInPerCycle = newSpeedInput * MAX_SPEED_IN_PER_SEC - currentSpeedInPerSec;
-		
-
-		double speedThreshold = Math.max(prefs.getDouble("Speed Threshold", 1), 1);
-		if (Math.abs(currentSpeedInPerSec) > speedThreshold) {
-			if (wantedChangeInSpeedInPerCycle > MAX_FORWARD_ACCEL * Constants.CYCLE_SEC) {
-				newSpeedInput = previousSpeedInput + (MAX_FORWARD_ACCEL * Constants.CYCLE_SEC / MAX_SPEED_IN_PER_SEC );
-				setOverrideDriveStick(true);
-
-			} else if (wantedChangeInSpeedInPerCycle < -MAX_BACKWARD_ACCEL * Constants.CYCLE_SEC) {
-				newSpeedInput = previousSpeedInput - (MAX_BACKWARD_ACCEL * Constants.CYCLE_SEC / MAX_SPEED_IN_PER_SEC);
-				setOverrideDriveStick(true);
+		SmartDashboard.putBoolean("useMoveInputLimit", useMoveInputLimit);
+		if (useMoveInputLimit) {
+			//check positive change
+			positiveInputChangeLimit = prefs.getDouble("positiveInputChangeLimit", 0.025);
+			prefs.putDouble("positiveInputChangeLimit", positiveInputChangeLimit);
+			negativeInputChangeLimit = prefs.getDouble("negativeInputChangeLimit", 0.025);
+			prefs.putDouble("negativeInputChangeLimit", negativeInputChangeLimit);
+			
+			if (requestedMoveChange > positiveInputChangeLimit) {
+				positiveInputLimitActive = true;
+				limitedMoveValue = previousMoveValue + positiveInputChangeLimit;
+				
+			}
+			if (requestedMoveChange < - negativeInputChangeLimit) {
+				negativeInputLimitActive = true;
+				limitedMoveValue = previousMoveValue - negativeInputChangeLimit;
 			}
 		}
-
+		
 		//rotational accel.
-		double newTurnInput = Math.signum(turn) * Math.pow(turn, 2);
-//		double turnRadiusIn = -Math.log(newTurnInput) * WHEEL_BASE_WIDTH_IN;
-//		MAX_SIDE_ACCEL = prefs.getDouble("Max Side Accel", 60);
-//		double radiusThreshhold = prefs.getDouble("radius threshhold", 10);
-//		double wantedSideAccel = Math.pow(currentSpeedInPerSec, 2) / turnRadiusIn;
-//
-//		if (turnRadiusIn > radiusThreshhold && wantedSideAccel > MAX_SIDE_ACCEL) {
-//			newTurnInput = Math.exp((-Math.pow(currentSpeedInPerSec, 2)/MAX_SIDE_ACCEL)/WHEEL_BASE_WIDTH_IN);
-//			setOverrideTurnStick(true);
-//		}
+		boolean useRotationInputLimit = prefs.getBoolean("useRotationInputLimit", false);
+		prefs.putBoolean("useRotationInputLimit", useRotationInputLimit);
+		
+		SmartDashboard.putBoolean("useRotationInputLimit", useRotationInputLimit);
+		double speed = getAverageEncoderRate();
+		rotateInputLimitActive = false;
+		newRotateValue = rotateValue;
+		if (useRotationInputLimit) {
 
+			double turnRadiusIn = -Math.log(rotateValue) * WHEEL_BASE_WIDTH_IN;
+			maxSideAccel = prefs.getDouble("maxSideAccel", 60);
+			double radiusThreshhold = prefs.getDouble("radiusThreshhold", 10);
+			double wantedSideAccel = Math.pow(speed, 2) / turnRadiusIn;
+			//
+			if (turnRadiusIn > radiusThreshhold && wantedSideAccel > maxSideAccel) {
+				newRotateValue = Math.exp((-Math.pow(speed,
+						2) / maxSideAccel) / WHEEL_BASE_WIDTH_IN);
+				rotateInputLimitActive = true;
+			}
 
-		drive.arcadeDrive(-newSpeedInput, -newTurnInput);
-		previousSpeedInput = newSpeedInput;
+			SmartDashboard.putBoolean("positiveInputLimitActive", positiveInputLimitActive);
+			SmartDashboard.putBoolean("negativeInputLimitActive", negativeInputLimitActive);
+			SmartDashboard.putNumber("accelerometer -Y", - accel.getY());
+			SmartDashboard.putNumber("accelerometer X", accel.getX());
+		}
+		
+		previousMoveValue = limitedMoveValue;
+		boostedArcadeDrive(limitedMoveValue, newRotateValue);
+	}
+	
+	/**
+	 * Applies BoostFilter to input
+	 * @param moveValue input for forward/backward motion
+	 * @param rotateValue input for rotation
+	 * 
+	 * After change limit is applied, the input is passed to boosted arcadeDrive
+	 */
+	public void boostedArcadeDrive(double moveValue, double rotateValue) {
 
+		moveBoost = prefs.getDouble("moveBoost", 0.38);
+		rotateBoost = prefs.getDouble("rotateBoost", 0.30);
+		BoostFilter moveBoostFilter = new BoostFilter(moveBoost);
+		BoostFilter rotateBoostFilter = new BoostFilter(rotateBoost);
+		arcadeDrive(moveBoostFilter.output(moveValue), rotateBoostFilter.output(rotateValue));
+
+	}
+	
+	public void arcadeDrive(double moveValue, double rotateValue) {
+
+		Robot.csvLogger.writeData(timer.get(), 
+				moveValue, //move input
+				rotateValue, //rotate input
+				getAverageEncoderRate(),
+				rightEncoder.getRate(),
+				leftEncoder.getRate(),
+				rightEncoder.getDistance(),
+				leftEncoder.getDistance()
+				);
+		drive.arcadeDrive(moveValue, rotateValue);
 	}
 
 	public void drive(double outputMagnitude, double curve) {
