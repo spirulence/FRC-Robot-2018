@@ -67,7 +67,7 @@ public class Robot extends IterativeRobot {
 			"rightDistance",
 			"leftDistance"
 	};
-	private CsvLogger csvLogger;
+	public static CsvLogger csvLogger;
 
 	/**
 	 * This function is run when the robot is first started up and should be

@@ -128,7 +128,9 @@ public class DriveTrain extends Subsystem {
 
 			double turnRadiusIn = -Math.log(rotateValue) * WHEEL_BASE_WIDTH_IN;
 			maxSideAccel = prefs.getDouble("maxSideAccel", 60);
+			prefs.putDouble("maxSideAccel", maxSideAccel);
 			double radiusThreshhold = prefs.getDouble("radiusThreshhold", 10);
+			prefs.putDouble("radiusThreshold", radiusThreshhold);
 			double wantedSideAccel = Math.pow(speed, 2) / turnRadiusIn;
 			//
 			if (turnRadiusIn > radiusThreshhold && wantedSideAccel > maxSideAccel) {
@@ -229,26 +231,6 @@ public class DriveTrain extends Subsystem {
 
 	public Encoder getLeftEncoder() {
 		return leftEncoder;
-	}
-
-
-	public boolean isOverrideDriveStick() {
-		return overrideDriveStick;
-	}
-
-
-	public void setOverrideDriveStick(boolean overrideDriveStick) {
-		this.overrideDriveStick = overrideDriveStick;
-	}
-
-
-	public boolean isOverrideTurnStick() {
-		return overrideTurnStick;
-	}
-
-
-	public void setOverrideTurnStick(boolean overrideTurnStick) {
-		this.overrideTurnStick = overrideTurnStick;
 	}
 }
 
