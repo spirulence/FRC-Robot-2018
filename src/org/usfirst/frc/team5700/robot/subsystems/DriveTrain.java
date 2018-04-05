@@ -166,6 +166,7 @@ public class DriveTrain extends Subsystem {
 
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void arcadeDrive(double moveValue, double rotateValue) {
 
 		Robot.csvLogger.writeData(timer.get(), 
