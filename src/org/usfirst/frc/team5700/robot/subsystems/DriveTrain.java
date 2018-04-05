@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5700.robot.subsystems;
 
-import org.usfirst.frc.team5700.robot.Constants;
 import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.robot.RobotMap;
 import org.usfirst.frc.team5700.robot.commands.ArcadeDriveWithJoysticks;
@@ -9,9 +8,7 @@ import org.usfirst.frc.team5700.utils.SquareFilter;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Spark;
@@ -44,7 +41,7 @@ public class DriveTrain extends Subsystem {
 	public final static double PULSE_PER_REVOLUTION = 360;
 
 	private Encoder leftEncoder = new Encoder(RobotMap.LeftEncoderAChannel, RobotMap.LeftEncoderBChannel, false);
-	private Encoder rightEncoder = new Encoder(RobotMap.RightEncoderAChannel, RobotMap.RightEncoderBChannel, true);
+	private Encoder rightEncoder = leftEncoder;//new Encoder(RobotMap.RightEncoderAChannel, RobotMap.RightEncoderBChannel, true);
 
 	Preferences prefs = Preferences.getInstance();
 	

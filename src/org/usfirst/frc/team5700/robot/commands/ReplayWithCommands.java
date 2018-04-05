@@ -6,6 +6,5 @@ public class ReplayWithCommands extends CommandGroup {
 
     public ReplayWithCommands() {
     	addParallel(new DriveReplay());
-    	addParallel(new MoveArmToAngle(90, true));
     }
 }

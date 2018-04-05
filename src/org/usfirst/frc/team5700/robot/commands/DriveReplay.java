@@ -7,7 +7,6 @@ package org.usfirst.frc.team5700.robot.commands;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 
-import org.usfirst.frc.team5700.robot.AutoControls;
 import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.utils.CsvReader;
 
@@ -134,7 +133,6 @@ public class DriveReplay extends Command {
 			SmartDashboard.putNumber("headingError", headingError);
 
 			boolean moveArmTo90 =  line[11] != 0.0;
-			AutoControls.setMoveArmTo90(moveArmTo90);
 			SmartDashboard.putBoolean("moveArmTo90", moveArmTo90);
 			
 			
@@ -160,4 +158,5 @@ public class DriveReplay extends Command {
 		timer.stop();
 		timer.reset();
 	}
+
 }

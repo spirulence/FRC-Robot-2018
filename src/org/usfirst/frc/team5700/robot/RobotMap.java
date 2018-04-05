@@ -32,8 +32,9 @@ public class RobotMap {
 	public static final int INTERSTAGE_LIMIT_PORT = 2;
 	public static final int BOTTOM_LIMIT_PORT = 1;
 	public static final int CLIMBER_LIMIT = 0;
-	public static final int LeftEncoderAChannel = 4;
-	public static final int LeftEncoderBChannel = 5;
+	//TODO make sure these are corrected
+	public static final int LeftEncoderAChannel = 1;
+	public static final int LeftEncoderBChannel = 0;
 	public static final int RightEncoderAChannel = 6;
 	public static final int RightEncoderBChannel = 7;
 }

@@ -1,6 +1,12 @@
 
 package org.usfirst.frc.team5700.robot;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Iterator;
+
 import org.usfirst.frc.team5700.robot.commands.AutoCenterToLeftSwitch;
 import org.usfirst.frc.team5700.robot.commands.AutoCenterToRightSwitch;
 import org.usfirst.frc.team5700.robot.commands.AutoCrossBaseline;
@@ -9,6 +15,7 @@ import org.usfirst.frc.team5700.robot.commands.AutoLeftSideSwitch;
 import org.usfirst.frc.team5700.robot.commands.ResetArmEncoder;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
 import org.usfirst.frc.team5700.robot.commands.AutoRightSideSwitch;
+import org.usfirst.frc.team5700.robot.commands.ReplayWithCommands;
 import org.usfirst.frc.team5700.robot.subsystems.Arm;
 import org.usfirst.frc.team5700.robot.subsystems.AssistSystem;
 import org.usfirst.frc.team5700.robot.subsystems.Intake;
@@ -61,12 +68,21 @@ public class Robot extends IterativeRobot {
 			"time",
 			"moveValue",
 			"rotateValue",
+			"leftMotorSpeed",
+			"rightMotorSpeed",
 			"speed",
-			"rightSpeed",
 			"leftSpeed",
+			"rightSpeed",
+			"leftDistance",
 			"rightDistance",
-			"leftDistance"
+			"headingError",
+			"moveArmTo90"
 	};
+	private SendableChooser<String> recordModeChooser;
+	private String recordMode;
+	private SendableChooser<String> replayChooser;
+	private static String replayName;
+	
 	public static CsvLogger csvLogger;
 
 	/**
@@ -105,12 +121,23 @@ public class Robot extends IterativeRobot {
  		chooser.addObject("Center Switch", "Center Switch");
  		chooser.addObject("Right Side Switch", "Right Side Switch");
  		chooser.addObject("Left Side Switch", "Left Side Switch");
+		chooser.addObject("Replay", "Replay");
  		SmartDashboard.putData("Autonomous Chooser", chooser);
 		//autoSelected = chooser.getSelected();
  		
+ 		setupRecordMode();
 		csvLogger = new CsvLogger();
  		
  		grabber.close();
+	}
+	
+	private void setupRecordMode() {
+		recordModeChooser = new SendableChooser<String>();
+		recordModeChooser.addDefault("Just Drive", "justDrive");
+		recordModeChooser.addObject("Replay", "replay");
+		SmartDashboard.putData("RecordMode", recordModeChooser);
+		SmartDashboard.putString("Replay Name", "MyReplay");
+		recordMode = recordModeChooser.getSelected();
 	}
 
 	/**
@@ -227,6 +254,30 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
 		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
 	}
+	
+	private void listReplays() {
+		System.out.println("Listing replays...");
+		replayChooser = new SendableChooser<String>();
+		Iterator<Path> replayFiles = null;
+		try {
+			replayFiles = Files.newDirectoryStream(Paths.get(Constants.DATA_DIR), "*.rpl").iterator();
+			if (replayFiles.hasNext()) {
+				String replayFile = replayFiles.next().getFileName().toString().replaceFirst("[.][^.]+$", "");
+				replayChooser.addDefault(replayFile, replayFile);
+			}
+			while (replayFiles.hasNext()) {
+				String replayFile = replayFiles.next().getFileName().toString().replaceFirst("[.][^.]+$", "");
+				System.out.println(replayFile);
+				replayChooser.addObject(replayFile, replayFile);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		SmartDashboard.putData("ReplaySelector", replayChooser);
+	}
 
 	@Override
 	public void teleopInit() {
@@ -237,7 +288,12 @@ public class Robot extends IterativeRobot {
 		if (autoCommand != null)
 			autoCommand.cancel();
 		
-		csvLogger.init(data_fields, Constants.DATA_DIR, false, null);
+		listReplays();
+
+		recordMode = recordModeChooser.getSelected();
+
+		String newReplayName = SmartDashboard.getString("Replay Name", "MyReplay");
+		csvLogger.init(data_fields, Constants.DATA_DIR, recordMode.equals("replay"), newReplayName);
 	}
 
 	/**
@@ -290,5 +346,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+	
+	public static String getReplayName() {
+		// TODO Auto-generated method stub
+		return replayName;
 	}
 }
