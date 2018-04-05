@@ -54,7 +54,7 @@ public class OI {
 	JoystickButton moveArmTo90;
 	
 	//Elevator
-	JoystickButton moveElevatorDistance;
+	//JoystickButton moveElevatorDistance;
 	
 	//Assist 
 	JoystickButton releaseAssist;
@@ -95,7 +95,7 @@ public class OI {
 		moveArmTo90 = new JoystickButton(auxLeftStick, ButtonMap.MOVE_ARM_TO_90);
 		
 		//Elevator
-		moveElevatorDistance = new JoystickButton(auxLeftStick, ButtonMap.MOVE_ELEVATOR_DISTANCE);
+		//moveElevatorDistance = new JoystickButton(auxLeftStick, ButtonMap.MOVE_ELEVATOR_DISTANCE);
 		
 		//Assist
 		releaseAssist = new JoystickButton(auxLeftStick, ButtonMap.ASSIST_RELEASE);
@@ -133,7 +133,7 @@ public class OI {
 		moveArmTo90.whileHeld(new MoveArmToAngle(90));
 		
 		//elevator
-		moveElevatorDistance.whileHeld(new MoveElevatorDistance(30));
+		//moveElevatorDistance.whileHeld(new MoveElevatorDistance(30));
 		
 		//climber assist
 		releaseAssist.whileHeld(new ReleaseAssistArm());

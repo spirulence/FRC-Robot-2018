@@ -29,7 +29,7 @@ public class ButtonMap {
 		public static final int MOVE_ARM_TO_90 = 12; // auxLeftStick
 		
 		//Elevator
-		public static final int MOVE_ELEVATOR_DISTANCE = 6; // AuxLeftStick
+		//public static final int MOVE_ELEVATOR_DISTANCE = 6; // AuxLeftStick
 		//Lifter Placer Automation
 		public static final int MOVE_TO_PICK_UP_POSITION = 3; //Robot.oi.getAuxLeftStick());
 		public static final int PICK_UP_BOX = 4; //Robot.oi.getAuxLeftStick());
