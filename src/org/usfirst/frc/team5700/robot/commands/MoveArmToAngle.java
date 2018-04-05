@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5700.robot.commands;
 
+import org.usfirst.frc.team5700.robot.AutoControls;
 import org.usfirst.frc.team5700.robot.Robot;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -12,6 +13,7 @@ public class MoveArmToAngle extends Command {
 
     private double _targetAngleDeg;
     private double _delaySec;
+	private boolean auto;
 	
 	/**
 	 * Moves arm to specified angle with no delay until start. Angle is absolute, 
@@ -39,14 +41,25 @@ public class MoveArmToAngle extends Command {
         _targetAngleDeg = angleDeg;
         _delaySec = delaySec;
     }
+    
+    public MoveArmToAngle(double angleDeg, double delaySec, boolean auto) {
+    		this(angleDeg, delaySec);
+    		this.auto = auto;
+    }
 
-    // Called just before this Command runs the first time
+    public MoveArmToAngle(double angleDeg, boolean auto) {
+		this(angleDeg);
+		this.auto = auto;
+}
+
+	// Called just before this Command runs the first time
     protected void initialize() {	
     	Timer.delay(_delaySec);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    		if (!auto || AutoControls.moveArmTo90())
     		Robot.arm.moveToAngle(_targetAngleDeg);
     }
 

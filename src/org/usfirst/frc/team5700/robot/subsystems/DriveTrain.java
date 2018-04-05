@@ -5,6 +5,7 @@ import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.robot.RobotMap;
 import org.usfirst.frc.team5700.robot.commands.ArcadeDriveWithJoysticks;
 import org.usfirst.frc.team5700.utils.BoostFilter;
+import org.usfirst.frc.team5700.utils.SquareFilter;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
@@ -24,23 +25,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTrain extends Subsystem {
 
-	
-	public static double MAX_SPEED_IN_PER_SEC; //TODO find
-	public static double MAX_FORWARD_ACCEL;
-	public static double MAX_BACKWARD_ACCEL;
 	public static double maxSideAccel;
-	public double previousSpeedInput = 0;
 
 	private SpeedController leftMotor = new Spark(RobotMap.LEFT_DRIVE_MOTOR);
 	private SpeedController rightMotor = new Spark(RobotMap.RIGHT_DRIVE_PWM);
 
-	private RobotDrive drive = new RobotDrive(leftMotor, rightMotor);
+	public RobotDrive drive = new RobotDrive(leftMotor, rightMotor);
 	private BuiltInAccelerometer accel = new BuiltInAccelerometer();
-
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-	private double limitedY = 0;
-	private double limitedX = 0;
 
 	private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 	Timer timer = new Timer();
@@ -151,6 +142,11 @@ public class DriveTrain extends Subsystem {
 		boostedArcadeDrive(limitedMoveValue, newRotateValue);
 	}
 	
+	public void safeArcadeDriveDelayed(double moveValue, double rotateValue) {
+		Timer.delay(0.02);
+		safeArcadeDrive(moveValue, rotateValue);
+	}
+	
 	/**
 	 * Applies BoostFilter to input
 	 * @param moveValue input for forward/backward motion
@@ -171,16 +167,53 @@ public class DriveTrain extends Subsystem {
 	@SuppressWarnings("deprecation")
 	public void arcadeDrive(double moveValue, double rotateValue) {
 
-		Robot.csvLogger.writeData(timer.get(), 
+		double leftMotorSpeed;
+		double rightMotorSpeed;
+		if (moveValue > 0.0) {
+			if (rotateValue > 0.0) {
+				leftMotorSpeed = moveValue - rotateValue;
+				rightMotorSpeed = Math.max(moveValue, rotateValue);
+			} else {
+				leftMotorSpeed = Math.max(moveValue, -rotateValue);
+				rightMotorSpeed = moveValue + rotateValue;
+			}
+		} else {
+			if (rotateValue > 0.0) {
+				leftMotorSpeed = -Math.max(-moveValue, rotateValue);
+				rightMotorSpeed = moveValue + rotateValue;
+			} else {
+				leftMotorSpeed = moveValue - rotateValue;
+				rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
+			}
+		}
+		
+		//TODO should not be here, somewhere in a separate record method
+		double moveArmTo90 = Robot.oi.moveArmTo90().get() ? 1.0 : 0.0;
+		
+		double filteredLeftMotorSpeed = SquareFilter.output(leftMotorSpeed);
+		double filteredRightMotorSpeed = SquareFilter.output(rightMotorSpeed);
+
+		Robot.csvLogger.writeData(
+				timer.get(), 
 				moveValue, //move input
 				rotateValue, //rotate input
+				filteredLeftMotorSpeed,
+				filteredRightMotorSpeed,
 				getAverageEncoderRate(),
-				rightEncoder.getRate(),
 				leftEncoder.getRate(),
+				rightEncoder.getRate(),
+				leftEncoder.getDistance(),
 				rightEncoder.getDistance(),
-				leftEncoder.getDistance()
+				gyro.getAngle(),
+				moveArmTo90
 				);
-		drive.arcadeDrive(moveValue, rotateValue);
+
+		drive.tankDrive(filteredLeftMotorSpeed, filteredRightMotorSpeed, false); //squared input by default
+	}
+	
+	public void arcadeDriveDelayed(double moveValue, double rotateValue) {
+		Timer.delay(0.02);
+		arcadeDrive(moveValue, rotateValue);
 	}
 
 	public void drive(double outputMagnitude, double curve) {
@@ -208,7 +241,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void resetSensors() {
-		//gyro.reset();
+		gyro.reset();
 		leftEncoder.reset();
 		rightEncoder.reset();
 	}

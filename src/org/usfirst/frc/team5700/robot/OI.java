@@ -180,6 +180,10 @@ public class OI {
 		}
 		return limitsAreOverriden;
 	}
+	
+	public JoystickButton moveArmTo90() {
+		return moveArmTo90;
+	}
 }
 
 
