@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5700.robot;
 
+import org.usfirst.frc.team5700.robot.commands.BreakBeamPickup;
 import org.usfirst.frc.team5700.robot.commands.ClimberDown;
 import org.usfirst.frc.team5700.robot.commands.ClimberUp;
 import org.usfirst.frc.team5700.robot.commands.ExtendIntake;
@@ -13,7 +14,7 @@ import org.usfirst.frc.team5700.robot.commands.MoveArmAndElevatorDistance;
 import org.usfirst.frc.team5700.robot.commands.MoveArmToAngle;
 import org.usfirst.frc.team5700.robot.commands.MoveElevatorWithJoystick;
 import org.usfirst.frc.team5700.robot.commands.MoveElevatorDistance;
-import org.usfirst.frc.team5700.robot.commands.PickUpBox;
+import org.usfirst.frc.team5700.robot.commands.PickupCube;
 import org.usfirst.frc.team5700.robot.commands.ReleaseAssistArm;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -60,9 +61,11 @@ public class OI {
 	
 	//Lifter Automation Buttons
 	JoystickButton moveToPickUpPosition;
-	JoystickButton pickUpBox;
+	JoystickButton pickupCube;
 	JoystickButton moveToCruise;
 	JoystickButton moveElevatorToTop;
+	JoystickButton breakBeamPickup;
+
 
 	//Operations Buttons
 	JoystickButton zeroElevatorEncoder;
@@ -99,9 +102,10 @@ public class OI {
 		
 		//Lifter Automation Buttons
 		moveToPickUpPosition = new JoystickButton(auxLeftStick, ButtonMap.MOVE_TO_PICK_UP_POSITION);
-		pickUpBox = new JoystickButton(auxLeftStick, ButtonMap.PICK_UP_BOX);
+		pickupCube = new JoystickButton(auxLeftStick, ButtonMap.PICK_UP_BOX);
 		moveToCruise = new JoystickButton(auxRightStick, ButtonMap.MOVE_TO_CRUISE_POSITION);
 		moveElevatorToTop = new JoystickButton(auxRightStick, ButtonMap.MOVE_ELEVATOR_TO_TOP);
+		breakBeamPickup = new JoystickButton(auxLeftStick, ButtonMap.BREAK_BREAM_PICKUP);
 		
 		//Operations Buttons
 		zeroElevatorEncoder  = new JoystickButton(auxRightStick, ButtonMap.ZERO_ELEVATOR_ENCODER);
@@ -136,10 +140,11 @@ public class OI {
 		
 		//Lifter Automation Buttons
 		moveToPickUpPosition.whileHeld(new MoveArmAndElevatorDistance(15.5, 0));
-		pickUpBox.whenPressed(new PickUpBox());
+		pickupCube.whenPressed(new PickupCube());
 		moveToCruise.whileHeld(new MoveArmAndElevatorDistance(2, 180, 0.5, 0));
 		moveElevatorToTop.whileHeld(new MoveElevatorDistance(58));
-		
+		breakBeamPickup.whileHeld(new BreakBeamPickup());
+				
 		//Operations Buttons
 		zeroElevatorEncoder.whenPressed(new ResetElevatorEncoder());
 		zeroArmEncoder.whenPressed(new ResetArmEncoder());

@@ -20,7 +20,8 @@ public class Intake extends Subsystem {
 	
 	private boolean inVaultMode = false;
 	public DigitalInput frontBreakBeam = new DigitalInput(2);
-	private boolean vaultButtonBeenPressed = false;
+	public DigitalInput backBreakBeam = new DigitalInput(9);
+	private boolean vaultButtonBeenPressed = false; 
 	
     public Intake() {
 		super();
@@ -65,6 +66,10 @@ public class Intake extends Subsystem {
 	
 	public boolean getFrontBreakBeam() {
 		return !frontBreakBeam.get();
+	}
+	
+	public boolean getBackBreakBeam() {
+		return !backBreakBeam.get();
 	}
 	
 	public boolean inVaultMode() {

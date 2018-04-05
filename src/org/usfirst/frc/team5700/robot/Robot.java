@@ -258,6 +258,7 @@ public class Robot extends IterativeRobot {
 		
 		//Intake
 		SmartDashboard.putBoolean("Front Break Beam", intake.getFrontBreakBeam());
+		SmartDashboard.putBoolean("Back Break Beam", intake.getBackBreakBeam());
 		SmartDashboard.putBoolean("In Vault Mode", intake.inVaultMode());
 		
 		//Elevator 

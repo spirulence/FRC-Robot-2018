@@ -10,3 +10,5 @@
 *.tensorcache
 *.swp
 *.jar
+*.class
+*.jar
