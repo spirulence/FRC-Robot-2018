@@ -68,6 +68,7 @@ public class OI {
 	JoystickButton zeroElevatorEncoder;
 	JoystickButton zeroArmEncoder;
 	JoystickButton overrideLimits;
+	public JoystickButton vaultMode;
 	
 	public OI() {
 		/**
@@ -77,6 +78,7 @@ public class OI {
 		spinIntakeIn = new JoystickButton (driveRightStick, ButtonMap.SPIN_INTAKE_IN);
 		spitIntakeOut = new JoystickButton (driveLeftStick, ButtonMap.SPIN_INTAKE_OUT);
 		extendIntake = new JoystickButton (driveRightStick, ButtonMap.EXTEND_INTAKE);
+		vaultMode = new JoystickButton(driveRightStick, ButtonMap.VAULT_MODE);
 		
 		//Grabber
 		releaseCube = new JoystickButton(auxRightStick, ButtonMap.GRABBER_OPEN);
@@ -96,10 +98,10 @@ public class OI {
 		releaseAssist = new JoystickButton(auxLeftStick, ButtonMap.ASSIST_RELEASE);
 		
 		//Lifter Automation Buttons
-		moveToPickUpPosition = new JoystickButton(auxRightStick, ButtonMap.MOVE_TO_PICK_UP_POSITION);
-		pickUpBox = new JoystickButton(auxRightStick, ButtonMap.PICK_UP_BOX);
-		moveToCruise = new JoystickButton(auxLeftStick, ButtonMap.MOVE_TO_CRUISE_POSITION);
-		moveElevatorToTop = new JoystickButton(auxLeftStick, ButtonMap.MOVE_ELEVATOR_TO_TOP);
+		moveToPickUpPosition = new JoystickButton(auxLeftStick, ButtonMap.MOVE_TO_PICK_UP_POSITION);
+		pickUpBox = new JoystickButton(auxLeftStick, ButtonMap.PICK_UP_BOX);
+		moveToCruise = new JoystickButton(auxRightStick, ButtonMap.MOVE_TO_CRUISE_POSITION);
+		moveElevatorToTop = new JoystickButton(auxRightStick, ButtonMap.MOVE_ELEVATOR_TO_TOP);
 		
 		//Operations Buttons
 		zeroElevatorEncoder  = new JoystickButton(auxRightStick, ButtonMap.ZERO_ELEVATOR_ENCODER);
@@ -133,7 +135,7 @@ public class OI {
 		releaseAssist.whileHeld(new ReleaseAssistArm());
 		
 		//Lifter Automation Buttons
-		moveToPickUpPosition.whileHeld(new MoveArmAndElevatorDistance(14.5, 0));
+		moveToPickUpPosition.whileHeld(new MoveArmAndElevatorDistance(15.5, 0));
 		pickUpBox.whenPressed(new PickUpBox());
 		moveToCruise.whileHeld(new MoveArmAndElevatorDistance(2, 180, 0.5, 0));
 		moveElevatorToTop.whileHeld(new MoveElevatorDistance(58));
@@ -178,7 +180,6 @@ public class OI {
 		}
 		return limitsAreOverriden;
 	}
-
 }
 
 

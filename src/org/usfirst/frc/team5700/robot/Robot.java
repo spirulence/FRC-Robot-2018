@@ -11,7 +11,7 @@ import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
 import org.usfirst.frc.team5700.robot.commands.AutoRightSideSwitch;
 import org.usfirst.frc.team5700.robot.subsystems.Arm;
 import org.usfirst.frc.team5700.robot.subsystems.AssistSystem;
-import org.usfirst.frc.team5700.robot.subsystems.BoxIntake;
+import org.usfirst.frc.team5700.robot.subsystems.Intake;
 import org.usfirst.frc.team5700.robot.subsystems.Climber;
 import org.usfirst.frc.team5700.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5700.robot.subsystems.Elevator;
@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static DriveTrain drivetrain;
-	public static BoxIntake boxIntake;
+	public static Intake intake;
 	public static Elevator elevator;
 	public static Climber climber; 
 	public static Arm arm; 
@@ -80,7 +80,7 @@ public class Robot extends IterativeRobot {
 		
 		// Initialize all subsystems
 		drivetrain = new DriveTrain();
-		boxIntake = new BoxIntake();
+		intake = new Intake();
 		elevator = new Elevator();
 		climber = new Climber();
 		arm = new Arm();
@@ -255,6 +255,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
 		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
 		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
+		
+		//Intake
+		SmartDashboard.putBoolean("Front Break Beam", intake.getFrontBreakBeam());
+		SmartDashboard.putBoolean("In Vault Mode", intake.inVaultMode());
 		
 		//Elevator 
 		SmartDashboard.putNumber("Elevator Height", elevator.getHeight());

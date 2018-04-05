@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AutoOpenIntakes extends Command {
 
     public AutoOpenIntakes() {
-        requires(Robot.boxIntake);
+        requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    		Robot.boxIntake.extendBoth();
+    		Robot.intake.extendBoth();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -30,7 +30,7 @@ public class AutoOpenIntakes extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    		Robot.boxIntake.retractBoth();
+    		Robot.intake.retractBoth();
     }
 
     // Called when another command which requires one or more of the same

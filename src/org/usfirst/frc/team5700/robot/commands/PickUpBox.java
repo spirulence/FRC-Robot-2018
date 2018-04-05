@@ -11,6 +11,6 @@ public class PickUpBox extends CommandGroup {
     	addSequential(new ReleaseCube());
     	addSequential(new MoveElevatorDistance(11), 0.4);
     	addParallel(new GrabCube());
-    	addSequential(new MoveElevatorDistance(28));
+    	addSequential(new MoveElevatorDistance(30));
     }
 }

@@ -8,6 +8,7 @@ import org.usfirst.frc.team5700.utils.BoostFilter;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTrain extends Subsystem {
 
+	
 	public static double MAX_SPEED_IN_PER_SEC; //TODO find
 	public static double MAX_FORWARD_ACCEL;
 	public static double MAX_BACKWARD_ACCEL;
@@ -50,8 +52,8 @@ public class DriveTrain extends Subsystem {
 	public final static double WHEEL_DIAMETER = 6;
 	public final static double PULSE_PER_REVOLUTION = 360;
 
-	private Encoder leftEncoder = new Encoder(4, 5, false);
-	private Encoder rightEncoder = new Encoder(6, 7, true);
+	private Encoder leftEncoder = new Encoder(RobotMap.LeftEncoderAChannel, RobotMap.LeftEncoderBChannel, false);
+	private Encoder rightEncoder = new Encoder(RobotMap.RightEncoderAChannel, RobotMap.RightEncoderBChannel, true);
 
 	Preferences prefs = Preferences.getInstance();
 	

@@ -9,6 +9,7 @@ public class ButtonMap {
 		public static final int EXTEND_INTAKE = 1; //rightstick
 		public static final int SPIN_INTAKE_IN = 2; // //Robot.oi.getDriveRightStick());
 		public static final int SPIN_INTAKE_OUT = 2; ////Robot.oi.getDriveLeftStick());
+		public static final int VAULT_MODE = 4; //Robot.oi.getDriveRightStick());
 		
 		/**
 		 * Auxillary Driver Buttons
