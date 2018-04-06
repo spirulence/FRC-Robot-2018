@@ -17,6 +17,11 @@ public class ArcadeDriveWithJoysticks extends Command {
 		requires(Robot.drivetrain);
 	}
 
+	@Override
+	protected void initialize() {
+		Robot.drivetrain.resetSensors();
+	}
+
 	protected void execute() {
 		double moveValue = - Robot.oi.getDriveRightStick().getY(); //forward joystick is negative, back is positive
 		double rotateValue = - Robot.oi.getDriveLeftStick().getX() * 0.7;
@@ -30,8 +35,16 @@ public class ArcadeDriveWithJoysticks extends Command {
 		SensitivityFilter rotateSensitivityFilter = new SensitivityFilter(rotateSensitivityThreshold);
 
 		//Robot.drivetrain.boostedArcadeDrive(moveValue, rotateValue);
-		Robot.drivetrain.safeArcadeDrive(moveSensitivityFilter.output(moveValue),
-				rotateSensitivityFilter.output(rotateValue));
+		double filteredMoveValue = moveSensitivityFilter.output(moveValue);
+		double filteredRotateValue = rotateSensitivityFilter.output(rotateValue);
+
+		if (Robot.recordMode().equals("replay"))
+			Robot.drivetrain.safeArcadeDriveDelayed(filteredMoveValue,
+					filteredRotateValue);
+		else
+			Robot.drivetrain.safeArcadeDrive(filteredMoveValue,
+					filteredRotateValue);
+
 	}
 
 	protected boolean isFinished() {
