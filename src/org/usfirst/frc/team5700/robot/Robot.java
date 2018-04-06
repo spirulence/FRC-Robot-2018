@@ -82,7 +82,6 @@ public class Robot extends IterativeRobot {
 	private SendableChooser<String> recordModeChooser;
 	private String recordMode;
 	private SendableChooser<String> replayChooser;
-	private static String replayName;
 	
 	public static CsvLogger csvLogger;
 
@@ -111,9 +110,6 @@ public class Robot extends IterativeRobot {
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivetrain);
-
-		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
-		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
 		
 		//Autonomous Chooser
         chooser = new SendableChooser<String>();
@@ -122,7 +118,7 @@ public class Robot extends IterativeRobot {
  		chooser.addObject("Center Switch", "Center Switch");
  		chooser.addObject("Right Side Switch", "Right Side Switch");
  		chooser.addObject("Left Side Switch", "Left Side Switch");
-		chooser.addObject("Replay", "Replay");
+		chooser.addObject("Replay Test", "Replay Test");
  		SmartDashboard.putData("Autonomous Chooser", chooser);
 		//autoSelected = chooser.getSelected();
  		
@@ -220,12 +216,15 @@ public class Robot extends IterativeRobot {
          			autoCommand = new AutoCrossBaseline();
          		}
          		break;
+         	case "Replay Test":
+         		autoCommand = new DriveReplay(replayChooser.getSelected());
+         		break;
          	default:
          		System.out.print("Starting default command");
          		autoCommand = new AutoCrossBaseline();
          }
          
-         autoCommand = new DriveReplay();
+         //autoCommand = new DriveReplay();
          autoCommand.start();
 	}
 
@@ -251,10 +250,6 @@ public class Robot extends IterativeRobot {
 		//Arm
 		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
 		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
-		
-		//Reset Encoders 
-		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
-		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
 	}
 	
 	private void listReplays() {
@@ -328,18 +323,13 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("At Top Limit ", elevator.atTopLimit());
 		SmartDashboard.putBoolean("At Bottom Limit ", elevator.atBottomLimit());;
 		SmartDashboard.putBoolean("At Top Limit ", elevator.atTopLimit());
+		SmartDashboard.putBoolean("Limits Overriden ", oi.overrideLimits());
 													
 		// Arm
 		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
 		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
 		SmartDashboard.putNumber("ArmFF", arm.getFeedForward());
 		SmartDashboard.putNumber("Arm Normalized Angle ", arm.get180NormalizedAngle());
-
-		//Reset Encoders
-		SmartDashboard.putData("Reset Elevator Encoder", new ResetElevatorEncoder());	
-		SmartDashboard.putData("Reset Arm Encoder", new ResetArmEncoder());
-		
-		SmartDashboard.putBoolean("Limits Overriden ", oi.overrideLimits());
 	}
 
 	/**
@@ -349,9 +339,5 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-	
-	public static String getReplayName() {
-		// TODO Auto-generated method stub
-		return replayName;
-	}
+
 }

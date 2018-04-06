@@ -42,9 +42,15 @@ public class DriveReplay extends Command {
 	private double lastHeadingError;
 	private double headingErrorChange;
 	private double replayKHeadingDiff;
+	private String replayName;
+	private double[] line;
 
 	public DriveReplay() {
 		requires(Robot.drivetrain);
+	}
+
+	public DriveReplay(String replayName) {
+		this.replayName = replayName;
 	}
 
 	@Override
@@ -61,10 +67,16 @@ public class DriveReplay extends Command {
 		Robot.prefs.putDouble("replayKHeadingProp", replayKHeadingProp);
 		replayKHeadingDiff = Robot.prefs.getDouble("replayKHeadingDiff", 0);
 		Robot.prefs.putDouble("replayKHeadingDiff", replayKHeadingDiff);
-		
+
 		try {
-			csvReader = new CsvReader(Robot.getReplayName());
+			csvReader = new CsvReader(replayName);
 			valuesIterator = csvReader.getValues().iterator();
+			if (valuesIterator.hasNext()) {
+				line = valuesIterator.next();
+				while (line[1] == 0.0 && valuesIterator.hasNext()) {
+					line = valuesIterator.next();
+				}
+			}
 
 
 			//System.out.println("move_value: " + nextLine[1] + ", rotate_value: " + nextLine[2]);
@@ -90,59 +102,54 @@ public class DriveReplay extends Command {
 	//			gyro.getAngle(),
 	//			moveArmTo90
 	//			);
-	
+
 	@Override
 	protected void execute() {
-		double[] line;
 		double leftEncoderDistance = Robot.drivetrain.getLeftEncoder().getDistance();
 		double rightEncoderDistance = Robot.drivetrain.getRightEncoder().getDistance();
 		double heading = Robot.drivetrain.getHeading();
+
+		if (!timerStarted) {
+			timer.start();
+			timeOffset = line[0] - timer.get();
+			leftDistanceOffset = line[8] - leftEncoderDistance;
+			rightDistanceOffset = line[9] - rightEncoderDistance;
+			headingOffset = line[10] - heading;
+			System.out.println("Offset: " + timeOffset);
+			timerStarted = true;
+		}
+
+		double periodic_offset = Math.max(line[0] - timer.get() - timeOffset, 0);
+		System.out.println("In execute, time difference: " + periodic_offset);
+
+		leftError = leftEncoderDistance - line[8] + leftDistanceOffset;
+		rightError = rightEncoderDistance - line[9] + rightDistanceOffset;
+		headingError = heading - line[10] + headingOffset;
+		leftErrorChange = lastLeftError - leftError;
+		rightErrorChange = lastRightError - rightError;
+		headingErrorChange = lastHeadingError - headingError;
+		lastLeftError = leftError;
+		lastRightError = rightError;
+		lastHeadingError = headingError;
+
+		double leftMotorSpeed = line[3] + replayKProp * leftError - replayKDiff * leftErrorChange
+				- replayKHeadingProp * headingError - replayKHeadingDiff * headingErrorChange;
+		double rightMotorSpeed = line[4] + replayKProp * rightError - replayKDiff * rightErrorChange
+				+ replayKHeadingProp * headingError + replayKHeadingDiff * headingErrorChange;
+
+		SmartDashboard.putNumber("leftError", leftError);
+		SmartDashboard.putNumber("rightError", rightError);
+		SmartDashboard.putNumber("headingError", headingError);
+
+		System.out.println("Left motor output: " + leftMotorSpeed + ", right motor output: " + rightMotorSpeed);
+
+
+		Timer.delay(periodic_offset);
+		//Robot.drivetrain.arcadeDrive(nextLine[1], nextLine[2]);
+		Robot.drivetrain.drive.tankDrive(leftMotorSpeed, rightMotorSpeed, false); //disable squared
 		if (valuesIterator.hasNext()) {
 			line = valuesIterator.next();
-			System.out.println("columns: " + line.length);
-			if (!timerStarted) {
-				timer.start();
-				timeOffset = line[0] - timer.get();
-				leftDistanceOffset = line[8] - leftEncoderDistance;
-				rightDistanceOffset = line[9] - rightEncoderDistance;
-				headingOffset = line[10] - heading;
-				System.out.println("Offset: " + timeOffset);
-				timerStarted = true;
-			}
-			
-			double periodic_offset = Math.max(line[0] - timer.get() - timeOffset, 0);
-			System.out.println("In execute, time difference: " + periodic_offset);
 
-			leftError = leftEncoderDistance - line[8] + leftDistanceOffset;
-			rightError = rightEncoderDistance - line[9] + rightDistanceOffset;
-			headingError = heading - line[10] + headingOffset;
-			leftErrorChange = lastLeftError - leftError;
-			rightErrorChange = lastRightError - rightError;
-			headingErrorChange = lastHeadingError - headingError;
-			lastLeftError = leftError;
-			lastRightError = rightError;
-			lastHeadingError = headingError;
-			
-			double leftMotorSpeed = line[3] + replayKProp * leftError - replayKDiff * leftErrorChange
-					- replayKHeadingProp * headingError - replayKHeadingDiff * headingErrorChange;
-			double rightMotorSpeed = line[4] + replayKProp * rightError - replayKDiff * rightErrorChange
-					+ replayKHeadingProp * headingError + replayKHeadingDiff * headingErrorChange;
-			
-			SmartDashboard.putNumber("leftError", leftError);
-			SmartDashboard.putNumber("rightError", rightError);
-			SmartDashboard.putNumber("headingError", headingError);
-
-			boolean moveArmTo90 =  line[11] != 0.0;
-			SmartDashboard.putBoolean("moveArmTo90", moveArmTo90);
-			
-			
-			System.out.println("Left motor output: " + leftMotorSpeed + ", right motor output: " + rightMotorSpeed);
-			
-			
-			Timer.delay(periodic_offset);
-			//Robot.drivetrain.arcadeDrive(nextLine[1], nextLine[2]);
-			Robot.drivetrain.drive.tankDrive(leftMotorSpeed, rightMotorSpeed, false); //disable squared
-			
 		}
 	}
 
