@@ -122,8 +122,8 @@ public class Robot extends IterativeRobot {
  		SmartDashboard.putData("Autonomous Chooser", chooser);
 		//autoSelected = chooser.getSelected();
  		
- 		setupRecordMode();
-		csvLogger = new CsvLogger();
+		setupRecordMode();
+		listReplays();
  		
  		grabber.close();
 	}
@@ -338,6 +338,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+	
+	public static String recordMode() {
+		return recordMode;
 	}
 
 }
