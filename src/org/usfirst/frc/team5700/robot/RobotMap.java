@@ -35,6 +35,6 @@ public class RobotMap {
 	//TODO make sure these are corrected
 	public static final int LeftEncoderAChannel = 1;
 	public static final int LeftEncoderBChannel = 0;
-	public static final int RightEncoderAChannel = 6;
-	public static final int RightEncoderBChannel = 7;
+	public static final int RightEncoderAChannel = 3;
+	public static final int RightEncoderBChannel = 4;
 }

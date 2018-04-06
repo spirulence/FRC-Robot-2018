@@ -15,6 +15,7 @@ import org.usfirst.frc.team5700.robot.commands.AutoLeftSideSwitch;
 import org.usfirst.frc.team5700.robot.commands.ResetArmEncoder;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
 import org.usfirst.frc.team5700.robot.commands.AutoRightSideSwitch;
+import org.usfirst.frc.team5700.robot.commands.DriveReplay;
 import org.usfirst.frc.team5700.robot.commands.ReplayWithCommands;
 import org.usfirst.frc.team5700.robot.subsystems.Arm;
 import org.usfirst.frc.team5700.robot.subsystems.AssistSystem;
@@ -224,6 +225,7 @@ public class Robot extends IterativeRobot {
          		autoCommand = new AutoCrossBaseline();
          }
          
+         autoCommand = new DriveReplay();
          autoCommand.start();
 	}
 

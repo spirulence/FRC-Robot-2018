@@ -41,7 +41,7 @@ public class DriveTrain extends Subsystem {
 	public final static double PULSE_PER_REVOLUTION = 360;
 
 	private Encoder leftEncoder = new Encoder(RobotMap.LeftEncoderAChannel, RobotMap.LeftEncoderBChannel, false);
-	private Encoder rightEncoder = leftEncoder;//new Encoder(RobotMap.RightEncoderAChannel, RobotMap.RightEncoderBChannel, true);
+	private Encoder rightEncoder = new Encoder(RobotMap.RightEncoderAChannel, RobotMap.RightEncoderBChannel, true);
 
 	Preferences prefs = Preferences.getInstance();
 	
