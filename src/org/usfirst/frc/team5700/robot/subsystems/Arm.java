@@ -29,7 +29,7 @@ public class Arm extends Subsystem {
 	public double noCubeMaxNominalOutput;
 
 	private double dangerOfCollisionHeight = 14;
-	private double collisionAngle = 45;
+	private double collisionAngle = 50;
 	
 	public ArmCollisionBounds withCubeBounds = new ArmCollisionBounds(28.5, 40, 3); //TODO find values
 	public ArmCollisionBounds noCubeBounds = new ArmCollisionBounds(14, 40, 5); //TODO find values
