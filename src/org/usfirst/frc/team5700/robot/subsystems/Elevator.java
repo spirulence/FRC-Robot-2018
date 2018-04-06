@@ -88,10 +88,10 @@ public class Elevator extends Subsystem {
 		_talon.configMotionAcceleration(16000, Constants.kTimeoutMs);
 		
 		//Feed Forward Values
-		lowNoCubeFF = prefs.getDouble("lowNoCubeFF", 0.1);
-		highNoCubeFF = prefs.getDouble("highNoCubeFF", 0.1);
-		lowWCubeFF = prefs.getDouble("lowWCubeFF", 0.15);
-		highWCubeFF = prefs.getDouble("highWCubeFF", 0.15);
+		lowNoCubeFF = prefs.getDouble("lowNoCubeFF", -0.01);
+		highNoCubeFF = prefs.getDouble("highNoCubeFF", 0.03);
+		lowWCubeFF = prefs.getDouble("lowWCubeFF", 0.0);
+		highWCubeFF = prefs.getDouble("highWCubeFF", 0.06);
 	}
 	
 	public void moveElevatorWithJoystick(double stickValue) {
