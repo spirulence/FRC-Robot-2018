@@ -79,10 +79,10 @@ public class Elevator extends Subsystem {
 		/* set closed loop gains in slot 0 - see documentation */
 		_talon.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
 		_talon.config_kF(0, Constants.TalonMaxOutput * 1.0/encoderMaxSpeed, Constants.kTimeoutMs);
-		_talon.config_kP(0, 0.35, Constants.kTimeoutMs);
+		_talon.config_kP(0, 0.33, Constants.kTimeoutMs);
 		_talon.config_kI(0, 0.001, Constants.kTimeoutMs);
 		_talon.config_kD(0, 0.13511, Constants.kTimeoutMs);
-		
+
 		/* set acceleration and cruise velocity - see documentation */
 		_talon.configMotionCruiseVelocity(16000, Constants.kTimeoutMs);
 		_talon.configMotionAcceleration(16000, Constants.kTimeoutMs);

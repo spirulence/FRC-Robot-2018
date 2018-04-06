@@ -36,7 +36,9 @@ public class ButtonMap {
 		public static final int MOVE_TO_CRUISE_POSITION = 3; //Robot.oi.getAuxRightStick();
 		public static final int MOVE_ELEVATOR_TO_TOP = 4; //Robot.oi.getAuxRightStick();
 		public static final int BREAK_BREAM_PICKUP = 6; //Robot.oi.getAuxLeftStick());
-
+		
+		//TODO switch break beam pickup and pick up box buttons
+		
 		/**
 		 * Operations Buttons
 		 */
