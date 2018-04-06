@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5700.robot.commands;
 
 import org.usfirst.frc.team5700.robot.Robot;
+import org.usfirst.frc.team5700.utils.SensitivityFilter;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,7 +27,11 @@ public class MoveElevatorWithJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    		Robot.elevator.moveElevatorWithJoystick(-_stick.getY());
+    	double elevatorSensitivityThreshold = Robot.prefs.getDouble("elevatorSensitivityThreshold", 0.1);
+    	SensitivityFilter elevatorFilter = new SensitivityFilter(elevatorSensitivityThreshold);
+    	double stickValue = -_stick.getY();
+    	stickValue = elevatorFilter.output(stickValue);
+    	Robot.elevator.moveElevatorWithJoystick(stickValue);
     }
 		
 
