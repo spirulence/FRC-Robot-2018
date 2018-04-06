@@ -9,26 +9,26 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Grabber extends Subsystem {
 	
-	private Solenoid piston;
-//	private DoubleSolenoid piston;
+//	private Solenoid piston;
+	private DoubleSolenoid piston;
 	private boolean hasCube;
 	
 	public Grabber() {
 		super();
-		piston = new Solenoid(RobotMap.GRABBER_CHANNEL);
-//		piston = new DoubleSolenoid(RobotMap.CLOSE_GRABBER_CHANNEL, RobotMap.OPEN_GRABBER_CHANNEL);
+//		piston = new Solenoid(RobotMap.GRABBER_CHANNEL);
+		piston = new DoubleSolenoid(RobotMap.CLOSE_GRABBER_CHANNEL, RobotMap.OPEN_GRABBER_CHANNEL);
 		close();
 	}
 	
 	public void close() {
-//		piston.set(Value.kReverse);
-		piston.set(true);
+		piston.set(Value.kReverse);
+//		piston.set(true);
 		hasCube = true;
 	}
 	
 	public void open() {
-//		piston.set(Value.kForward);
-		piston.set(false);
+		piston.set(Value.kForward);
+//		piston.set(false);
 		hasCube = false;
 	}
    

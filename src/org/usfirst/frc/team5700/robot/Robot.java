@@ -285,6 +285,7 @@ public class Robot extends IterativeRobot {
 		if (autoCommand != null)
 			autoCommand.cancel();
 		
+		setupRecordMode();
 		listReplays();
 
 		recordMode = recordModeChooser.getSelected();

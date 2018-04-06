@@ -19,8 +19,8 @@ public class ButtonMap {
 		public static final int GRABBER_CLOSE = 1; //Robot.oi.getAuxRightStick());
 		
 		//Climber
-		public static final int CLIMBER_UP = 12; //Robot.oi.getAuxRightStick());
-		public static final int CLIMBER_DOWN = 11; //Robot.oi.getAuxRightStick());
+		public static final int CLIMBER_UP = 10; //Robot.oi.getAuxRightStick());
+		public static final int CLIMBER_DOWN = 9; //Robot.oi.getAuxRightStick());
 		
 		//Climber Assist
 		public static final int ASSIST_RELEASE = 11; //Robot.oi.getAuxLeftStick());
@@ -46,6 +46,6 @@ public class ButtonMap {
 		public static final int ZERO_ARM_ENCODER = 7; //Robot.oi.getAuxLeftStick());
 		public static final int ZERO_ELEVATOR_ENCODER = 7; //Robot.oi.getAuxRightStick());
 		
-		public static final int OVERRIDE_LIMITS = 10; //Robot.oi.getAuxRightStick());
+		public static final int OVERRIDE_LIMITS = 8; //Robot.oi.getAuxRightStick());
 		
 }

@@ -12,23 +12,23 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Intake extends Subsystem {
 	
-//	private Solenoid solenoid;
+	private Solenoid solenoid;
 	Spark intakeMotors;
-	private DoubleSolenoid rightDoubleSolenoid, leftDoubleSolenoid;
+//	private DoubleSolenoid rightDoubleSolenoid, leftDoubleSolenoid;
 
 	private double intakeSpeed = -0.65; //TODO number
 	
 	private boolean inVaultMode = false;
-	public DigitalInput frontBreakBeam = new DigitalInput(2);
-	public DigitalInput backBreakBeam = new DigitalInput(9);
+	public DigitalInput frontBreakBeam = new DigitalInput(RobotMap.FrontBreakBeamChannel);
+	public DigitalInput backBreakBeam = new DigitalInput(RobotMap.BackBreakBeamChannel);
 	private boolean vaultButtonBeenPressed = false; 
 	
     public Intake() {
 		super();
-	    	//solenoid = new Solenoid(RobotMap.EXTEND_INTAKES_CHANNEL);
-		rightDoubleSolenoid = new DoubleSolenoid(RobotMap.EXTEND_RIGHT_INTAKES_CHANNEL, RobotMap.CLOSE_RIGHT_INTAKES_CHANNEL);
-		leftDoubleSolenoid = new DoubleSolenoid(RobotMap.EXTEND_LEFT_INTAKES_CHANNEL, RobotMap.CLOSE_LEFT_INTAKES_CHANNEL);
-	    	intakeMotors = new Spark(RobotMap.INTAKE_MOTORS);
+	    solenoid = new Solenoid(RobotMap.EXTEND_INTAKES_CHANNEL);
+//		rightDoubleSolenoid = new DoubleSolenoid(RobotMap.EXTEND_RIGHT_INTAKES_CHANNEL, RobotMap.CLOSE_RIGHT_INTAKES_CHANNEL);
+//		leftDoubleSolenoid = new DoubleSolenoid(RobotMap.EXTEND_LEFT_INTAKES_CHANNEL, RobotMap.CLOSE_LEFT_INTAKES_CHANNEL);
+	    intakeMotors = new Spark(RobotMap.INTAKE_MOTORS);
     }
     
   
@@ -38,15 +38,15 @@ public class Intake extends Subsystem {
     }
     
     public void extendBoth(){
-    	rightDoubleSolenoid.set(Value.kForward);
-    	leftDoubleSolenoid.set(Value.kForward);
-    		//solenoid.set(true);
+//    	rightDoubleSolenoid.set(Value.kForward);
+//    	leftDoubleSolenoid.set(Value.kForward);
+    	solenoid.set(true);
     }
     
     public void retractBoth(){
-    	rightDoubleSolenoid.set(Value.kReverse);
-    	leftDoubleSolenoid.set(Value.kReverse);
-		//solenoid.set(false);
+//    	rightDoubleSolenoid.set(Value.kReverse);
+//    	leftDoubleSolenoid.set(Value.kReverse);
+		solenoid.set(false);
     }
     
 	//These methods are for spitting out a box.
