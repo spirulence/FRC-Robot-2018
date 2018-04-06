@@ -139,7 +139,7 @@ public class OI {
 		releaseAssist.whileHeld(new ReleaseAssistArm());
 		
 		//Lifter Automation Buttons
-		moveToPickUpPosition.whileHeld(new MoveArmAndElevatorDistance(15.5, 0));
+		moveToPickUpPosition.whileHeld(new MoveArmAndElevatorDistance(16.5, 0));
 		pickupCube.whenPressed(new PickupCube());
 		moveToCruise.whileHeld(new MoveArmAndElevatorDistance(2, 180, 0.5, 0));
 		moveElevatorToTop.whileHeld(new MoveElevatorDistance(58));
