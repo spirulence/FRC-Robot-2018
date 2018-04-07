@@ -80,7 +80,7 @@ public class Robot extends IterativeRobot {
 			"moveArmTo90"
 	};
 	private SendableChooser<String> recordModeChooser;
-	private String recordMode;
+	private static String recordMode;
 	private SendableChooser<String> replayChooser;
 	
 	public static CsvLogger csvLogger;
@@ -120,12 +120,16 @@ public class Robot extends IterativeRobot {
  		chooser.addObject("Left Side Switch", "Left Side Switch");
 		chooser.addObject("Replay Test", "Replay Test");
  		SmartDashboard.putData("Autonomous Chooser", chooser);
+ 		SmartDashboard.putData("Autonomous Chooser 2", chooser);
 		//autoSelected = chooser.getSelected();
  		
 		setupRecordMode();
 		listReplays();
  		
  		grabber.close();
+ 		
+		System.out.println("Instantiating CsvLogger...");
+		csvLogger = new CsvLogger();
 	}
 	
 	private void setupRecordMode() {
@@ -133,6 +137,7 @@ public class Robot extends IterativeRobot {
 		recordModeChooser.addDefault("Just Drive", "justDrive");
 		recordModeChooser.addObject("Replay", "replay");
 		SmartDashboard.putData("RecordMode", recordModeChooser);
+		SmartDashboard.putData("RecordMode 2", recordModeChooser);
 		SmartDashboard.putString("Replay Name", "MyReplay");
 		recordMode = recordModeChooser.getSelected();
 	}
@@ -168,6 +173,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		
+		csvLogger.init(data_fields, Constants.DATA_DIR, false, null);
+		
 		dropCube = false;
 		grabber.close();
 		autoSelected = chooser.getSelected();
@@ -237,15 +245,12 @@ public class Robot extends IterativeRobot {
 		
 	
 		//Drivetrain
-		SmartDashboard.putNumber("Accelerometer X-axis", drivetrain.getXAccel());
-		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
-		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
 		SmartDashboard.putNumber("Drivetrain speed in per s", drivetrain.getAverageEncoderRate());
 		SmartDashboard.putNumber("Right encoder distance", drivetrain.getRightEncoder().getDistance());
 		SmartDashboard.putNumber("Left encoder distance", drivetrain.getLeftEncoder().getDistance());
 		
 		//Elevator
-		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
+		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVoltage());
 		
 		//Arm
 		SmartDashboard.putNumber("Arm Raw Angle Deg", arm.getRawAngle());
@@ -274,6 +279,7 @@ public class Robot extends IterativeRobot {
 
 
 		SmartDashboard.putData("ReplaySelector", replayChooser);
+		SmartDashboard.putData("ReplaySelector 2", replayChooser);
 	}
 
 	@Override
@@ -310,6 +316,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Accelerometer Y-axis", drivetrain.getYAccel());
 		SmartDashboard.putNumber("Accelerometer Z-axis", drivetrain.getZAccel());
 		
+		SmartDashboard.putNumber("Gyro Degrees", drivetrain.getHeading());
+		
 		//Intake
 		SmartDashboard.putBoolean("Front Break Beam", intake.getFrontBreakBeam());
 		SmartDashboard.putBoolean("Back Break Beam", intake.getBackBreakBeam());
@@ -319,7 +327,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Elevator Height", elevator.getHeight());
 		SmartDashboard.putNumber("Elevator Encoder Ticks", elevator.getEncoderTicks());
 		SmartDashboard.putNumber("Elevator Encoder Velocity", elevator.getVelocityTicks());
-		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVolatage());
+		SmartDashboard.putNumber("Elevator Talon Output", elevator.getTalonOutputVoltage());
 		SmartDashboard.putBoolean("At Bottom Limit ", elevator.atBottomLimit());;
 		SmartDashboard.putBoolean("At Top Limit ", elevator.atTopLimit());
 		SmartDashboard.putBoolean("At Bottom Limit ", elevator.atBottomLimit());;

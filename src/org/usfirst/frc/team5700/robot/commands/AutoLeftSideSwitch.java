@@ -10,10 +10,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoLeftSideSwitch extends CommandGroup {
 
     public AutoLeftSideSwitch() {
-    		addParallel(new DrivePastDistance(AutonomousPaths.distanceToCenterOfSwitchIn, 0.5, true, true));
-    		addParallel(new MoveArmToAngle(90));
-    		addParallel(new AutoOpenIntakes());
-    		addSequential(new AutoDropCube());
-    		addSequential(new MoveArmToAngle(0));
+		addParallel(new AutoOpenIntakes());
+		addParallel(new MoveArmToAngle(90));
+		addSequential(new DriveReplay("SideSwitch"));
+		addSequential(new ReleaseCube());
     }
 }

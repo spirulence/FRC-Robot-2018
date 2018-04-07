@@ -129,13 +129,14 @@ public class Elevator extends Subsystem {
 
 	public void zeroEncoder() {
 		talon.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+		System.out.println("You just zeroed the elevator.");
 	}
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new MoveElevatorWithJoystick());
 	}
 
-	public double getTalonOutputVolatage() {
+	public double getTalonOutputVoltage() {
 		return talon.getMotorOutputVoltage();
 	}
 

@@ -11,6 +11,6 @@ public class PickupCube extends CommandGroup {
     	addSequential(new ReleaseCube());
     	addSequential(new MoveElevatorDistance(11), 0.5);
     	addParallel(new GrabCube());
-    	addSequential(new MoveElevatorDistance(30));
+    	addSequential(new MoveElevatorDistance(34));
     }
 }

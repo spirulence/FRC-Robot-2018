@@ -59,9 +59,11 @@ public class DriveReplay extends Command {
 		timer.reset();
 		timerStarted = false;
 		Robot.drivetrain.resetSensors();
-		replayKProp = Robot.prefs.getDouble("replayKProp", 0);
+		
+		//parameters
+		replayKProp = Robot.prefs.getDouble("replayKProp", -0.1);
 		Robot.prefs.putDouble("replayKProp", replayKProp);
-		replayKDiff = Robot.prefs.getDouble("replayKDiff", 0);
+		replayKDiff = Robot.prefs.getDouble("replayKDiff", 0.04);
 		Robot.prefs.putDouble("replayKDiff", replayKDiff);
 		replayKHeadingProp = Robot.prefs.getDouble("replayKHeadingProp", 0);
 		Robot.prefs.putDouble("replayKHeadingProp", replayKHeadingProp);
@@ -77,7 +79,6 @@ public class DriveReplay extends Command {
 					line = valuesIterator.next();
 				}
 			}
-
 
 			//System.out.println("move_value: " + nextLine[1] + ", rotate_value: " + nextLine[2]);
 
@@ -99,8 +100,7 @@ public class DriveReplay extends Command {
 	//			rightEncoder.getRate(),
 	//			leftEncoder.getDistance(),
 	//			rightEncoder.getDistance(),
-	//			gyro.getAngle(),
-	//			moveArmTo90
+	//			gyro.getAngle()
 	//			);
 
 	@Override
@@ -119,9 +119,10 @@ public class DriveReplay extends Command {
 			timerStarted = true;
 		}
 
-		double periodic_offset = Math.max(line[0] - timer.get() - timeOffset, 0);
+		double periodic_offset = line[0] - timer.get() - timeOffset;
 		System.out.println("In execute, time difference: " + periodic_offset);
-
+		SmartDashboard.putNumber("Time difference: ", periodic_offset);
+		
 		leftError = leftEncoderDistance - line[8] + leftDistanceOffset;
 		rightError = rightEncoderDistance - line[9] + rightDistanceOffset;
 		headingError = heading - line[10] + headingOffset;
@@ -144,7 +145,7 @@ public class DriveReplay extends Command {
 		System.out.println("Left motor output: " + leftMotorSpeed + ", right motor output: " + rightMotorSpeed);
 
 
-		Timer.delay(periodic_offset);
+		//Timer.delay(periodic_offset);
 		//Robot.drivetrain.arcadeDrive(nextLine[1], nextLine[2]);
 		Robot.drivetrain.drive.tankDrive(leftMotorSpeed, rightMotorSpeed, false); //disable squared
 		if (valuesIterator.hasNext()) {

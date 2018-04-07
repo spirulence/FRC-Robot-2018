@@ -44,7 +44,7 @@ public class DriveTrain extends Subsystem {
 	private Encoder rightEncoder = new Encoder(RobotMap.RightEncoderAChannel, RobotMap.RightEncoderBChannel, true);
 
 	Preferences prefs = Preferences.getInstance();
-	
+
 	//input limiting fields
 	private double previousMoveValue = 0;
 	private double positiveInputChangeLimit;
@@ -63,11 +63,12 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain() {
 		leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
 		rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-		
+
 		leftMotor.setInverted(false);
 		rightMotor.setInverted(false);
-		
+
 		resetSensors();
+		timer.start();
 	}
 
 	/**
@@ -86,7 +87,7 @@ public class DriveTrain extends Subsystem {
 
 		boolean useMoveInputLimit = prefs.getBoolean("useMoveInputLimit", true);
 		prefs.putBoolean("useMoveInputLimit", useMoveInputLimit);
-		
+
 		SmartDashboard.putBoolean("useMoveInputLimit", useMoveInputLimit);
 		if (useMoveInputLimit) {
 			//check positive change
@@ -94,22 +95,22 @@ public class DriveTrain extends Subsystem {
 			prefs.putDouble("positiveInputChangeLimit", positiveInputChangeLimit);
 			negativeInputChangeLimit = prefs.getDouble("negativeInputChangeLimit", 0.025);
 			prefs.putDouble("negativeInputChangeLimit", negativeInputChangeLimit);
-			
+
 			if (requestedMoveChange > positiveInputChangeLimit) {
 				positiveInputLimitActive = true;
 				limitedMoveValue = previousMoveValue + positiveInputChangeLimit;
-				
+
 			}
 			if (requestedMoveChange < - negativeInputChangeLimit) {
 				negativeInputLimitActive = true;
 				limitedMoveValue = previousMoveValue - negativeInputChangeLimit;
 			}
 		}
-		
+
 		//rotational accel.
 		boolean useRotationInputLimit = prefs.getBoolean("useRotationInputLimit", false);
 		prefs.putBoolean("useRotationInputLimit", useRotationInputLimit);
-		
+
 		SmartDashboard.putBoolean("useRotationInputLimit", useRotationInputLimit);
 		double speed = getAverageEncoderRate();
 		rotateInputLimitActive = false;
@@ -134,16 +135,16 @@ public class DriveTrain extends Subsystem {
 			SmartDashboard.putNumber("accelerometer -Y", - accel.getY());
 			SmartDashboard.putNumber("accelerometer X", accel.getX());
 		}
-		
+
 		previousMoveValue = limitedMoveValue;
 		boostedArcadeDrive(limitedMoveValue, newRotateValue);
 	}
-	
+
 	public void safeArcadeDriveDelayed(double moveValue, double rotateValue) {
 		Timer.delay(0.02);
 		safeArcadeDrive(moveValue, rotateValue);
 	}
-	
+
 	/**
 	 * Applies BoostFilter to input
 	 * @param moveValue input for forward/backward motion
@@ -160,7 +161,7 @@ public class DriveTrain extends Subsystem {
 		arcadeDrive(moveBoostFilter.output(moveValue), rotateBoostFilter.output(rotateValue));
 
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public void arcadeDrive(double moveValue, double rotateValue) {
 
@@ -183,13 +184,19 @@ public class DriveTrain extends Subsystem {
 				rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
 			}
 		}
-		
-		//TODO should not be here, somewhere in a separate record method
-		double moveArmTo90 = Robot.oi.moveArmTo90().get() ? 1.0 : 0.0;
-		
-		double filteredLeftMotorSpeed = SquareFilter.output(leftMotorSpeed);
-		double filteredRightMotorSpeed = SquareFilter.output(rightMotorSpeed);
 
+		double filteredLeftMotorSpeed = leftMotorSpeed; //SquareFilter.output(leftMotorSpeed);
+		double filteredRightMotorSpeed = rightMotorSpeed; //SquareFilter.output(rightMotorSpeed);
+
+		double turnCorrection = prefs.getDouble("turnCorrection", 0);
+		prefs.putDouble("turnCorrection", turnCorrection);
+
+		if (filteredLeftMotorSpeed > 0 && filteredRightMotorSpeed > 0) {
+			filteredLeftMotorSpeed *= 1 + turnCorrection;
+			filteredRightMotorSpeed *= 1 - turnCorrection;
+		}
+
+		//always record values passed to the drive
 		Robot.csvLogger.writeData(
 				timer.get(), 
 				moveValue, //move input
@@ -201,13 +208,12 @@ public class DriveTrain extends Subsystem {
 				rightEncoder.getRate(),
 				leftEncoder.getDistance(),
 				rightEncoder.getDistance(),
-				gyro.getAngle(),
-				moveArmTo90
+				gyro.getAngle()
 				);
 
 		drive.tankDrive(filteredLeftMotorSpeed, filteredRightMotorSpeed, false); //squared input by default
 	}
-	
+
 	public void arcadeDriveDelayed(double moveValue, double rotateValue) {
 		Timer.delay(0.02);
 		arcadeDrive(moveValue, rotateValue);
@@ -265,6 +271,7 @@ public class DriveTrain extends Subsystem {
 	public Encoder getLeftEncoder() {
 		return leftEncoder;
 	}
+	
 }
 
 

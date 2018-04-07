@@ -29,10 +29,10 @@ public class RobotMap {
 	
 	//Sensors (DIO)0;
 	//TODO make sure these are corrected
-	public static final int LeftEncoderAChannel = 0;
-	public static final int LeftEncoderBChannel = 1;
-	public static final int RightEncoderAChannel = 3;
-	public static final int RightEncoderBChannel = 4;
+	public static final int LeftEncoderAChannel = 4;
+	public static final int LeftEncoderBChannel = 5;
+	public static final int RightEncoderAChannel = 6;
+	public static final int RightEncoderBChannel = 7;
 	public static final int FrontBreakBeamChannel = 8;
 	public static final int BackBreakBeamChannel = 9;
 }
