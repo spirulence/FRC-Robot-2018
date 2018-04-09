@@ -8,10 +8,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoRightSideSwitch extends CommandGroup {
 
 	public AutoRightSideSwitch() {
-		addParallel(new AutoOpenIntakes());
-		addParallel(new MoveArmToAngle(270));
 		addSequential(new DriveReplay("SideSwitch"));
+		addSequential(new MoveArmAndElevatorDistance(1, 270), 0.5);
 		addSequential(new ReleaseCube());
-
 	}
 }

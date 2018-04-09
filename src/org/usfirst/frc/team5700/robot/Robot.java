@@ -11,7 +11,9 @@ import org.usfirst.frc.team5700.robot.commands.AutoCenterToLeftSwitch;
 import org.usfirst.frc.team5700.robot.commands.AutoCenterToRightSwitch;
 import org.usfirst.frc.team5700.robot.commands.AutoCrossBaseline;
 import org.usfirst.frc.team5700.robot.commands.AutoDoNotMove;
+import org.usfirst.frc.team5700.robot.commands.AutoLeftSideScale;
 import org.usfirst.frc.team5700.robot.commands.AutoLeftSideSwitch;
+import org.usfirst.frc.team5700.robot.commands.AutoRightSideScale;
 import org.usfirst.frc.team5700.robot.commands.ResetArmEncoder;
 import org.usfirst.frc.team5700.robot.commands.ResetElevatorEncoder;
 import org.usfirst.frc.team5700.robot.commands.AutoRightSideSwitch;
@@ -119,6 +121,7 @@ public class Robot extends IterativeRobot {
  		chooser.addObject("Right Side Switch", "Right Side Switch");
  		chooser.addObject("Left Side Switch", "Left Side Switch");
 		chooser.addObject("Replay Test", "Replay Test");
+		chooser.addObject("Left Side Switch or Scale", "Left Side Switch or Scale");
  		SmartDashboard.putData("Autonomous Chooser", chooser);
  		SmartDashboard.putData("Autonomous Chooser 2", chooser);
 		//autoSelected = chooser.getSelected();
@@ -226,6 +229,15 @@ public class Robot extends IterativeRobot {
          		break;
          	case "Replay Test":
          		autoCommand = new DriveReplay(replayChooser.getSelected());
+         		break;
+         	case "Left Side Switch or Scale":
+         		if (!scaleOnRight) {
+         				autoCommand = new AutoLeftSideScale();
+         		} else if (!switchOnRight) {
+         			autoCommand = new AutoLeftSideSwitch();
+         		} else {
+         			autoCommand = new AutoCrossBaseline();
+         		}
          		break;
          	default:
          		System.out.print("Starting default command");

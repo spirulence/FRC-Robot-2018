@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * command is running. The input is the averaged values of the left and right
  * encoders.
  */
-public class DriveReplay extends Command {
+public class DriveReplayMirror extends Command {
 	private CsvReader csvReader;
 	private Iterator<double[]> valuesIterator;
 	private Timer timer = new Timer();
@@ -44,14 +44,16 @@ public class DriveReplay extends Command {
 	private double replayKHeadingDiff;
 	private String replayName;
 	private double[] line;
+	private Boolean mirror = false;
 
-	public DriveReplay() {
+	public DriveReplayMirror(String replayName) {
 		requires(Robot.drivetrain);
-	}
-
-	public DriveReplay(String replayName) {
-		this();
 		this.replayName = replayName;
+	}
+	
+	public DriveReplayMirror(String replayName, Boolean mirror) {
+		this(replayName);
+		this.mirror = true;
 	}
 
 	@Override
@@ -106,9 +108,15 @@ public class DriveReplay extends Command {
 
 	@Override
 	protected void execute() {
-		double leftEncoderDistance = Robot.drivetrain.getLeftEncoder().getDistance();
-		double rightEncoderDistance = Robot.drivetrain.getRightEncoder().getDistance();
+		
+		//switch left and right encoder sides and heading if mirrored
+		double leftEncoderDistance = mirror ? Robot.drivetrain.getRightEncoder().getDistance() : 
+			Robot.drivetrain.getLeftEncoder().getDistance();
+		double rightEncoderDistance = mirror ? Robot.drivetrain.getLeftEncoder().getDistance() : 
+			Robot.drivetrain.getRightEncoder().getDistance();
+		
 		double heading = Robot.drivetrain.getHeading();
+		heading = mirror ? -heading : heading;
 
 		if (!timerStarted) {
 			timer.start();
@@ -149,8 +157,11 @@ public class DriveReplay extends Command {
 
 
 		Timer.delay(Math.max(periodic_offset, 0));
-		//Robot.drivetrain.arcadeDrive(nextLine[1], nextLine[2]);
-		Robot.drivetrain.drive.tankDrive(leftMotorSpeed, rightMotorSpeed, false); //disable squared
+		
+		//swap motor outputs if mirrored
+
+		Robot.drivetrain.drive.tankDrive(mirror ? rightMotorSpeed : leftMotorSpeed, 
+				mirror ? leftMotorSpeed : rightMotorSpeed, false); //disable squared
 		if (valuesIterator.hasNext()) {
 			line = valuesIterator.next();
 

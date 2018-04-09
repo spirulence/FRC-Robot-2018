@@ -12,6 +12,7 @@ public class MoveArmToAngle extends Command {
 
     private double _targetAngleDeg;
     private double _delaySec;
+	private double _endToleranceDeg;
 	
 	/**
 	 * Moves arm to specified angle with no delay until start. Angle is absolute, 
@@ -21,7 +22,7 @@ public class MoveArmToAngle extends Command {
 	 */
     public MoveArmToAngle(double angleDeg) {
         requires(Robot.arm);
-        
+        _endToleranceDeg = 1;
         _targetAngleDeg = angleDeg;
         _delaySec = 0;
     }
@@ -43,8 +44,9 @@ public class MoveArmToAngle extends Command {
 
 
 	// Called just before this Command runs the first time
-    protected void initialize() {	
-    	Timer.delay(_delaySec);
+    protected void initialize() {
+    		System.out.println("Move arm to angle started");
+    		Timer.delay(_delaySec);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -55,11 +57,14 @@ public class MoveArmToAngle extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    		boolean withinTolerance = (_targetAngleDeg - _endToleranceDeg) <= Robot.elevator.getHeight() 
+        		&& Robot.elevator.getHeight() <= (_targetAngleDeg + _endToleranceDeg);
+        return withinTolerance;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    		System.out.println("end Move arm to angle");
     }
 
     // Called when another command which requires one or more of the same

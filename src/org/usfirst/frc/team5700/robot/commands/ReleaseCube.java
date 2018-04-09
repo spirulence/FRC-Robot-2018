@@ -2,13 +2,13 @@ package org.usfirst.frc.team5700.robot.commands;
 
 import org.usfirst.frc.team5700.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class ReleaseCube extends Command {
-
     public ReleaseCube() {
     		requires(Robot.grabber);
     }

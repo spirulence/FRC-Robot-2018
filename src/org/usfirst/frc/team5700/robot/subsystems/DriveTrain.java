@@ -141,7 +141,9 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void safeArcadeDriveDelayed(double moveValue, double rotateValue) {
-		Timer.delay(0.02);
+//		System.out.println("Timer before delay: " + timer.get());
+		Timer.delay(0.01);
+//		System.out.println("Timer after delay: " + timer.get());
 		safeArcadeDrive(moveValue, rotateValue);
 	}
 
@@ -154,8 +156,8 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void boostedArcadeDrive(double moveValue, double rotateValue) {
 
-		moveBoost = prefs.getDouble("moveBoost", 0.38);
-		rotateBoost = prefs.getDouble("rotateBoost", 0.30);
+		moveBoost = prefs.getDouble("moveBoost", 0.05);
+		rotateBoost = prefs.getDouble("rotateBoost", 0.05);
 		BoostFilter moveBoostFilter = new BoostFilter(moveBoost);
 		BoostFilter rotateBoostFilter = new BoostFilter(rotateBoost);
 		arcadeDrive(moveBoostFilter.output(moveValue), rotateBoostFilter.output(rotateValue));
@@ -215,7 +217,6 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void arcadeDriveDelayed(double moveValue, double rotateValue) {
-		Timer.delay(0.02);
 		arcadeDrive(moveValue, rotateValue);
 	}
 
