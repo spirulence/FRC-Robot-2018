@@ -39,6 +39,7 @@ public class Arm extends Subsystem {
 		_talon = new TalonSRX(2);
 		/* first choose the sensor */
 		_talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+		setEncoder180();
 		_talon.setSensorPhase(true);
 		_talon.setInverted(true);
 	
@@ -77,8 +78,8 @@ public class Arm extends Subsystem {
 		return _talon;
 	}
 	
-	public void zeroEncoder() {
-		_talon.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+	public void setEncoder180() {
+		_talon.setSelectedSensorPosition((int)(180 * ticksPerDeg), Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 	}
 	
 	public double getRawEncoderTicks() {
