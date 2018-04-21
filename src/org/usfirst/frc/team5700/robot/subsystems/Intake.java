@@ -4,23 +4,24 @@ import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Intake extends Subsystem {
 	
+	private final static double INTAKE_SPEED = -0.6;
+	private final static double SPINOUT_SPEED = -1.0;
+	
 	private Solenoid solenoid;
 	Spark intakeMotors;
+	
+	//practice bot
 //	private DoubleSolenoid rightDoubleSolenoid, leftDoubleSolenoid;
-
-	private double intakeSpeed = -0.65; //TODO number
 	
 	private boolean inVaultMode = false;
-	public DigitalInput frontBreakBeam = new DigitalInput(RobotMap.FrontBreakBeamChannel);
-	public DigitalInput backBreakBeam = new DigitalInput(RobotMap.BackBreakBeamChannel);
+	public DigitalInput frontBreakBeam = new DigitalInput(RobotMap.FRONT_BREAK_BEAM_CHANNEL);
+	public DigitalInput backBreakBeam = new DigitalInput(RobotMap.BACK_BREAK_BEAM_CHANNEL);
 	private boolean vaultButtonBeenPressed = false; 
 	
     public Intake() {
@@ -29,12 +30,6 @@ public class Intake extends Subsystem {
 //		rightDoubleSolenoid = new DoubleSolenoid(RobotMap.EXTEND_RIGHT_INTAKES_CHANNEL, RobotMap.CLOSE_RIGHT_INTAKES_CHANNEL);
 //		leftDoubleSolenoid = new DoubleSolenoid(RobotMap.EXTEND_LEFT_INTAKES_CHANNEL, RobotMap.CLOSE_LEFT_INTAKES_CHANNEL);
 	    intakeMotors = new Spark(RobotMap.INTAKE_MOTORS);
-    }
-    
-  
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-		//setDefaultCommand(new MySpecialCommand());
     }
     
     public void extendBoth(){
@@ -51,12 +46,12 @@ public class Intake extends Subsystem {
     
 	//These methods are for spitting out a box.
 	public void spinBothMotorsOut(){
-		intakeMotors.set(intakeSpeed);
+		intakeMotors.set(SPINOUT_SPEED);
 	}
 	
 	//these methods are for pulling in the box (intaking).
 	public void spinMotorsIn() {
-		intakeMotors.set(-intakeSpeed);
+		intakeMotors.set(-INTAKE_SPEED);
 	}
 	
 	//this method is for stopping the intake motors.
@@ -83,6 +78,10 @@ public class Intake extends Subsystem {
 		}
 		
 		return inVaultMode;
+	}
+
+	@Override
+	protected void initDefaultCommand() {
 	}
 		
 }

@@ -7,31 +7,37 @@ public class Constants {
 	 * 0,1,2 or 3. Only the first two (0,1) are visible in web-based
 	 * configuration.
 	 */
-	public static final int kSlotIdx = 0;
+	public static final int SLOT_IDX = 0;
 
 	/**
 	 * Talon SRX/ Victor SPX will supported multiple (cascaded) PID loops. For
 	 * now we just want the primary one.
 	 */
-	public static final int kPIDLoopIdx = 0;
+	public static final int PID_LOOP_IDX = 0;
 
 	/**
 	 * set to zero to skip waiting for confirmation, set to nonzero to wait and
 	 * report to DS if action fails.
 	 */
-	public static final int kTimeoutMs = 10;
+	public static final int TIMEOUT_MS = 10;
 
 	/**
 	 * Talon
 	 */
-	public static final int TalonMaxOutput = 1023;
-	public static final int VersaEncoderTPR = 4096;
+	public static final int TALON_MAX_OUTPUT = 1023;
+	public static final int VERSA_ENCODER_TPR = 4096;
 	
 	/**
 	 * Roborio
-	 */
-	
+	 */	
 	public static final double CYCLE_SEC = 0.020; //20 milliseconds
-	
 	public static final String DATA_DIR = "/home/lvuser/data_capture/";
+	public static final String PATHFINDER_DIR = "/home/lvuser/pathfinder/";
+
+	public static enum Side {LEFT, RIGHT, UNKNOWN};
+	public static enum StartPosition {LEFT, CENTER, RIGHT, UNKNOWN};
+	
+	public static enum AutoChoice {DO_NOT_MOVE, CROSS_BASELINE, CENTER_SWITCH, 
+		LEFT_SWITCH_PRIORITY, LEFT_SCALE_PRIORITY, RIGHT_SWITCH_PRIORITY, 
+		RIGHT_SCALE_PRIORITY, REPLAY_TEST};
 }

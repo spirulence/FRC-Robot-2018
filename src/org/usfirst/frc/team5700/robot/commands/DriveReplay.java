@@ -84,25 +84,10 @@ public class DriveReplay extends Command {
 			//System.out.println("move_value: " + nextLine[1] + ", rotate_value: " + nextLine[2]);
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Init completed");
 	}
-
-	//	Robot.csvLogger.writeData(
-	//			timer.get(), 
-	//			moveValue, //move input
-	//			rotateValue, //rotate input
-	//			leftMotorSpeed,
-	//			rightMotorSpeed,
-	//			getAverageEncoderRate(),
-	//			leftEncoder.getRate(),
-	//			rightEncoder.getRate(),
-	//			leftEncoder.getDistance(),
-	//			rightEncoder.getDistance(),
-	//			gyro.getAngle()
-	//			);
 
 	@Override
 	protected void execute() {
@@ -147,10 +132,9 @@ public class DriveReplay extends Command {
 
 		System.out.println("Left motor output: " + leftMotorSpeed + ", right motor output: " + rightMotorSpeed);
 
-
 		Timer.delay(Math.max(periodic_offset, 0));
 		//Robot.drivetrain.arcadeDrive(nextLine[1], nextLine[2]);
-		Robot.drivetrain.drive.tankDrive(leftMotorSpeed, rightMotorSpeed, false); //disable squared
+		Robot.drivetrain.tankDrive(leftMotorSpeed, rightMotorSpeed, false); //disable squared
 		if (valuesIterator.hasNext()) {
 			line = valuesIterator.next();
 
