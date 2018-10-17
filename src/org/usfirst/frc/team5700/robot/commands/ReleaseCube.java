@@ -8,14 +8,13 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class ReleaseCube extends Command {
-
     public ReleaseCube() {
     		requires(Robot.grabber);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    		Robot.grabber.close();
+    		Robot.grabber.open();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -24,7 +23,7 @@ public class ReleaseCube extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

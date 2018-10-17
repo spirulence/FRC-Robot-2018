@@ -1,10 +1,18 @@
+# ignore build folders
 /bin/
-*.jar
-*.class
-*.jar
-
-*.jar
 /dist/
 /build/
+/.gradle/
+
+# ignore build artifacts
+*.jar
 *.class
+
+# ignore downloaded libraries
+/libs/
+
+# ignore machine learning stuff
 *.tensorcache
+
+# not sure what this one is for
+*.swp

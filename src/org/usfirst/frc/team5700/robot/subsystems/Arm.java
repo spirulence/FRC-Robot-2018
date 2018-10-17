@@ -9,52 +9,66 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Arm extends Subsystem {
 	
 	//Motor Controller
-	private TalonSRX _talon;
+	private WPI_TalonSRX talon;
 	
 	//preferences
 	Preferences prefs;
 
 	//Constants
-	public final double reductionToEncoder = 114.55; 
-	public final double ticksPerDeg = (Constants.VersaEncoderTPR * reductionToEncoder) / 360;
-	public final double encoderMaxSpeed = 33000; //ticks per 100 ms
+	public final static double REDUCTION_TO_ENCODER = 114.55; 
+	public final static double TICKS_PER_DEG = (Constants.VERSA_ENCODER_TPR * REDUCTION_TO_ENCODER) / 360;
+	public final static double ENCODER_MAX_SPEED = 33000; //ticks per 100 ms
+	
 	public double wCubeMaxNominalOutput; //Maximum nominal output, when arm is horizontal to ground
 	public double noCubeMaxNominalOutput;
+
+	@SuppressWarnings("unused")
+	private double dangerOfCollisionHeight = 14;
+	private double collisionAngle = 50;
+	
+	public ArmCollisionBounds withCubeBounds = new ArmCollisionBounds(28.5, 40, 3);
+	public ArmCollisionBounds noCubeBounds = new ArmCollisionBounds(14, 40, 5);
 	
 	public Arm() {
 		
-		_talon = new TalonSRX(2);
+		super();
+		
+		talon = new WPI_TalonSRX(2);
+		talon.setName("Arm", "Talon");
 		/* first choose the sensor */
-		_talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-		_talon.setSensorPhase(true);
-		_talon.setInverted(true);
+		talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
+		setEncoder180();
+		talon.setSensorPhase(true);
+		talon.setInverted(true);
 	
 		/* Set relevant frame periods to be at least as fast as periodic rate */
-		_talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-		_talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
+		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.TIMEOUT_MS);
+		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.TIMEOUT_MS);
 	
 		/* set the peak and nominal outputs */
-		_talon.configNominalOutputForward(0, Constants.kTimeoutMs);
-		_talon.configNominalOutputReverse(0, Constants.kTimeoutMs);
-		_talon.configPeakOutputForward(1, Constants.kTimeoutMs);
-		_talon.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+		talon.configNominalOutputForward(0, Constants.TIMEOUT_MS);
+		talon.configNominalOutputReverse(0, Constants.TIMEOUT_MS);
+		talon.configPeakOutputForward(1, Constants.TIMEOUT_MS);
+		talon.configPeakOutputReverse(-1, Constants.TIMEOUT_MS);
 	
 		/* set closed loop gains in slot 0 - see documentation */
-		_talon.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
-		_talon.config_kF(0, Constants.TalonMaxOutput/encoderMaxSpeed, Constants.kTimeoutMs);
-		_talon.config_kP(0, 0.1, Constants.kTimeoutMs);
-		_talon.config_kI(0, 0, Constants.kTimeoutMs);
-		_talon.config_kD(0, 0, Constants.kTimeoutMs);
+		talon.selectProfileSlot(Constants.SLOT_IDX, Constants.PID_LOOP_IDX);
+		talon.config_kF(0, Constants.TALON_MAX_OUTPUT/ENCODER_MAX_SPEED, Constants.TIMEOUT_MS);
+		talon.config_kP(0, 0.1, Constants.TIMEOUT_MS);
+		talon.config_kI(0, 0, Constants.TIMEOUT_MS);
+		talon.config_kD(0, 0, Constants.TIMEOUT_MS);
 		
 		/* set acceleration and cruise velocity - see documentation */
-		_talon.configMotionCruiseVelocity(25000 , Constants.kTimeoutMs);
-		_talon.configMotionAcceleration(30000, Constants.kTimeoutMs);
+		talon.configMotionCruiseVelocity(25000 , Constants.TIMEOUT_MS);
+		talon.configMotionAcceleration(30000, Constants.TIMEOUT_MS);
 	}
 	
 	public void moveArmWithJoystick(double stickValue) {
@@ -63,19 +77,19 @@ public class Arm extends Subsystem {
 		setTalon(stickValue + getFeedForward());
 			
 		/* instrumentation */
-		Instrum.Process(_talon, sb);
+		Instrum.Process(talon, sb);
     }
 	
 	public TalonSRX getTalon() {
-		return _talon;
+		return talon;
 	}
 	
-	public void zeroEncoder() {
-		_talon.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+	public void setEncoder180() {
+		talon.setSelectedSensorPosition((int)(180 * TICKS_PER_DEG), Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
 	}
 	
 	public double getRawEncoderTicks() {
-		return _talon.getSelectedSensorPosition(0);
+		return talon.getSelectedSensorPosition(0);
 	}
 
     public void initDefaultCommand() {
@@ -83,7 +97,7 @@ public class Arm extends Subsystem {
     }
     
     public void log() {
-    		_talon.getMotorOutputVoltage();
+    		talon.getMotorOutputVoltage();
     }
     
     public double getFeedForward() {
@@ -100,14 +114,13 @@ public class Arm extends Subsystem {
      * @param output, as percent input (-1 through 1)
      */
     private void setTalon(double output) {
-    		_talon.set(ControlMode.PercentOutput, output);
+    		talon.set(ControlMode.PercentOutput, output);
     }
     
 //    /**
 //     * @deprecated
 //     * @param angle in deg, 0 - 359
 //     * 
-//     * TODO explain pls
 //     * @return null if coordinate system is ok, starting angle in degrees if
 //     * coordinate system must be restored to original.
 //     */
@@ -142,33 +155,71 @@ public class Arm extends Subsystem {
 //    }
     
     public void moveToAngle(double targetAngleDeg) {
-    		double currentAngleDeg = getRawAngle();
-    		double angleToUse;
-    		
-    		double choiceA = targetAngleDeg + (currentAngleDeg > 0 ? 0 : -360) + 360 * Math.floor((currentAngleDeg/360));
-    		double choiceB = choiceA + (choiceA < currentAngleDeg ? 360 : -360);
-    		
-    		if (Math.abs(currentAngleDeg - choiceA) < Math.abs(currentAngleDeg - choiceB)) {
-    			angleToUse = choiceA;
-    		} else {
-    			angleToUse = choiceB;
-    		}
-    		
-    		_talon.set(ControlMode.MotionMagic, angleToUse * ticksPerDeg);
+    	
+	    	double currentAngle = getRawAngle();
+	    	double closestAngle = getClosestAngle(currentAngle, targetAngleDeg);
+	   		ArmCollisionBounds bounds = Robot.grabber.hasCube() ? withCubeBounds: noCubeBounds;
+	   		
+	   		if (Robot.elevator.getHeight() < bounds.heightIn
+	   				&& Math.abs(targetAngleDeg) < bounds.outsideAngle
+	   				&& !((Math.abs(targetAngleDeg) < bounds.insideAngle))) {
+	    		
+	    		if ((currentAngle - closestAngle) < 0) {
+	    			closestAngle = getClosestAngle(currentAngle, -collisionAngle);
+	    		} else {
+	    			closestAngle = getClosestAngle(currentAngle, collisionAngle);
+	    		}
+	    	}
+	    
+	   		talon.set(ControlMode.MotionMagic, closestAngle * TICKS_PER_DEG);
     }
     
     /**
-     * @return angle in degrees, not reseting at 360
+     * @return raw angle in degrees, not reseting at 360
      */
     public double getRawAngle() {
-    		return _talon.getSelectedSensorPosition(0) / ticksPerDeg;
+    		return talon.getSelectedSensorPosition(0) / TICKS_PER_DEG;
     }
     
     /**
-     * @return angle in degrees between 0 and 360
+     * @return angle in degrees between -180 and 180
      */
-    public double getNormalizedAngle() {
-    		return Math.abs((_talon.getSelectedSensorPosition(0) / ticksPerDeg) % 360);
+    public double get180NormalizedAngle() {
+    		double angle = getRawAngle() % 360;
+    		
+    		if (angle < -180) {
+    			angle += 360;
+    		} else if (angle > 180) {
+    			angle -= 360;
+    		}
+   
+    		return angle;
+    }
+    
+    private double getClosestAngle(double currentAngle, double targetAngle) {
+    		
+    		int delta = (int) Math.floor(currentAngle/360);
+	    	double normalizedCurrentAngle = currentAngle % 360;
+	    	normalizedCurrentAngle += normalizedCurrentAngle < 0 ? 360 : 0;
+	    
+	    	if (normalizedCurrentAngle < (targetAngle - 180)) {
+	    		delta += -1;
+	    	} else if (normalizedCurrentAngle > (targetAngle + 180)) {
+	    		delta += 1;
+	    	} 
+	    	
+	    	return targetAngle + 360 * delta;	
+	}
+    
+    public class ArmCollisionBounds {
+    	
+    	public double heightIn, outsideAngle, insideAngle;
+    	
+    	public ArmCollisionBounds(double heightIn, double outsideAngle, double insideAngle) {
+    		this.heightIn = heightIn;
+    		this.outsideAngle = outsideAngle;
+    		this.insideAngle = insideAngle;
+		}
     }
 }
 

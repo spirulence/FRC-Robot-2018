@@ -9,18 +9,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ClimberDown extends Command {
 
-	//TODO find good home for climber speed throttle
-
     public ClimberDown() {
     		requires(Robot.climber);
-       
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.climber.down(-(Robot.oi.getAuxRightStick().getThrottle() + 1)/2.0);
+    	Robot.climber.down(-1);
     }
 
     protected boolean isFinished() {
