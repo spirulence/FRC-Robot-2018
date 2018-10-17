@@ -38,6 +38,7 @@ public class Elevator extends Subsystem {
 
 	//Constants
 	public static final double heightIn = 57;
+	public static final double bottomHeightIn = 0.25;
 	public static final double interstageEngagedHeightIn = 26.1;
 	public static final double winchRadiusIn = 1.125;
 	public static final double reductionToEncoder = 5;
@@ -128,7 +129,7 @@ public class Elevator extends Subsystem {
 	}
 
 	public boolean atBottomLimit() {
-		return getHeight() <= 0.25 || isColliding();
+		return getHeight() <= bottomHeightIn || isColliding();
 	}
 
 	public TalonSRX getTalon() {

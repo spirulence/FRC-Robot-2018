@@ -4,6 +4,8 @@ import org.usfirst.frc.team5700.robot.Robot;
 import org.usfirst.frc.team5700.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,7 +15,7 @@ public class Intake extends Subsystem {
 	private final static double INTAKE_SPEED = -0.6;
 	private final static double SPINOUT_SPEED = -1.0;
 	
-	private Solenoid solenoid;
+	private DoubleSolenoid solenoid;
 	Spark intakeMotors;
 	
 	//practice bot
@@ -26,7 +28,7 @@ public class Intake extends Subsystem {
 	
     public Intake() {
 		super();
-	    solenoid = new Solenoid(RobotMap.EXTEND_INTAKES_CHANNEL);
+	    solenoid = new DoubleSolenoid(RobotMap.EXTEND_INTAKES_CHANNEL, RobotMap.CLOSE_INTAKES_CHANNEL);
 //		rightDoubleSolenoid = new DoubleSolenoid(RobotMap.EXTEND_RIGHT_INTAKES_CHANNEL, RobotMap.CLOSE_RIGHT_INTAKES_CHANNEL);
 //		leftDoubleSolenoid = new DoubleSolenoid(RobotMap.EXTEND_LEFT_INTAKES_CHANNEL, RobotMap.CLOSE_LEFT_INTAKES_CHANNEL);
 	    intakeMotors = new Spark(RobotMap.INTAKE_MOTORS);
@@ -34,14 +36,14 @@ public class Intake extends Subsystem {
     
     public void extendBoth(){
 //    	rightDoubleSolenoid.set(Value.kForward);
-//    	leftDoubleSolenoid.set(Value.kForward);
-    	solenoid.set(true);
+    	solenoid.set(Value.kForward);
+    	//solenoid.set(true);
     }
     
     public void retractBoth(){
 //    	rightDoubleSolenoid.set(Value.kReverse);
-//    	leftDoubleSolenoid.set(Value.kReverse);
-		solenoid.set(false);
+    	solenoid.set(Value.kReverse);
+		//solenoid.set(false);
     }
     
 	//These methods are for spitting out a box.

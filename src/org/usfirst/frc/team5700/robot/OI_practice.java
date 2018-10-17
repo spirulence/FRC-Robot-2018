@@ -109,7 +109,7 @@ public class OI_practice {
 		
 		//Operations Buttons
 		zeroElevatorEncoder  = new JoystickButton(auxRightStick, ButtonMap.ZERO_ELEVATOR_ENCODER);
-		zeroArmEncoder = new JoystickButton(auxLeftStick, ButtonMap.ZERO_ARM_ENCODER);
+		zeroArmEncoder = new JoystickButton(auxLeftStick, ButtonMap.RESET_ARM_ENCODER);
 		overrideLimits = new JoystickButton(auxRightStick, ButtonMap.OVERRIDE_LIMITS);
 		
 		

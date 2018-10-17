@@ -15,8 +15,8 @@ public class RobotMap {
 
 	//Pneumatics
 	public static final int EXTEND_INTAKES_CHANNEL = 0;
-	public static final int OPEN_GRABBER_CHANNEL = 1;
-	public static final int CLOSE_GRABBER_CHANNEL = 2;
+	public static final int CLOSE_INTAKES_CHANNEL = 1;
+	public static final int GRABBER_CHANNEL = 2;
 	public static final int ASSIST_HOLD_CHANNEL = 3;
 	public static final int ASSIST_RELEASE_CHANNEL = 4;
 	

@@ -39,7 +39,7 @@ public class ButtonMap {
 		 * Operations Buttons
 		 */
 		//Zero Encoders
-		public static final int ZERO_ARM_ENCODER = 7; //Robot.oi.getAuxLeftStick());
+		public static final int RESET_ARM_ENCODER = 7; //Robot.oi.getAuxLeftStick());
 		public static final int ZERO_ELEVATOR_ENCODER = 7; //Robot.oi.getAuxRightStick());
 		
 		public static final int OVERRIDE_LIMITS = 8; //Robot.oi.getAuxRightStick());
