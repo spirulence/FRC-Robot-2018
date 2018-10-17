@@ -1,0 +1,5 @@
+language: java
+jdk:
+  - openjdk8
+install: ant -buildfile download-libs.xml
+script: ant athena-project-build.compile
